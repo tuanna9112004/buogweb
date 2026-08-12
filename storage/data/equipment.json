@@ -1,0 +1,37 @@
+[
+  {
+    "id": "equipment-001",
+    "slug": "pioneer-xdj-rx3",
+    "title": "Pioneer XDJ-RX3 All-In-One",
+    "category": "dj-player",
+    "thumbnail": "/media/equipment/images/rx3-cover.webp",
+    "images": [
+      "/media/equipment/images/rx3-01.webp",
+      "/media/equipment/images/rx3-02.webp"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "shortDescription": "Hệ thống DJ All-In-One cao cấp 2 kênh màn hình cảm ứng 10.1 inch chuyên nghiệp.",
+    "content": "## Thông Tin Sản Phẩm\n\n- Tình trạng: Mới 99% nguyên bản, đầy đủ hộp phụ kiện.\n- Màn hình 10.1 inch mượt mà như CDJ-3000.\n- Phụ kiện đi kèm: Dây nguồn, cáp USB, túi chống xốc cao cấp.\n- Bảo hành 12 tháng tại studio.",
+    "featured": true,
+    "published": true,
+    "sortOrder": 1
+  },
+  {
+    "id": "equipment-002",
+    "slug": "pioneer-ddj-flx6",
+    "title": "Pioneer DDJ-FLX6-GT",
+    "category": "controller",
+    "thumbnail": "/media/equipment/images/flx6-cover.webp",
+    "images": [
+      "/media/equipment/images/flx6-01.webp"
+    ],
+    "price": 18500000,
+    "priceText": "18.500.000đ",
+    "shortDescription": "Bàn Controller 4 kênh dành cho Rekordbox & Serato DJ Pro.",
+    "content": "## Thông Tin Sản Phẩm\n\nController 4 kênh thiết kế màu mờ sang trọng, jogwheel kích thước chuẩn CDJ.",
+    "featured": true,
+    "published": true,
+    "sortOrder": 2
+  }
+]

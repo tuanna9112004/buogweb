@@ -1,0 +1,35 @@
+[
+  {
+    "id": "course-001",
+    "slug": "dj-full",
+    "title": "Khóa Đào Tạo DJ Chuyên Nghiệp",
+    "thumbnail": "/media/courses/images/dj-full-cover.webp",
+    "images": [
+      "/media/courses/images/dj-full-01.webp",
+      "/media/courses/images/dj-full-02.webp"
+    ],
+    "price": 20000000,
+    "priceText": "20.000.000đ",
+    "shortDescription": "Khóa học DJ toàn diện từ cơ bản đến nâng cao trên thiết bị Pioneer DJ chuẩn Club.",
+    "content": "## Giới Thiệu Khóa Học\n\nKhóa học dành cho học viên mới bắt đầu muốn trở thành DJ chuyên nghiệp biểu diễn tại các Club, Bar, Event.\n\n## Nội Dung Đào Tạo\n- Kiến thức âm nhạc cơ bản & Cấu trúc bài nhạc\n- Kỹ thuật Beatmatching tai nghe & mâm xoay\n- Kỹ thuật EQ Mixing & Transitions mượt mà\n- Sử dụng Effect & Hot Cue nâng cao\n- Xây dựng Set nhạc biểu diễn & Kỹ năng làm chủ sân khấu\n\n## Hình Thức Học\n- Học trực tiếp 1-on-1 tại studio cá nhân BUOGS\n- Thời lượng: 24 buổi (2-3 buổi/tuần)\n- Thực hành 100% trên thiết bị Pioneer XDJ / CDJ chuyên nghiệp.",
+    "featured": true,
+    "published": true,
+    "sortOrder": 1
+  },
+  {
+    "id": "course-002",
+    "slug": "music-producer-fl-studio",
+    "title": "Khóa Sản Xuất Nhạc FL Studio",
+    "thumbnail": "/media/courses/images/producer-cover.webp",
+    "images": [
+      "/media/courses/images/producer-01.webp"
+    ],
+    "price": 15000000,
+    "priceText": "15.000.000đ",
+    "shortDescription": "Học làm nhạc Vinahouse, House Lak từ con số 0 cùng BUOGS.",
+    "content": "## Giới Thiệu Khóa Học\n\nTự tay sản xuất bài nhạc Vinahouse độc bản mang dấu ấn riêng.\n\n## Lộ Trình\n- Sử dụng thành thạo FL Studio\n- Kỹ thuật so dây bass, làm drumkit chuẩn club\n- Arrangement & Mixing/Mastering",
+    "featured": true,
+    "published": true,
+    "sortOrder": 2
+  }
+]

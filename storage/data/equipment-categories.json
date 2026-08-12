@@ -1,0 +1,26 @@
+[
+  {
+    "id": "dj-player",
+    "name": "DJ Player / All-In-One",
+    "published": true,
+    "sortOrder": 1
+  },
+  {
+    "id": "controller",
+    "name": "Controller",
+    "published": true,
+    "sortOrder": 2
+  },
+  {
+    "id": "monitor",
+    "name": "Loa Kiểm Âm / Monitor",
+    "published": true,
+    "sortOrder": 3
+  },
+  {
+    "id": "accessories",
+    "name": "Phụ Kiện DJ",
+    "published": true,
+    "sortOrder": 4
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "project-001",
+    "slug": "sexy-my-mind",
+    "title": "Sexy My Mind",
+    "thumbnail": "/media/projects/images/sexy-my-mind-cover.webp",
+    "images": [
+      "/media/projects/images/sexy-my-mind-01.webp",
+      "/media/projects/images/sexy-my-mind-02.webp"
+    ],
+    "demoAudio": "/media/projects/audio/sexy-my-mind-demo.mp3",
+    "tags": ["vinahouse"],
+    "bpm": 128,
+    "price": 500000,
+    "priceText": "500.000đ",
+    "shortDescription": "FL Studio Project dành cho producer chuyên dòng Vinahouse sôi động.",
+    "content": "## Giới thiệu Project\n\nProject FL Studio đầy đủ các track mixing, mastering chuẩn club. Bao gồm đầy đủ sample pack và preset cho Nexus & Sylenth1.\n\n## Yêu cầu Phần Mềm\n- FL Studio 21.2 trở lên\n- Plugins: FabFilter Bundle, Ozone 10, Kickstart 2\n- BPM: 128\n\n## Lưu Ý\nLiên hệ BUOGS qua Zalo hoặc Facebook để nhận link Google Drive tốc độ cao sau khi hoàn tất tư vấn.",
+    "featured": true,
+    "published": true,
+    "sortOrder": 1
+  },
+  {
+    "id": "project-002",
+    "slug": "night-vibes-vinatrance",
+    "title": "Night Vibes Vinatrance Project",
+    "thumbnail": "/media/projects/images/night-vibes-cover.webp",
+    "images": [
+      "/media/projects/images/night-vibes-01.webp"
+    ],
+    "demoAudio": "/media/projects/audio/night-vibes-demo.mp3",
+    "tags": ["vinatrance"],
+    "bpm": 132,
+    "price": 800000,
+    "priceText": "800.000đ",
+    "shortDescription": "FL Studio Project dòng Vinatrance căng bay, drop mạnh mẽ.",
+    "content": "## Giới thiệu Project\n\nProject phong cách Vinatrance căng trào, bassline dầy dặn.\n\n## Chi Tiết\n- FL Studio 21+\n- Soundbank đầy đủ trong project file.",
+    "featured": true,
+    "published": true,
+    "sortOrder": 2
+  }
+]

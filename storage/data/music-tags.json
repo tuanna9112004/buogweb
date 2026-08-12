@@ -1,0 +1,32 @@
+[
+  {
+    "id": "vinahouse",
+    "name": "VINAHOUSE",
+    "published": true,
+    "sortOrder": 1
+  },
+  {
+    "id": "house-lak",
+    "name": "HOUSE LAK",
+    "published": true,
+    "sortOrder": 2
+  },
+  {
+    "id": "vinatrance",
+    "name": "VINATRANCE",
+    "published": true,
+    "sortOrder": 3
+  },
+  {
+    "id": "remix",
+    "name": "REMIX",
+    "published": true,
+    "sortOrder": 4
+  },
+  {
+    "id": "edm",
+    "name": "EDM",
+    "published": true,
+    "sortOrder": 5
+  }
+]

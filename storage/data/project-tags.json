@@ -1,0 +1,20 @@
+[
+  {
+    "id": "vinahouse",
+    "name": "VINAHOUSE",
+    "published": true,
+    "sortOrder": 1
+  },
+  {
+    "id": "vinatrance",
+    "name": "VINATRANCE",
+    "published": true,
+    "sortOrder": 2
+  },
+  {
+    "id": "house-lak",
+    "name": "HOUSE LAK",
+    "published": true,
+    "sortOrder": 3
+  }
+]
