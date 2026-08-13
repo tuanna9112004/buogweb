@@ -168,7 +168,7 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        
+
         {/* Title */}
         <div className="space-y-2">
           <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
@@ -236,11 +236,11 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
         {/* Cover Image Upload with Crop Feature */}
         <div className="space-y-2 md:col-span-2">
           <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
-            Ảnh đại diện Track (Cover 1:1 - Hỗ trợ Crop vuông chuẩn)
+            Ảnh đại diện Track (Cover dạng đĩa tròn - Hỗ trợ Crop tròn chuẩn)
           </label>
           <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#111111] border border-white/10">
             {cover && (
-              <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-[#080808] border-2 border-[#b6ff2e] flex-shrink-0 shadow-lg shadow-[#b6ff2e]/10">
+              <div className="relative w-20 h-20 rounded-full overflow-hidden bg-[#080808] border-2 border-[#b6ff2e] flex-shrink-0 shadow-lg shadow-[#b6ff2e]/10">
                 <Image src={cover} alt="Cover preview" fill className="object-cover" unoptimized />
               </div>
             )}
@@ -265,7 +265,7 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
 
             {cover && (
               <span className="text-xs font-mono text-[#b6ff2e] truncate">
-                ✓ Đã tải ảnh cover vuông
+                ✓ Đã tải ảnh cover tròn
               </span>
             )}
           </div>
@@ -298,11 +298,10 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
                   type="button"
                   key={tag.id}
                   onClick={() => handleToggleTag(tag.id)}
-                  className={`text-xs px-3 py-1.5 rounded-lg font-mono transition-all ${
-                    isSelected
+                  className={`text-xs px-3 py-1.5 rounded-lg font-mono transition-all ${isSelected
                       ? 'bg-[#b6ff2e] text-black font-bold'
                       : 'bg-[#161616] text-[#a3a3a3] hover:text-white border border-white/10'
-                  }`}
+                    }`}
                 >
                   #{tag.name}
                 </button>
@@ -354,6 +353,7 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
         imageSrc={rawCoverSrc}
         fileName={pendingFileName}
         aspectRatio={1}
+        shape="circle"
         onCropComplete={handleCroppedImageUpload}
         onCancel={() => setIsCropperOpen(false)}
       />

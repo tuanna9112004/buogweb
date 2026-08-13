@@ -25,7 +25,6 @@ export interface Project {
   slug: string;
   title: string;
   thumbnail: string;
-  images: string[];
   demoAudio: string;
   tags: string[];
   bpm?: number | null;

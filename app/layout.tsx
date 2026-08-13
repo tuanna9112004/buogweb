@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Oswald } from 'next/font/google';
+import { Inter, Playfair_Display, JetBrains_Mono, Permanent_Marker } from 'next/font/google';
 import './globals.css';
 
 const inter = Inter({
@@ -8,9 +8,22 @@ const inter = Inter({
   display: 'swap',
 });
 
-const oswald = Oswald({
+const playfair = Playfair_Display({
   subsets: ['latin', 'vietnamese'],
-  variable: '--font-oswald',
+  variable: '--font-playfair',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin', 'vietnamese'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+});
+
+const permanentMarker = Permanent_Marker({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-marker',
   display: 'swap',
 });
 
@@ -29,8 +42,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={`${inter.variable} ${oswald.variable} dark scroll-smooth`}>
-      <body className="bg-[#080808] text-white antialiased selection:bg-[#b6ff2e] selection:text-black">
+    <html
+      lang="vi"
+      className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable} ${permanentMarker.variable} dark scroll-smooth`}
+    >
+      <body className="text-white antialiased selection:bg-white selection:text-black">
         {children}
       </body>
     </html>

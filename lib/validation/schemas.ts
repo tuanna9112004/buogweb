@@ -23,7 +23,6 @@ export const ProjectSchema = z.object({
   slug: z.string().min(1, 'Slug không được để trống').regex(/^[a-z0-9-]+$/, 'Slug chỉ gồm chữ thường, số và dấu gạch ngang'),
   title: z.string().min(1, 'Tiêu đề không được để trống'),
   thumbnail: z.string().default(''),
-  images: z.array(z.string()).default([]),
   demoAudio: z.string().default(''),
   tags: z.array(z.string()).default([]),
   bpm: z.number().nullable().optional(),

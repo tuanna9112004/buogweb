@@ -16,7 +16,7 @@ export default function CoursesPage() {
           <span>ACADEMY & TRAINING CATALOG</span>
         </div>
         <h1 className="font-heading text-4xl sm:text-5xl font-extrabold text-white">
-          KHÓA HỌC DJ / PRODUCER
+          DẠY DJ / PRODUCER
         </h1>
         <p className="text-sm text-[#A8A8A8] max-w-2xl">
           Đào tạo DJ và sản xuất nhạc chuyên nghiệp 1-on-1 trực tiếp tại Studio. Thực hành 100% trên thiết bị Pioneer DJ chuẩn Club.

@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import { Music, MusicTag } from '@/types';
-import WaveSurferTrackPlayer from './WaveSurferTrackPlayer';
-import { Calendar, Tag } from 'lucide-react';
+import TrackPlayerRow from './TrackPlayerRow';
+import { useAudio } from './AudioPlayerContext';
 
 interface MusicItemCardProps {
   track: Music;
@@ -18,92 +18,82 @@ export default function MusicItemCard({
   selectedTag,
   onSelectTag,
 }: MusicItemCardProps) {
-  // Format publishDate (dd/MM/yyyy)
+  const { currentTrackId } = useAudio();
+  const isActive = currentTrackId === track.id;
+
   const formatDate = (dateStr: string) => {
     if (!dateStr) return '';
-    try {
-      const parts = dateStr.split('-');
-      if (parts.length === 3) {
-        return `${parts[2]}/${parts[1]}/${parts[0]}`;
-      }
-      return dateStr;
-    } catch {
-      return dateStr;
-    }
+    const parts = dateStr.split('-');
+    return parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : dateStr;
   };
 
   const coverUrl = track.cover || '/media/music/covers/gio-lon.webp';
 
   return (
-    <div className="bg-[#101010] border border-white/10 rounded-2xl p-4 sm:p-6 transition-all hover:border-white/25 shadow-2xl group">
-      <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
-        
-        {/* Cover Thumbnail */}
-        <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden flex-shrink-0 bg-[#050505] border border-white/15 group-hover:border-white/40 transition-colors">
+    <div
+      className={`bg-[#101010] border rounded-2xl p-3.5 sm:p-4 transition-colors duration-300 group ${
+        isActive ? 'border-white/30' : 'border-white/[0.08] hover:border-white/20'
+      }`}
+    >
+      <div className="flex items-center gap-4 sm:gap-5">
+        {/* Cover — circular disc treatment to match the mini player */}
+        <div className="relative w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-full overflow-hidden flex-shrink-0 bg-[#050505] border border-white/10 group-hover:border-white/25 transition-colors duration-300">
           <Image
             src={coverUrl}
             alt={track.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 640px) 96px, 112px"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            sizes="(max-width: 640px) 100px, 120px"
             unoptimized
           />
+          {/* Vinyl center hole */}
+          <span className="absolute top-1/2 left-1/2 w-2.5 h-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#050505] border border-white/40" />
         </div>
 
-        {/* Info & Player Wrapper */}
-        <div className="flex-1 w-full space-y-3">
-          
-          {/* Header Info: Title, Artists, Date, Tags */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
-              <h3 className="text-lg sm:text-xl font-bold text-white tracking-wide line-clamp-2 transition-colors">
-                {track.title}
-              </h3>
-              <p className="text-sm font-medium text-[#A8A8A8]">
-                {track.artists}
-              </p>
-            </div>
-
-            {/* Date Badge */}
-            <div className="flex items-center gap-1.5 text-xs font-mono text-[#737373] bg-[#0A0A0A] px-3 py-1.5 rounded-full border border-white/10 w-fit">
-              <Calendar className="w-3.5 h-3.5 text-white/60" />
-              <span>{formatDate(track.publishDate)}</span>
-            </div>
+        {/* Content */}
+        <div className="flex-1 min-w-0 flex flex-col gap-2">
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="font-heading text-base sm:text-lg font-semibold text-white leading-snug line-clamp-2">
+              {track.title}
+            </h3>
+            <span className="flex-shrink-0 text-[10px] font-mono text-[#5c5c5c] mt-1 whitespace-nowrap">
+              {formatDate(track.publishDate)}
+            </span>
           </div>
 
-          {/* Tags list */}
-          {track.tags && track.tags.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2 pt-1">
-              <Tag className="w-3.5 h-3.5 text-[#737373]" />
-              {track.tags.map((tagId) => {
-                const tagObj = allTags.find((t) => t.id === tagId);
-                const tagName = tagObj ? tagObj.name : tagId.toUpperCase();
-                const isSelected = selectedTag === tagId;
-
-                return (
-                  <button
-                    key={tagId}
-                    onClick={() => onSelectTag && onSelectTag(isSelected ? null : tagId)}
-                    className={`text-xs px-2.5 py-1 rounded-md font-mono transition-all ${
-                      isSelected
-                        ? 'bg-white text-black font-bold shadow-md'
-                        : 'bg-[#0A0A0A] text-[#737373] hover:text-white border border-white/10 hover:border-white/30'
-                    }`}
-                  >
-                    #{tagName}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
-          {/* WaveSurfer Player */}
-          <div className="pt-2">
-            <WaveSurferTrackPlayer track={track} />
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span className="text-xs text-[#8a8a8a] truncate max-w-full">{track.artists}</span>
+            {track.tags && track.tags.length > 0 && (
+              <>
+                <span className="text-[#3a3a3a]">·</span>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {track.tags.map((tagId) => {
+                    const tagObj = allTags.find((t) => t.id === tagId);
+                    const tagName = tagObj ? tagObj.name : tagId.toUpperCase();
+                    const isSelected = selectedTag === tagId;
+                    return (
+                      <button
+                        key={tagId}
+                        onClick={() => onSelectTag && onSelectTag(isSelected ? null : tagId)}
+                        className={`text-[10px] px-2 py-0.5 rounded-md font-mono transition-colors duration-200 ${
+                          isSelected
+                            ? 'bg-white text-black font-bold'
+                            : 'bg-white/[0.04] text-[#737373] hover:text-white border border-white/10 hover:border-white/25'
+                        }`}
+                      >
+                        #{tagName}
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
           </div>
 
+          <div className="pt-1">
+            <TrackPlayerRow track={track} />
+          </div>
         </div>
-
       </div>
     </div>
   );

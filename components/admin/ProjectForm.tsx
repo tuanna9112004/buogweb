@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Project, ProjectTag } from '@/types';
 import ImageCropperModal from './ImageCropperModal';
-import { Upload, Headphones, Image as ImageIcon, Loader2, Save, ArrowLeft, X, Plus, Crop } from 'lucide-react';
+import { Upload, Headphones, Image as ImageIcon, Loader2, Save, ArrowLeft, Plus, Crop } from 'lucide-react';
 
 interface ProjectFormProps {
   initialData?: Project;
@@ -18,7 +18,6 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
   const [title, setTitle] = useState(initialData?.title || '');
   const [slug, setSlug] = useState(initialData?.slug || '');
   const [thumbnail, setThumbnail] = useState(initialData?.thumbnail || '');
-  const [images, setImages] = useState<string[]>(initialData?.images || []);
   const [demoAudio, setDemoAudio] = useState(initialData?.demoAudio || '');
   const [tags, setTags] = useState<string[]>(initialData?.tags || []);
   const [bpm, setBpm] = useState<number | ''>(initialData?.bpm || 128);
@@ -32,7 +31,6 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
 
   const [allTags, setAllTags] = useState<ProjectTag[]>([]);
   const [uploadingThumb, setUploadingThumb] = useState(false);
-  const [uploadingGallery, setUploadingGallery] = useState(false);
   const [uploadingAudio, setUploadingAudio] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +38,6 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
   // Image Cropper States
   const [rawImageSrc, setRawImageSrc] = useState<string | null>(null);
   const [isCropperOpen, setIsCropperOpen] = useState(false);
-  const [cropTarget, setCropTarget] = useState<'thumbnail' | 'gallery'>('thumbnail');
   const [pendingFileName, setPendingFileName] = useState('image.webp');
 
   useEffect(() => {
@@ -65,10 +62,9 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
     }
   };
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>, target: 'thumbnail' | 'gallery') => {
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setCropTarget(target);
     setPendingFileName(file.name);
     const objectUrl = URL.createObjectURL(file);
     setRawImageSrc(objectUrl);
@@ -78,11 +74,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
 
   const handleCroppedImageUpload = async (croppedFile: File) => {
     setIsCropperOpen(false);
-    if (cropTarget === 'thumbnail') {
-      await handleFileUpload(croppedFile, 'images', setThumbnail, setUploadingThumb);
-    } else {
-      await handleFileUpload(croppedFile, 'images', (url) => setImages([...images, url]), setUploadingGallery);
-    }
+    await handleFileUpload(croppedFile, 'images', setThumbnail, setUploadingThumb);
   };
 
   const handleFileUpload = async (
@@ -124,10 +116,6 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
     }
   };
 
-  const handleRemoveGalleryImage = (imgUrl: string) => {
-    setImages(images.filter((img) => img !== imgUrl));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -144,7 +132,6 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
         title,
         slug,
         thumbnail,
-        images,
         demoAudio,
         tags,
         bpm: bpm === '' ? null : Number(bpm),
@@ -217,21 +204,11 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
             placeholder="Ví dụ: Sexy My Mind"
             className="w-full bg-[#111111] border border-white/10 rounded-xl p-3 text-white text-sm focus:border-[#b6ff2e] focus:outline-none"
           />
-        </div>
-
-        {/* Slug */}
-        <div className="space-y-2">
-          <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
-            URL Slug (Unique) *
-          </label>
-          <input
-            type="text"
-            required
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
-            placeholder="sexy-my-mind"
-            className="w-full bg-[#111111] border border-white/10 rounded-xl p-3 text-white text-sm font-mono focus:border-[#b6ff2e] focus:outline-none"
-          />
+          {slug && (
+            <p className="text-[11px] font-mono text-[#666]">
+              URL: /projects/<span className="text-[#b6ff2e]">{slug}</span>
+            </p>
+          )}
         </div>
 
         {/* BPM & Price */}
@@ -266,11 +243,11 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
         {/* Thumbnail Upload */}
         <div className="space-y-2 md:col-span-2">
           <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
-            Ảnh Thumbnail Cover (Hỗ trợ Crop 1:1)
+            Ảnh Thumbnail Cover (Crop chữ nhật 16:9 - khớp tỉ lệ Card /projects)
           </label>
           <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#111111] border border-white/10">
             {thumbnail && (
-              <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-[#080808] border-2 border-[#b6ff2e] flex-shrink-0">
+              <div className="relative w-32 h-[72px] rounded-xl overflow-hidden bg-[#080808] border-2 border-[#b6ff2e] flex-shrink-0">
                 <Image src={thumbnail} alt="Thumbnail preview" fill className="object-cover" unoptimized />
               </div>
             )}
@@ -279,7 +256,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
               accept="image/jpeg,image/png,image/webp"
               id="project-thumb-input"
               className="hidden"
-              onChange={(e) => handleImageSelect(e, 'thumbnail')}
+              onChange={handleImageSelect}
             />
             <label
               htmlFor="project-thumb-input"
@@ -288,48 +265,6 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
               {uploadingThumb ? <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" /> : <Crop className="w-4 h-4 text-[#b6ff2e]" />}
               <span>Tải & Crop Ảnh Thumbnail</span>
             </label>
-          </div>
-        </div>
-
-        {/* Gallery Images Upload */}
-        <div className="space-y-2 md:col-span-2">
-          <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
-            Bộ Ảnh Gallery (Hình ảnh giao diện FL Studio - Crop vuông 1:1)
-          </label>
-          <div className="p-4 rounded-xl bg-[#111111] border border-white/10 space-y-4">
-            <div className="flex items-center gap-3">
-              <input
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                id="gallery-input"
-                className="hidden"
-                onChange={(e) => handleImageSelect(e, 'gallery')}
-              />
-              <label
-                htmlFor="gallery-input"
-                className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2"
-              >
-                {uploadingGallery ? <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" /> : <Crop className="w-4 h-4 text-[#b6ff2e]" />}
-                <span>Chọn & Crop Ảnh Gallery</span>
-              </label>
-            </div>
-
-            {images.length > 0 && (
-              <div className="flex flex-wrap gap-3 pt-2">
-                {images.map((imgUrl, idx) => (
-                  <div key={idx} className="relative w-20 h-20 rounded-xl overflow-hidden bg-[#080808] border border-white/10 group">
-                    <Image src={imgUrl} alt={`Gallery ${idx}`} fill className="object-cover" unoptimized />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveGalleryImage(imgUrl)}
-                      className="absolute top-1 right-1 bg-red-600/80 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </div>
 
@@ -464,7 +399,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
         isOpen={isCropperOpen}
         imageSrc={rawImageSrc}
         fileName={pendingFileName}
-        aspectRatio={1}
+        aspectRatio={16 / 9}
         onCropComplete={handleCroppedImageUpload}
         onCancel={() => setIsCropperOpen(false)}
       />

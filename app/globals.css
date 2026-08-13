@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  --font-heading: var(--font-playfair);
+  --font-marker: var(--font-marker);
+}
+
 @layer base {
   :root {
     --background: #050505;
@@ -18,18 +25,67 @@
   }
 
   body {
-    background-color: var(--background);
+    position: relative;
+    background-color: #050505;
     color: var(--text-secondary);
     font-family: var(--font-inter), system-ui, sans-serif;
     overflow-x: hidden;
     min-height: 100vh;
   }
 
+  /* Cinematic ambient backdrop — near-black tonal gradient + three faint studio
+     light pools. Fixed to the viewport (not the document) so the room feels
+     lit from a constant source while the page scrolls past it. Negative
+     z-index inside body's stacking context keeps it behind all real content
+     without requiring z-index changes anywhere else. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 42% at 16% -8%, rgba(255, 255, 255, 0.05), transparent 62%),
+      radial-gradient(ellipse 48% 38% at 104% 14%, rgba(255, 255, 255, 0.035), transparent 58%),
+      radial-gradient(ellipse 55% 42% at 50% 106%, rgba(255, 255, 255, 0.028), transparent 62%),
+      linear-gradient(180deg, #090909 0%, #050505 38%, #030303 100%);
+  }
+
+  /* Unified film grain — one grain field for the whole site so no section
+     reads flatter or noisier than another. Kept extremely low-opacity. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.025;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+  }
+
+  /* Editorial display type: mixed-case serif, refined tracking.
+     Explicit `uppercase` classes on wordmarks/kickers still apply on top. */
   h1, h2, h3, h4, h5, h6, .font-heading {
-    font-family: var(--font-oswald), sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-family: var(--font-playfair), serif;
+    letter-spacing: -0.01em;
     color: var(--text-primary);
+  }
+
+  ::selection {
+    background-color: #ffffff;
+    color: #050505;
+  }
+
+  /* Respect reduced-motion system preference across all animation/transition */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -52,6 +108,65 @@
 
 .border-accent {
   border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Editorial kicker label — small caps mono tag used above section headings */
+.kicker {
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* Oversized ghost index numeral for editorial section headers */
+.index-numeral {
+  font-family: var(--font-playfair), serif;
+  font-style: italic;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.18);
+  line-height: 1;
+}
+
+/* Elegant gradient-fade separator — replaces hard hairlines between major
+   sections with a soft light-to-dark transition. */
+.divider-fade {
+  height: 1px;
+  width: 100%;
+  border: none;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.14) 50%, transparent 100%);
+}
+
+/* Subtle film-grain texture for cinematic imagery treatment */
+.bg-grain {
+  position: relative;
+  isolation: isolate;
+}
+.bg-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Fallback for the mini player cover when Web Audio / AnalyserNode is
+   unavailable — a very soft breathing scale instead of true audio-reactive motion. */
+@keyframes mini-cover-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+.mini-cover-breathe {
+  animation: mini-cover-breathe 2.4s ease-in-out infinite;
+}
+
+/* Vinyl-style continuous spin for the mini player cover while a track plays */
+@keyframes mini-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Custom Scrollbar */

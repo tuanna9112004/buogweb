@@ -189,21 +189,11 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
             placeholder="Ví dụ: Khóa Đào Tạo DJ Chuyên Nghiệp"
             className="w-full bg-[#111111] border border-white/10 rounded-xl p-3 text-white text-sm focus:border-[#b6ff2e] focus:outline-none"
           />
-        </div>
-
-        {/* Slug */}
-        <div className="space-y-2">
-          <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
-            URL Slug (Unique) *
-          </label>
-          <input
-            type="text"
-            required
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
-            placeholder="dj-full"
-            className="w-full bg-[#111111] border border-white/10 rounded-xl p-3 text-white text-sm font-mono focus:border-[#b6ff2e] focus:outline-none"
-          />
+          {slug && (
+            <p className="text-[11px] font-mono text-[#666]">
+              URL: /courses/<span className="text-[#b6ff2e]">{slug}</span>
+            </p>
+          )}
         </div>
 
         {/* Price Text */}

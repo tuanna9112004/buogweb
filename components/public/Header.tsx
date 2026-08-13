@@ -64,9 +64,15 @@ export default function Header({ settings }: HeaderProps) {
               />
             </div>
             <div>
-              <span className="font-heading text-lg sm:text-xl font-bold tracking-widest text-white group-hover:text-white transition-colors leading-tight block">
-                {brand}
-              </span>
+              <span className="sr-only">{brand}</span>
+              <Image
+                src="/buogs-logo-mark.png"
+                alt=""
+                width={463}
+                height={74}
+                className="h-4 sm:h-[18px] w-auto invert block"
+                unoptimized
+              />
               <span
                 className={`block text-[8.5px] tracking-widest text-[#737373] uppercase font-mono font-medium transition-all duration-300 overflow-hidden ${
                   scrolled ? 'max-h-0 opacity-0' : 'max-h-3 opacity-100'

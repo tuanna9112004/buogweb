@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getProjectBySlug, getProjects, getProjectTags, getSettings } from '@/lib/storage/repository';
-import ImageGallery from '@/components/public/ImageGallery';
-import WaveSurferTrackPlayer from '@/components/public/WaveSurferTrackPlayer';
+import TrackPlayerRow from '@/components/public/TrackPlayerRow';
 import MarkdownRenderer from '@/components/public/MarkdownRenderer';
 import FLPProjectCard from '@/components/public/FLPProjectCard';
 import { Gauge, Send, ArrowLeft, Headphones, CheckCircle2 } from 'lucide-react';
@@ -28,7 +28,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   // Related projects (3 items, excluding current)
   const relatedProjects = allProjects.filter((p) => p.id !== project.id).slice(0, 3);
 
-  // Fake music item format for WaveSurfer demo player
+  // Adapt project.demoAudio to the shared Music shape for the demo player
   const demoTrack = project.demoAudio
     ? {
         id: `demo-${project.id}`,
@@ -62,11 +62,17 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         
         {/* Left Column: Image Gallery & Demo Player */}
         <div className="lg:col-span-7 space-y-6">
-          <ImageGallery
-            thumbnail={project.thumbnail}
-            images={project.images}
-            altTitle={project.title}
-          />
+          <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-[#080808] border border-white/10 shadow-2xl">
+            <Image
+              src={project.thumbnail}
+              alt={project.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1200px) 100vw, 800px"
+              priority
+              unoptimized
+            />
+          </div>
 
           {/* Demo Audio Player */}
           {demoTrack && (
@@ -75,7 +81,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 <Headphones className="w-4 h-4 text-white" />
                 <span>Nghe thử Demo Audio Project</span>
               </div>
-              <WaveSurferTrackPlayer track={demoTrack} />
+              <TrackPlayerRow track={demoTrack} />
             </div>
           )}
         </div>

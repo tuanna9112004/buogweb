@@ -19,7 +19,6 @@
     "react-markdown": "^10.1.0",
     "rehype-sanitize": "^6.0.0",
     "tailwind-merge": "^3.6.0",
-    "wavesurfer.js": "^7.12.11",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -31,6 +30,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "ui-ux-pro-max-cli": "^2.14.2"
   }
 }

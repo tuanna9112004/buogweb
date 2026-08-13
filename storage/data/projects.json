@@ -4,10 +4,6 @@
     "slug": "sexy-my-mind",
     "title": "Sexy My Mind",
     "thumbnail": "/media/projects/images/sexy-my-mind-cover.webp",
-    "images": [
-      "/media/projects/images/sexy-my-mind-01.webp",
-      "/media/projects/images/sexy-my-mind-02.webp"
-    ],
     "demoAudio": "/media/projects/audio/sexy-my-mind-demo.mp3",
     "tags": ["vinahouse"],
     "bpm": 128,
@@ -24,9 +20,6 @@
     "slug": "night-vibes-vinatrance",
     "title": "Night Vibes Vinatrance Project",
     "thumbnail": "/media/projects/images/night-vibes-cover.webp",
-    "images": [
-      "/media/projects/images/night-vibes-01.webp"
-    ],
     "demoAudio": "/media/projects/audio/night-vibes-demo.mp3",
     "tags": ["vinatrance"],
     "bpm": 132,

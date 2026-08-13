@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   getMusicList,
   getMusicTags,
@@ -14,7 +13,18 @@ import MusicItemCard from '@/components/public/MusicItemCard';
 import FLPProjectCard from '@/components/public/FLPProjectCard';
 import CourseCard from '@/components/public/CourseCard';
 import EquipmentCard from '@/components/public/EquipmentCard';
-import { Play, ArrowRight, Phone, Send, Sparkles, Sliders, Music, Headphones, Award } from 'lucide-react';
+import Reveal from '@/components/public/Reveal';
+import { AnimatedMarqueeHero } from '@/components/ui/animated-marquee-hero';
+import { ArrowRight, Phone, Send, Sliders, Music, Headphones, Award } from 'lucide-react';
+
+const HERO_MARQUEE_IMAGES = [
+  '/hero-marquee/buogs-01.jpg',
+  '/hero-marquee/buogs-02.jpg',
+  '/hero-marquee/buogs-03.jpg',
+  '/hero-marquee/buogs-04.jpg',
+  '/hero-marquee/buogs-05.jpg',
+  '/hero-marquee/buogs-06.jpg',
+];
 
 export const revalidate = 0; // Dynamic server rendering for live JSON edits
 
@@ -40,111 +50,55 @@ export default function HomePage() {
   return (
     <div className="space-y-24 pb-20">
       
-      {/* HERO SECTION - Form-fitted to 16:9 aspect ratio of backGR-hero.png so 100% of photo is visible */}
-      <section className="relative w-full aspect-[16/9] min-h-[500px] flex items-center overflow-hidden border-b border-white/10 bg-[#050505]">
-        
-        {/* Background Hero Studio Photo (Full 100% Uncropped 16:9 Image) */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <Image
-            src="/backGR-hero.png"
-            alt="BUOGS DJ Studio Background"
-            fill
-            className="object-cover object-center filter brightness-[0.95] contrast-[1.05]"
-            priority
-            unoptimized
-          />
-          {/* Gentle Overlay Gradient for Typography Legibility on Left */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                'linear-gradient(90deg, #050505 0%, rgba(5,5,5,0.92) 28%, rgba(5,5,5,0.60) 50%, rgba(5,5,5,0.10) 75%, transparent 100%)',
-            }}
-          />
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                'linear-gradient(0deg, #050505 0%, rgba(5,5,5,0.30) 25%, transparent 100%)',
-            }}
-          />
-        </div>
+      {/* HERO SECTION - Animated marquee of BUOGS photos beneath centered copy */}
+      <AnimatedMarqueeHero
+        tagline={settings.genresText || 'VINAHOUSE · HOUSE LAK · VINATRANCE'}
+        brandTitle={settings.brandName || 'BUOGS'}
+        roleText={settings.tagline || 'DJ / Producer'}
+        description={
+          settings.about ||
+          'Chuyên nghiệp trong âm nhạc điện tử, cung cấp các FL Studio Project chất lượng cao, đào tạo DJ/Producer thực chiến và cung cấp thiết bị DJ cao cấp.'
+        }
+        ctaText="Nghe Nhạc Trực Tiếp"
+        ctaHref="/music"
+        images={HERO_MARQUEE_IMAGES}
+      />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 sm:pt-32 lg:pt-36 relative z-10">
-          <div className="max-w-xl space-y-4 sm:space-y-6 text-center lg:text-left">
-            
-            {/* Monochrome Luxury Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/15 backdrop-blur-md text-xs font-mono tracking-widest text-[#CCCCCC] uppercase">
-              <Sparkles className="w-3.5 h-3.5 text-white/60" />
-              <span>OFFICIAL DJ / PRODUCER PORTFOLIO</span>
-            </div>
-
-            {/* Title & Subtitle */}
-            <div className="space-y-3">
-              <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold tracking-tight text-white uppercase leading-none">
-                {settings.brandName || 'BUOGS'}
-              </h1>
-              <p className="font-heading text-xl sm:text-2xl lg:text-3xl text-[#E5E5E5] tracking-widest uppercase">
-                {settings.tagline || 'DJ / PRODUCER'}
-              </p>
-              <p className="text-xs font-mono text-[#8A8A8A] uppercase tracking-widest">
-                {settings.genresText || 'VINAHOUSE · HOUSE LAK · VINATRANCE'}
-              </p>
-            </div>
-
-            {/* Description */}
-            <p className="text-sm sm:text-base text-[#A8A8A8] max-w-lg leading-relaxed mx-auto lg:mx-0">
-              {settings.about || 'Chuyên nghiệp trong âm nhạc điện tử, cung cấp các FL Studio Project chất lượng cao, đào tạo DJ/Producer thực chiến và cung cấp thiết bị DJ cao cấp.'}
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
-              <Link
-                href="/music"
-                className="inline-flex items-center gap-2 px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-white text-[#050505] font-bold text-xs sm:text-sm tracking-wider uppercase hover:bg-[#E6E6E6] transition-all transform hover:-translate-y-0.5 shadow-[0_10px_40px_rgba(0,0,0,0.30)]"
-              >
-                <Play className="w-4 h-4 fill-current" />
-                <span>Nghe Nhạc Trực Tiếp</span>
-              </Link>
-
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 px-7 py-3.5 sm:px-8 sm:py-4 rounded-full bg-white/[0.04] border border-white/[0.18] text-white font-semibold text-xs sm:text-sm tracking-wider uppercase hover:bg-white/10 hover:border-white/35 transition-all"
-              >
-                <Send className="w-4 h-4" />
-                <span>Liên Hệ Booking</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="divider-fade" />
+      </div>
 
       {/* FEATURED MUSIC SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
-          <div>
-            <div className="text-xs font-mono text-[#A8A8A8] uppercase tracking-widest mb-1 flex items-center gap-2">
-              <Music className="w-4 h-4 text-white" />
-              <span>MUSIC SHOWCASE</span>
+        <Reveal className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
+          <div className="flex items-start gap-4 sm:gap-6">
+            <span className="index-numeral hidden sm:block text-6xl sm:text-7xl select-none">01</span>
+            <div>
+              <div className="kicker mb-1.5 flex items-center gap-2 text-[#A8A8A8]">
+                <Music className="w-3.5 h-3.5 text-white" />
+                <span>Music Showcase</span>
+              </div>
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
+                BÀI NHẠC NỔI BẬT
+              </h2>
             </div>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
-              BÀI NHẠC NỔI BẬT
-            </h2>
           </div>
 
           <Link
             href="/music"
-            className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-white hover:text-[#A8A8A8] transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-white hover:text-[#A8A8A8] transition-colors duration-300"
           >
             <span>Xem Tất Cả Bài Nhạc</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
-        </div>
+        </Reveal>
 
         {featuredMusic.length > 0 ? (
-          <div className="space-y-4">
-            {featuredMusic.map((track) => (
-              <MusicItemCard key={track.id} track={track} allTags={musicTags} />
+          <div className="space-y-3.5">
+            {featuredMusic.map((track, i) => (
+              <Reveal key={track.id} delay={Math.min(i * 0.05, 0.2)} distance={16}>
+                <MusicItemCard track={track} allTags={musicTags} />
+              </Reveal>
             ))}
           </div>
         ) : (
@@ -156,32 +110,35 @@ export default function HomePage() {
 
       {/* FEATURED FLP PROJECTS SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
-          <div>
-            <div className="text-xs font-mono text-[#A8A8A8] uppercase tracking-widest mb-1 flex items-center gap-2">
-              <Headphones className="w-4 h-4 text-white" />
-              <span>FL STUDIO PROJECTS</span>
+        <Reveal className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
+          <div className="flex items-start gap-4 sm:gap-6">
+            <span className="index-numeral hidden sm:block text-6xl sm:text-7xl select-none">02</span>
+            <div>
+              <div className="kicker mb-1.5 flex items-center gap-2 text-[#A8A8A8]">
+                <Headphones className="w-3.5 h-3.5 text-white" />
+                <span>FL Studio Projects</span>
+              </div>
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
+                PROJECT NỔI BẬT
+              </h2>
             </div>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
-              PROJECT NỔI BẬT
-            </h2>
           </div>
 
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-white hover:text-[#A8A8A8] transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-white hover:text-[#A8A8A8] transition-colors duration-300"
           >
             <span>Xem Tất Cả Project</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
-        </div>
+        </Reveal>
 
         {featuredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Reveal delay={0.1} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredProjects.map((project) => (
               <FLPProjectCard key={project.id} project={project} allTags={projectTags} />
             ))}
-          </div>
+          </Reveal>
         ) : (
           <p className="text-sm font-mono text-[#737373] py-8 text-center bg-[#0A0A0A] rounded-2xl border border-white/10">
             Chưa có project nổi bật.
@@ -191,32 +148,35 @@ export default function HomePage() {
 
       {/* COURSES SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
-          <div>
-            <div className="text-xs font-mono text-[#A8A8A8] uppercase tracking-widest mb-1 flex items-center gap-2">
-              <Award className="w-4 h-4 text-white" />
-              <span>ACADEMY & TRAINING</span>
+        <Reveal className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
+          <div className="flex items-start gap-4 sm:gap-6">
+            <span className="index-numeral hidden sm:block text-6xl sm:text-7xl select-none">03</span>
+            <div>
+              <div className="kicker mb-1.5 flex items-center gap-2 text-[#A8A8A8]">
+                <Award className="w-3.5 h-3.5 text-white" />
+                <span>Academy & Training</span>
+              </div>
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
+                DẠY DJ / PRODUCER
+              </h2>
             </div>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
-              KHÓA HỌC DJ / PRODUCER
-            </h2>
           </div>
 
           <Link
             href="/courses"
-            className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-white hover:text-[#A8A8A8] transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-white hover:text-[#A8A8A8] transition-colors duration-300"
           >
             <span>Xem Tất Cả Khóa Học</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
-        </div>
+        </Reveal>
 
         {featuredCourses.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Reveal delay={0.1} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredCourses.map((course) => (
               <CourseCard key={course.id} course={course} />
             ))}
-          </div>
+          </Reveal>
         ) : (
           <p className="text-sm font-mono text-[#737373] py-8 text-center bg-[#0A0A0A] rounded-2xl border border-white/10">
             Chưa có khóa học nổi bật.
@@ -226,32 +186,35 @@ export default function HomePage() {
 
       {/* EQUIPMENT SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
-          <div>
-            <div className="text-xs font-mono text-[#A8A8A8] uppercase tracking-widest mb-1 flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-white" />
-              <span>EQUIPMENT CATALOG</span>
+        <Reveal className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
+          <div className="flex items-start gap-4 sm:gap-6">
+            <span className="index-numeral hidden sm:block text-6xl sm:text-7xl select-none">04</span>
+            <div>
+              <div className="kicker mb-1.5 flex items-center gap-2 text-[#A8A8A8]">
+                <Sliders className="w-3.5 h-3.5 text-white" />
+                <span>Equipment Catalog</span>
+              </div>
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
+                THIẾT BỊ DJ / PRODUCER
+              </h2>
             </div>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
-              THIẾT BỊ DJ / PRODUCER
-            </h2>
           </div>
 
           <Link
             href="/equipment"
-            className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-white hover:text-[#A8A8A8] transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-white hover:text-[#A8A8A8] transition-colors duration-300"
           >
             <span>Xem Tất Cả Thiết Bị</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
-        </div>
+        </Reveal>
 
         {featuredEquipment.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Reveal delay={0.1} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredEquipment.map((eq) => (
               <EquipmentCard key={eq.id} equipment={eq} categories={equipmentCategories} />
             ))}
-          </div>
+          </Reveal>
         ) : (
           <p className="text-sm font-mono text-[#737373] py-8 text-center bg-[#0A0A0A] rounded-2xl border border-white/10">
             Chưa có thiết bị nổi bật.
@@ -261,15 +224,15 @@ export default function HomePage() {
 
       {/* ABOUT BUOGS SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-[#0A0A0A] border border-white/10 rounded-3xl p-8 sm:p-12 space-y-6 relative overflow-hidden">
-          <div className="text-xs font-mono text-[#A8A8A8] uppercase tracking-widest">
-            ABOUT {settings.brandName || 'BUOGS'}
+        <Reveal className="bg-[#0A0A0A] border border-white/10 rounded-3xl p-8 sm:p-12 space-y-6 relative overflow-hidden">
+          <div className="kicker text-[#A8A8A8]">
+            About {settings.brandName || 'BUOGS'}
           </div>
-          
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
-            GIỚI THIỆU THƯƠNG HIỆU
+
+          <h2 className="font-heading text-3xl sm:text-5xl font-bold text-white max-w-2xl">
+            Giới Thiệu Thương Hiệu
           </h2>
-          
+
           <p className="text-[#A8A8A8] leading-relaxed text-base sm:text-lg max-w-4xl">
             {settings.about}
           </p>
@@ -288,14 +251,14 @@ export default function HomePage() {
               <span className="text-[#737373]">Thực hành thiết bị Pioneer DJ</span>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* CONTACT SECTION */}
       <section id="contact" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-[#0A0A0A] border border-white/15 rounded-3xl p-8 sm:p-12 text-center space-y-8 shadow-2xl relative overflow-hidden">
+        <Reveal className="bg-[#0A0A0A] border border-white/15 rounded-3xl p-8 sm:p-12 text-center space-y-8 shadow-2xl relative overflow-hidden">
           <div className="space-y-3">
-            <h2 className="font-heading text-3xl sm:text-5xl font-extrabold text-white tracking-wider uppercase">
+            <h2 className="font-heading text-3xl sm:text-5xl font-bold text-white tracking-tight uppercase">
               {settings.contactHeading || 'BOOKING / MUSIC / PROJECT / COURSE / EQUIPMENT'}
             </h2>
             <p className="text-sm font-mono text-[#A8A8A8] max-w-xl mx-auto">
@@ -309,7 +272,7 @@ export default function HomePage() {
                 href={settings.zaloUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-[#050505] font-bold text-xs sm:text-sm tracking-wide uppercase hover:bg-[#E6E6E6] transition-all transform hover:-translate-y-0.5 shadow-xl"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-[#050505] font-bold text-xs sm:text-sm tracking-wide uppercase hover:bg-[#E6E6E6] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-[0.97] shadow-xl"
               >
                 <Send className="w-4 h-4" />
                 <span>Zalo Official</span>
@@ -321,7 +284,7 @@ export default function HomePage() {
                 href={settings.facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white/[0.04] border border-white/18 text-white font-bold text-xs sm:text-sm tracking-wide uppercase hover:bg-white/10 hover:border-white/35 transition-all"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white/[0.04] border border-white/18 text-white font-bold text-xs sm:text-sm tracking-wide uppercase hover:bg-white/10 hover:border-white/35 transition-all duration-300 active:scale-[0.97]"
               >
                 <Send className="w-4 h-4" />
                 <span>Facebook Messenger</span>
@@ -338,7 +301,7 @@ export default function HomePage() {
               </a>
             )}
           </div>
-        </div>
+        </Reveal>
       </section>
 
     </div>

@@ -10,6 +10,7 @@ interface ImageCropperModalProps {
   onCropComplete: (croppedFile: File) => void;
   onCancel: () => void;
   aspectRatio?: number; // Default 1 for 1:1 square
+  shape?: 'square' | 'circle'; // Default 'square'; 'circle' clips output to a disc (requires aspectRatio 1)
 }
 
 export default function ImageCropperModal({
@@ -19,7 +20,10 @@ export default function ImageCropperModal({
   onCropComplete,
   onCancel,
   aspectRatio = 1,
+  shape = 'square',
 }: ImageCropperModalProps) {
+  const isCircle = shape === 'circle';
+  const isRect = !isCircle && aspectRatio !== 1;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [imageObj, setImageObj] = useState<HTMLImageElement | null>(null);
   const [zoom, setZoom] = useState<number>(1);
@@ -57,6 +61,13 @@ export default function ImageCropperModal({
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
 
+    // Clip to a disc before drawing so everything outside it stays transparent
+    if (isCircle) {
+      ctx.beginPath();
+      ctx.arc(canvas.width / 2, canvas.height / 2, Math.min(canvas.width, canvas.height) / 2, 0, Math.PI * 2);
+      ctx.clip();
+    }
+
     // Center origin for rotation and translation
     ctx.translate(canvas.width / 2 + offset.x, canvas.height / 2 + offset.y);
     ctx.rotate((rotation * Math.PI) / 180);
@@ -69,7 +80,7 @@ export default function ImageCropperModal({
 
     ctx.drawImage(imageObj, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
     ctx.restore();
-  }, [imageObj, zoom, rotation, offset, aspectRatio]);
+  }, [imageObj, zoom, rotation, offset, aspectRatio, isCircle]);
 
   useEffect(() => {
     if (isOpen && imageObj) {
@@ -110,6 +121,13 @@ export default function ImageCropperModal({
     const scaleFactor = exportSize / 400; // ratio vs preview canvas
 
     ctx.save();
+
+    if (isCircle) {
+      ctx.beginPath();
+      ctx.arc(exportCanvas.width / 2, exportCanvas.height / 2, Math.min(exportCanvas.width, exportCanvas.height) / 2, 0, Math.PI * 2);
+      ctx.clip();
+    }
+
     ctx.translate(
       exportCanvas.width / 2 + offset.x * scaleFactor,
       exportCanvas.height / 2 + offset.y * scaleFactor
@@ -151,7 +169,7 @@ export default function ImageCropperModal({
           <div className="flex items-center gap-2 text-[#b6ff2e]">
             <Crop className="w-5 h-5" />
             <h3 className="font-heading text-xl font-bold uppercase text-white">
-              Cắt Ảnh Vuông (1:1 Crop)
+              {isCircle ? 'Cắt Ảnh Tròn (Đĩa)' : isRect ? 'Cắt Ảnh Chữ Nhật (16:9)' : 'Cắt Ảnh Vuông (1:1 Crop)'}
             </h3>
           </div>
           <button
@@ -166,7 +184,9 @@ export default function ImageCropperModal({
         {/* Interactive Crop Viewport Box */}
         <div className="relative flex justify-center items-center bg-[#080808] p-4 rounded-2xl border border-white/10 overflow-hidden select-none">
           <div
-            className="relative cursor-move overflow-hidden rounded-xl border-2 border-[#b6ff2e] shadow-2xl shadow-[#b6ff2e]/20"
+            className={`relative cursor-move overflow-hidden border-2 border-[#b6ff2e] shadow-2xl shadow-[#b6ff2e]/20 ${
+              isCircle ? 'rounded-full' : 'rounded-xl'
+            }`}
             style={{ width: '320px', height: `${320 / aspectRatio}px` }}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
@@ -174,8 +194,9 @@ export default function ImageCropperModal({
             onMouseLeave={handleMouseUp}
           >
             <canvas ref={canvasRef} className="w-full h-full pointer-events-none" />
-            
-            {/* Grid Overlay lines */}
+
+            {/* Grid Overlay lines — rule-of-thirds guide, square crop only */}
+            {!isCircle && (
             <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 pointer-events-none opacity-30">
               <div className="border-r border-b border-white/40" />
               <div className="border-r border-b border-white/40" />
@@ -187,11 +208,16 @@ export default function ImageCropperModal({
               <div className="border-r border-white/40" />
               <div />
             </div>
+            )}
           </div>
         </div>
 
         <p className="text-center text-xs font-mono text-[#a3a3a3]">
-          💡 Kéo ảnh để di chuyển khung hình vuông theo ý muốn
+          {isCircle
+            ? '💡 Kéo ảnh để di chuyển khung hình tròn theo ý muốn'
+            : isRect
+            ? '💡 Kéo ảnh để di chuyển khung hình chữ nhật theo ý muốn'
+            : '💡 Kéo ảnh để di chuyển khung hình vuông theo ý muốn'}
         </p>
 
         {/* Controls: Zoom Slider & Rotate */}
@@ -252,7 +278,7 @@ export default function ImageCropperModal({
             className="px-6 py-2.5 rounded-xl bg-[#b6ff2e] text-black font-bold text-xs uppercase hover:bg-[#9ee61a] transition-all flex items-center gap-2 shadow-lg shadow-[#b6ff2e]/20"
           >
             <Check className="w-4 h-4" />
-            <span>Xác Nhận Crop Ảnh Vuông</span>
+            <span>{isCircle ? 'Xác Nhận Crop Ảnh Tròn' : isRect ? 'Xác Nhận Crop Ảnh Chữ Nhật' : 'Xác Nhận Crop Ảnh Vuông'}</span>
           </button>
         </div>
 

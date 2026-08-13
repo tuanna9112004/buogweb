@@ -17,7 +17,7 @@ export default function Footer({ settings }: FooterProps) {
   const tiktokUrl = settings?.tiktokUrl || '#';
 
   return (
-    <footer className="bg-[#050505] border-t border-white/10 pt-20 pb-12 text-[#a8a8a8]">
+    <footer className="pt-20 pb-12 text-[#a8a8a8]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 pb-16 border-b border-white/10">
           
@@ -34,10 +34,16 @@ export default function Footer({ settings }: FooterProps) {
                 />
               </div>
               <div>
-                <span className="font-heading text-2xl font-bold tracking-widest text-white">
-                  {brandName}
-                </span>
-                <span className="block text-[9px] tracking-widest text-[#737373] uppercase font-mono">
+                <span className="sr-only">{brandName}</span>
+                <Image
+                  src="/buogs-logo-mark.png"
+                  alt=""
+                  width={463}
+                  height={74}
+                  className="h-5 w-auto invert block"
+                  unoptimized
+                />
+                <span className="block text-[9px] tracking-widest text-[#737373] uppercase font-mono mt-1">
                   {tagline}
                 </span>
               </div>
@@ -54,7 +60,7 @@ export default function Footer({ settings }: FooterProps) {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="font-heading text-sm font-bold tracking-wider text-white uppercase">
+            <h4 className="kicker text-white/80">
               Navigation
             </h4>
             <ul className="space-y-2.5 text-xs font-mono">
@@ -88,7 +94,7 @@ export default function Footer({ settings }: FooterProps) {
 
           {/* Connect & Contact */}
           <div className="space-y-4">
-            <h4 className="font-heading text-sm font-bold tracking-wider text-white uppercase">
+            <h4 className="kicker text-white/80">
               Connect
             </h4>
             <ul className="space-y-2.5 text-xs font-mono">
@@ -150,7 +156,7 @@ export default function Footer({ settings }: FooterProps) {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[#737373] gap-4">
           <p>© {new Date().getFullYear()} {brandName}. All rights reserved.</p>
-          <p>Built with Next.js & WaveSurfer.js • Portfolio V1</p>
+          <p>Built with Next.js • Portfolio V1</p>
         </div>
       </div>
     </footer>

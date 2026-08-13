@@ -31,7 +31,7 @@ export function cleanupOrphanMediaFile(mediaUrl: string, excludeCollection?: str
     m => m.audio === mediaUrl || m.cover === mediaUrl
   );
   const isReferencedInProjects = readJSON<Project[]>(FILES.PROJECTS, []).some(
-    p => p.thumbnail === mediaUrl || p.demoAudio === mediaUrl || (p.images && p.images.includes(mediaUrl))
+    p => p.thumbnail === mediaUrl || p.demoAudio === mediaUrl
   );
   const isReferencedInCourses = readJSON<Course[]>(FILES.COURSES, []).some(
     c => c.thumbnail === mediaUrl || (c.images && c.images.includes(mediaUrl))
@@ -206,7 +206,6 @@ export async function saveProject(item: Partial<Project> & { id?: string }): Pro
       slug: item.slug || `project-${Date.now()}`,
       title: item.title || '',
       thumbnail: item.thumbnail || '',
-      images: item.images || [],
       demoAudio: item.demoAudio || '',
       tags: item.tags || [],
       bpm: item.bpm ?? null,
@@ -236,7 +235,6 @@ export async function deleteProject(id: string): Promise<boolean> {
 
   if (target.thumbnail) cleanupOrphanMediaFile(target.thumbnail);
   if (target.demoAudio) cleanupOrphanMediaFile(target.demoAudio);
-  if (target.images) target.images.forEach(img => cleanupOrphanMediaFile(img));
 
   return true;
 }
