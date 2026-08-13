@@ -9,7 +9,7 @@ import {
   getEquipmentCategories,
   getSettings,
 } from '@/lib/storage/repository';
-import MusicItemCard from '@/components/public/MusicItemCard';
+import MusicShowcaseCard from '@/components/public/MusicShowcaseCard';
 import FLPProjectCard from '@/components/public/FLPProjectCard';
 import CourseCard from '@/components/public/CourseCard';
 import EquipmentCard from '@/components/public/EquipmentCard';
@@ -34,7 +34,7 @@ export default function HomePage() {
   // Data lists
   const allMusic = getMusicList(true);
   const musicTags = getMusicTags(true);
-  const featuredMusic = allMusic.filter((m) => m.featured).slice(0, 4);
+  const featuredMusic = allMusic.filter((m) => m.featured).slice(0, 3);
 
   const allProjects = getProjects(true);
   const projectTags = getProjectTags(true);
@@ -70,37 +70,35 @@ export default function HomePage() {
 
       {/* FEATURED MUSIC SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <Reveal className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
-          <div className="flex items-start gap-4 sm:gap-6">
-            <span className="index-numeral hidden sm:block text-6xl sm:text-7xl select-none">01</span>
-            <div>
-              <div className="kicker mb-1.5 flex items-center gap-2 text-[#A8A8A8]">
-                <Music className="w-3.5 h-3.5 text-white" />
-                <span>Music Showcase</span>
-              </div>
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
-                BÀI NHẠC NỔI BẬT
-              </h2>
-            </div>
+        <Reveal className="flex flex-col items-center text-center gap-3">
+          <div className="kicker flex items-center justify-center gap-2 text-[#A8A8A8]">
+            <Music className="w-3.5 h-3.5 text-white" />
+            <span>Music Showcase</span>
           </div>
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
+            BÀI NHẠC NỔI BẬT
+          </h2>
 
           <Link
             href="/music"
-            className="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-white hover:text-[#A8A8A8] transition-colors duration-300"
+            className="mt-1 inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-white hover:text-[#A8A8A8] transition-colors duration-300"
           >
             <span>Xem Tất Cả Bài Nhạc</span>
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </Reveal>
 
         {featuredMusic.length > 0 ? (
-          <div className="space-y-3.5">
+          <Reveal delay={0.1} className="grid grid-cols-3 gap-5 sm:gap-10 items-center py-6 sm:py-10">
             {featuredMusic.map((track, i) => (
-              <Reveal key={track.id} delay={Math.min(i * 0.05, 0.2)} distance={16}>
-                <MusicItemCard track={track} allTags={musicTags} />
-              </Reveal>
+              <MusicShowcaseCard
+                key={track.id}
+                track={track}
+                allTags={musicTags}
+                highlight={i === 1}
+              />
             ))}
-          </div>
+          </Reveal>
         ) : (
           <p className="text-sm font-mono text-[#737373] py-8 text-center bg-[#0A0A0A] rounded-2xl border border-white/10">
             Chưa có bài nhạc nổi bật.
