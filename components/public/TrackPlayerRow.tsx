@@ -76,22 +76,22 @@ export default function TrackPlayerRow({ track, barCount = 400 }: TrackPlayerRow
         onClick={handlePlayToggle}
         disabled={showError}
         aria-label={isActive && isPlaying ? 'Pause' : showError ? 'Audio chưa sẵn sàng' : 'Play'}
-        className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none ${
+        className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 ${
           showError
             ? 'bg-transparent text-[#5c5c5c] border border-white/10 cursor-not-allowed'
             : isActive && isPlaying
-            ? 'bg-white text-black'
-            : 'bg-white/[0.06] text-white border border-white/15 hover:border-white/40'
+            ? 'bg-[#EDEAE2] text-[#121212]'
+            : 'bg-white/[0.05] text-white/90 border border-white/[0.12] group-hover:border-white/30 hover:border-white/40'
         }`}
       >
         {showLoading ? (
-          <Loader2 className="w-4 h-4 animate-spin" />
+          <Loader2 className="w-3.5 h-3.5 animate-spin" />
         ) : showError ? (
-          <Clock className="w-4 h-4" />
+          <Clock className="w-3.5 h-3.5" />
         ) : isActive && isPlaying ? (
-          <Pause className="w-3.5 h-3.5 fill-current" />
+          <Pause className="w-3 h-3 fill-current" />
         ) : (
-          <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
+          <Play className="w-3 h-3 fill-current ml-0.5" />
         )}
       </button>
 
@@ -110,7 +110,7 @@ export default function TrackPlayerRow({ track, barCount = 400 }: TrackPlayerRow
             {bars.map((barHeight, i) => (
               <span
                 key={i}
-                className={`flex-1 min-w-[0.5px] transition-colors duration-150 ${
+                className={`flex-1 min-w-0 transition-colors duration-150 ${
                   i < playedBars ? 'bg-white' : 'bg-white/25'
                 }`}
                 style={{ height: `${barHeight}%` }}
@@ -121,7 +121,7 @@ export default function TrackPlayerRow({ track, barCount = 400 }: TrackPlayerRow
       </div>
 
       {!showError && (
-        <span className="flex-shrink-0 text-[11px] font-mono text-[#737373] tabular-nums">
+        <span className="flex-shrink-0 text-[10px] font-mono text-[#5c5c5c] tabular-nums tracking-wide">
           {isActive ? formatTime(currentTime) : '0:00'} / {duration > 0 ? formatTime(duration) : '--:--'}
         </span>
       )}

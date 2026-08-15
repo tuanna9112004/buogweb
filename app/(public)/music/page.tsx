@@ -41,35 +41,39 @@ export default function MusicPage() {
     : musicList;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16 space-y-12">
+    <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16 space-y-14">
+      {/* Subtle radial depth behind the heading — barely-there, editorial not flashy */}
+      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[380px] w-[90vw] max-w-[720px] -translate-x-1/2 -translate-y-1/4 rounded-full bg-white/[0.035] blur-[130px]" />
+
       {/* Header Banner */}
-      <div className="space-y-3">
-        <div className="kicker flex items-center gap-2 text-[#A8A8A8]">
-          <Music2 className="w-3.5 h-3.5 text-white" />
+      <div className="space-y-4 max-w-2xl">
+        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.32em] text-[#8a8a8a]">
+          <Music2 className="w-3 h-3 text-white/70" />
           <span>Portfolio Music Tracks</span>
         </div>
-        <h1 className="font-heading text-4xl sm:text-5xl font-bold text-white">
+        <h1 className="font-heading text-4xl sm:text-5xl lg:text-[3.25rem] font-bold text-white leading-[1.05] tracking-tight">
           Music &amp; Remix Catalog
         </h1>
-        <p className="text-sm text-[#A8A8A8] max-w-2xl leading-relaxed">
+        <p className="text-sm sm:text-[15px] text-[#B0B0B0] leading-relaxed max-w-xl">
           Nghe trực tiếp các sản phẩm âm nhạc, bản Remix, House Lak, Vinahouse độc bản của BUOGS.
         </p>
       </div>
 
-      {/* Filter Bar */}
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="flex items-center gap-1.5 text-[11px] font-mono text-[#5c5c5c] uppercase tracking-wide pr-1">
-          <Filter className="w-3.5 h-3.5" />
+      {/* Filter Bar — luxury pill system */}
+      <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 overflow-x-auto pb-1 -mx-1 px-1 sm:mx-0 sm:px-0">
+        <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#5c5c5c] uppercase tracking-[0.15em] pr-1 flex-shrink-0">
+          <Filter className="w-3 h-3" />
         </div>
 
         <button
           onClick={() => setSelectedTag(null)}
-          className={`text-[11px] px-3.5 py-1.5 rounded-full font-mono uppercase tracking-wide transition-colors duration-200 ${selectedTag === null
-              ? 'bg-white text-black font-bold'
-              : 'bg-white/[0.04] text-[#8a8a8a] hover:text-white border border-white/10 hover:border-white/25'
-            }`}
+          className={`flex-shrink-0 text-[10.5px] px-3.5 py-[7px] rounded-full font-mono uppercase tracking-[0.06em] border transition-all duration-200 ${
+            selectedTag === null
+              ? 'bg-[#EDEAE2] border-[#EDEAE2] text-[#121212] font-semibold shadow-[0_4px_16px_rgba(0,0,0,0.3)]'
+              : 'bg-white/[0.03] border-white/[0.08] text-[#8f8f8f] hover:text-[#dcdcdc] hover:border-white/20'
+          }`}
         >
-          Tất cả ({musicList.length})
+          Tất cả <span className="opacity-60">({musicList.length})</span>
         </button>
 
         {tags.map((tag) => {
@@ -79,12 +83,13 @@ export default function MusicPage() {
             <button
               key={tag.id}
               onClick={() => setSelectedTag(isSelected ? null : tag.id)}
-              className={`text-[11px] px-3.5 py-1.5 rounded-full font-mono uppercase tracking-wide transition-colors duration-200 ${isSelected
-                  ? 'bg-white text-black font-bold'
-                  : 'bg-white/[0.04] text-[#8a8a8a] hover:text-white border border-white/10 hover:border-white/25'
-                }`}
+              className={`flex-shrink-0 text-[10.5px] px-3.5 py-[7px] rounded-full font-mono uppercase tracking-[0.06em] border transition-all duration-200 ${
+                isSelected
+                  ? 'bg-[#EDEAE2] border-[#EDEAE2] text-[#121212] font-semibold shadow-[0_4px_16px_rgba(0,0,0,0.3)]'
+                  : 'bg-white/[0.03] border-white/[0.08] text-[#8f8f8f] hover:text-[#dcdcdc] hover:border-white/20'
+              }`}
             >
-              #{tag.name} ({count})
+              #{tag.name} <span className="opacity-60">({count})</span>
             </button>
           );
         })}
@@ -97,7 +102,7 @@ export default function MusicPage() {
           <span className="text-sm font-mono text-[#737373]">Đang tải danh sách nhạc...</span>
         </div>
       ) : filteredMusic.length > 0 ? (
-        <div className="space-y-3.5 pt-2">
+        <div className="space-y-4 pt-2">
           {filteredMusic.map((track, i) => (
             <Reveal key={track.id} delay={Math.min(i * 0.05, 0.3)} distance={16}>
               <MusicItemCard
@@ -110,7 +115,7 @@ export default function MusicPage() {
           ))}
         </div>
       ) : (
-        <div className="py-16 text-center bg-[#0A0A0A] rounded-2xl border border-white/10 space-y-2">
+        <div className="py-16 text-center bg-[#0D0D0D] rounded-[20px] border border-white/[0.06] space-y-2">
           <p className="text-base font-semibold text-white">Chưa có bài nhạc nào trong danh mục này</p>
           <p className="text-xs font-mono text-[#737373]">Vui lòng thử chọn tag khác hoặc quay lại sau.</p>
         </div>

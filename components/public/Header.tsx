@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { SiteSettings } from '@/types';
+import { useContactModal } from './ContactModalContext';
 
 interface HeaderProps {
   settings?: SiteSettings;
@@ -13,6 +14,7 @@ interface HeaderProps {
 
 export default function Header({ settings }: HeaderProps) {
   const pathname = usePathname();
+  const { openContact } = useContactModal();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -35,7 +37,6 @@ export default function Header({ settings }: HeaderProps) {
 
   const brand = settings?.brandName || 'BUOGS';
   const tagline = settings?.tagline || 'DJ / PRODUCER';
-  const contactUrl = settings?.zaloUrl || '#contact';
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full pointer-events-none flex justify-center">
@@ -46,11 +47,11 @@ export default function Header({ settings }: HeaderProps) {
         }}
         className={`pointer-events-auto transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           scrolled
-            ? 'w-[90vw] sm:w-[88vw] max-w-5xl rounded-full bg-[#080808]/88 border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.45)] mt-3 sm:mt-4 py-2.5 px-5 sm:px-7'
-            : 'w-[94vw] sm:w-[92vw] max-w-[1240px] rounded-[24px] bg-[#080808]/62 border border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.22)] mt-4 sm:mt-6 py-3.5 px-6 sm:px-8'
+            ? 'w-[90vw] sm:w-[88vw] max-w-5xl rounded-full bg-[#080808]/88 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.45)] mt-3 sm:mt-4 h-[60px] sm:h-[68px] px-5 sm:px-6'
+            : 'w-[94vw] sm:w-[92vw] max-w-[1240px] rounded-[22px] bg-[#080808]/55 border border-white/[0.06] shadow-[0_12px_40px_rgba(0,0,0,0.22)] mt-4 sm:mt-6 h-[60px] sm:h-[68px] px-5 sm:px-6'
         }`}
       >
-        <div className="w-full flex items-center justify-between">
+        <div className="w-full h-full flex items-center justify-between">
           
           {/* 1. Left (Brand / Logo) */}
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
@@ -84,7 +85,7 @@ export default function Header({ settings }: HeaderProps) {
           </Link>
 
           {/* 2. Center (Navigation Links with generous 28px-36px spacing) */}
-          <nav className="hidden md:flex items-center gap-7 lg:gap-9">
+          <nav className="hidden md:flex items-center gap-[38px]">
             {navLinks.map((link) => {
               const isActive =
                 link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
@@ -92,15 +93,15 @@ export default function Header({ settings }: HeaderProps) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-[11px] sm:text-xs font-mono tracking-[0.1em] uppercase transition-colors duration-200 relative py-1 ${
+                  className={`text-[12px] font-mono font-semibold tracking-[1.3px] uppercase transition-colors duration-200 relative py-1 ${
                     isActive
-                      ? 'text-white font-semibold'
-                      : 'text-white/50 hover:text-white/85'
+                      ? 'text-white'
+                      : 'text-white/60 hover:text-white/85'
                   }`}
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-[2px] bg-white rounded-full transition-all duration-200" />
+                    <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-5 h-[2px] bg-white rounded-full transition-all duration-200" />
                   )}
                 </Link>
               );
@@ -109,15 +110,14 @@ export default function Header({ settings }: HeaderProps) {
 
           {/* 3. Right (Contact Pill Button & Mobile Toggle) */}
           <div className="flex items-center gap-3 flex-shrink-0">
-            <a
-              href={contactUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 h-[38px] sm:h-[40px] px-5 sm:px-6 rounded-full bg-white text-[#080808] font-mono font-bold text-[11px] tracking-wider uppercase transition-all duration-200 hover:-translate-y-[1px] hover:bg-[#EDEDED] shadow-md"
+            <button
+              type="button"
+              onClick={openContact}
+              className="hidden sm:inline-flex items-center justify-center gap-1.5 w-[112px] h-[38px] rounded-full bg-[#EDEAE2] text-[#0d0d0d] font-mono font-semibold text-[11px] tracking-wider uppercase transition-all duration-200 hover:-translate-y-[1px] hover:bg-white shadow-sm"
             >
               <span>CONTACT</span>
               <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
-            </a>
+            </button>
 
             <button
               type="button"
@@ -159,16 +159,17 @@ export default function Header({ settings }: HeaderProps) {
               );
             })}
 
-            <a
-              href={contactUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMobileOpen(false)}
-              className="inline-flex items-center justify-center gap-1.5 text-center w-full mt-3 h-[40px] rounded-full bg-white text-[#080808] font-mono font-bold text-[11px] tracking-wider uppercase shadow-md"
+            <button
+              type="button"
+              onClick={() => {
+                setMobileOpen(false);
+                openContact();
+              }}
+              className="inline-flex items-center justify-center gap-1.5 text-center w-full mt-3 h-[40px] rounded-full bg-[#EDEAE2] text-[#0d0d0d] font-mono font-semibold text-[11px] tracking-wider uppercase shadow-md"
             >
               <span>CONTACT BOOKING</span>
               <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
-            </a>
+            </button>
           </div>
         </div>
       </div>
