@@ -19,7 +19,7 @@ export default function ImageGallery({ thumbnail, images = [], altTitle }: Image
   return (
     <div className="space-y-4">
       {/* Main Image Display */}
-      <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-[#080808] border border-white/10 shadow-2xl">
+      <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-[#080808] border border-white/10 shadow-2xl">
         <Image
           src={selectedImage}
           alt={altTitle}

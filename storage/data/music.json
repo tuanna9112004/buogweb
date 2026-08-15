@@ -1,10 +1,24 @@
 [
   {
+    "id": "music-msu91f0l-dg8t",
+    "title": "khuôn mặt đáng thương",
+    "artists": "Sơn Tùng",
+    "audio": "/media/music/audio/308efcd0-500c-4099-8995-b88b64cc31c8.mp3",
+    "cover": "/media/music/covers/194b5be8-9da8-4bb8-95fe-cb72c2acb1c8.webp",
+    "tags": [],
+    "publishDate": "2026-08-15",
+    "featured": true,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-15T10:44:43.461Z",
+    "updatedAt": "2026-08-15T10:48:54.960Z"
+  },
+  {
     "id": "music-mspv43tc-juqh",
     "title": "em của ngày hôm qua",
-    "artists": "BUOGS",
+    "artists": "Sơn Tùng",
     "audio": "/media/music/audio/2e17eaa8-be3b-43bf-8c8f-e5b1195501d1.mp3",
-    "cover": "/media/music/covers/fee8f120-8d14-4bf3-8d18-e8472f3adbb5.webp",
+    "cover": "/media/music/covers/2e3a252d-42b3-4bb3-8985-bb04d10c1fae.webp",
     "tags": [
       "vinahouse"
     ],
@@ -13,55 +27,6 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-12T09:03:49.502Z",
-    "updatedAt": "2026-08-12T12:10:51.480Z"
-  },
-  {
-    "id": "music-001",
-    "title": "Gió Lớn Đang Thổi Tuyết Đang Rơi",
-    "artists": "BUOGS x REVIX",
-    "audio": "/media/music/audio/gio-lon.mp3",
-    "cover": "/media/music/covers/gio-lon.webp",
-    "tags": [
-      "vinahouse"
-    ],
-    "publishDate": "2026-08-12",
-    "featured": true,
-    "published": true,
-    "sortOrder": 1,
-    "createdAt": "2026-08-12T08:00:00+07:00",
-    "updatedAt": "2026-08-12T08:00:00+07:00"
-  },
-  {
-    "id": "music-002",
-    "title": "Phố Hoa Đèn Vinahouse Remix",
-    "artists": "BUOGS",
-    "audio": "/media/music/audio/pho-hoa-den.mp3",
-    "cover": "/media/music/covers/pho-hoa-den.webp",
-    "tags": [
-      "vinahouse",
-      "remix"
-    ],
-    "publishDate": "2026-08-10",
-    "featured": true,
-    "published": true,
-    "sortOrder": 2,
-    "createdAt": "2026-08-10T08:00:00+07:00",
-    "updatedAt": "2026-08-10T08:00:00+07:00"
-  },
-  {
-    "id": "music-003",
-    "title": "Lối Về Đêm Lak House Edit",
-    "artists": "BUOGS ft. DJ LAK",
-    "audio": "/media/music/audio/loi-ve-dem.mp3",
-    "cover": "/media/music/covers/loi-ve-dem.webp",
-    "tags": [
-      "house-lak"
-    ],
-    "publishDate": "2026-08-05",
-    "featured": false,
-    "published": true,
-    "sortOrder": 3,
-    "createdAt": "2026-08-05T08:00:00+07:00",
-    "updatedAt": "2026-08-05T08:00:00+07:00"
+    "updatedAt": "2026-08-15T10:49:00.028Z"
   }
 ]

@@ -4,10 +4,11 @@
     "slug": "pioneer-xdj-rx3",
     "title": "Pioneer XDJ-RX3 All-In-One",
     "category": "dj-player",
-    "thumbnail": "/media/equipment/images/rx3-cover.webp",
+    "thumbnail": "/media/equipment/images/8d52d7fc-d474-481f-9b74-c3645758d693.webp",
     "images": [
-      "/media/equipment/images/rx3-01.webp",
-      "/media/equipment/images/rx3-02.webp"
+      "/media/equipment/images/95c4a625-1dff-47e4-9045-4f1032f5b961.webp",
+      "/media/equipment/images/2b9baaef-dc10-4d9d-9549-f3abc7bd2dd7.webp",
+      "/media/equipment/images/e75bf79a-2e31-4a5d-a782-ff85800bc75f.webp"
     ],
     "price": null,
     "priceText": "Liên hệ",
@@ -15,23 +16,40 @@
     "content": "## Thông Tin Sản Phẩm\n\n- Tình trạng: Mới 99% nguyên bản, đầy đủ hộp phụ kiện.\n- Màn hình 10.1 inch mượt mà như CDJ-3000.\n- Phụ kiện đi kèm: Dây nguồn, cáp USB, túi chống xốc cao cấp.\n- Bảo hành 12 tháng tại studio.",
     "featured": true,
     "published": true,
-    "sortOrder": 1
+    "sortOrder": 1,
+    "updatedAt": "2026-08-15T10:28:41.534Z"
+  },
+  {
+    "id": "equipment-msu7tu9j-3852",
+    "slug": "may-nghe-nhac",
+    "title": "máy nghe nhạc",
+    "category": "dj-player",
+    "thumbnail": "/media/equipment/images/3e3ec862-2030-43b8-8ef5-e0d51964c1b2.webp",
+    "images": [],
+    "price": null,
+    "priceText": "Liên hệ",
+    "shortDescription": "sản phẩm mới",
+    "content": "## Thông Tin Sản Phẩm\n\nNội dung chi tiết...",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-15T10:10:50.359Z",
+    "updatedAt": "2026-08-15T10:10:50.359Z"
   },
   {
     "id": "equipment-002",
     "slug": "pioneer-ddj-flx6",
     "title": "Pioneer DDJ-FLX6-GT",
     "category": "controller",
-    "thumbnail": "/media/equipment/images/flx6-cover.webp",
-    "images": [
-      "/media/equipment/images/flx6-01.webp"
-    ],
+    "thumbnail": "/media/equipment/images/ff51aa77-faa1-4afb-bf5c-6fb356441b73.webp",
+    "images": [],
     "price": 18500000,
     "priceText": "18.500.000đ",
     "shortDescription": "Bàn Controller 4 kênh dành cho Rekordbox & Serato DJ Pro.",
     "content": "## Thông Tin Sản Phẩm\n\nController 4 kênh thiết kế màu mờ sang trọng, jogwheel kích thước chuẩn CDJ.",
     "featured": true,
     "published": true,
-    "sortOrder": 2
+    "sortOrder": 2,
+    "updatedAt": "2026-08-15T10:22:33.118Z"
   }
 ]

@@ -465,19 +465,29 @@ export async function deleteEquipmentCategory(id: string): Promise<{ success: bo
 // ----------------------------------------------------
 // SITE SETTINGS REPOSITORY
 // ----------------------------------------------------
+const SETTINGS_DEFAULTS: SiteSettings = {
+  brandName: 'BUOGS',
+  tagline: 'DJ / PRODUCER',
+  genresText: 'VINAHOUSE · HOUSE LAK · VINATRANCE',
+  about: 'Nội dung giới thiệu BUOGS',
+  phone: '',
+  zaloUrl: '',
+  facebookUrl: '',
+  tiktokUrl: '',
+  address: '',
+  contactHeading: 'BOOKING / MUSIC / PROJECT / COURSE / EQUIPMENT',
+  featuredMusicCount: 3,
+  featuredProjectsCount: 3,
+  featuredCoursesCount: 3,
+  featuredEquipmentCount: 4,
+};
+
 export function getSettings(): SiteSettings {
-  return readJSON<SiteSettings>(FILES.SETTINGS, {
-    brandName: 'BUOGS',
-    tagline: 'DJ / PRODUCER',
-    genresText: 'VINAHOUSE · HOUSE LAK · VINATRANCE',
-    about: 'Nội dung giới thiệu BUOGS',
-    phone: '',
-    zaloUrl: '',
-    facebookUrl: '',
-    tiktokUrl: '',
-    address: '',
-    contactHeading: 'BOOKING / MUSIC / PROJECT / COURSE / EQUIPMENT'
-  });
+  // Shallow-merge over defaults so settings.json files saved before a field
+  // existed (e.g. the featured-count fields) still resolve to a valid number
+  // instead of undefined.
+  const stored = readJSON<Partial<SiteSettings>>(FILES.SETTINGS, {});
+  return { ...SETTINGS_DEFAULTS, ...stored };
 }
 
 export async function updateSettings(data: Partial<SiteSettings>): Promise<SiteSettings> {

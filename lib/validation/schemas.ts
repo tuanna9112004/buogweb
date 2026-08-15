@@ -89,6 +89,10 @@ export const SiteSettingsSchema = z.object({
   tiktokUrl: z.string().default(''),
   address: z.string().default(''),
   contactHeading: z.string().default(''),
+  featuredMusicCount: z.number().int().min(1, 'Tối thiểu 1').max(3, 'Tối đa 3 (giao diện showcase chỉ hỗ trợ 3 ô)').default(3),
+  featuredProjectsCount: z.number().int().min(1, 'Tối thiểu 1').max(12, 'Tối đa 12').default(3),
+  featuredCoursesCount: z.number().int().min(1, 'Tối thiểu 1').max(12, 'Tối đa 12').default(3),
+  featuredEquipmentCount: z.number().int().min(1, 'Tối thiểu 1').max(12, 'Tối đa 12').default(4),
 });
 
 export const LoginSchema = z.object({

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { EquipmentCategory } from '@/types';
 import ConfirmModal from '@/components/admin/ConfirmModal';
 import { Plus, Edit, Trash2, Loader2, X } from 'lucide-react';
@@ -19,6 +20,7 @@ export default function AdminEquipmentCategoriesPage() {
   const [published, setPublished] = useState(true);
 
   const [deleteTarget, setDeleteTarget] = useState<EquipmentCategory | null>(null);
+  const [showSaveConfirm, setShowSaveConfirm] = useState(false);
 
   const fetchCategories = async () => {
     try {
@@ -53,7 +55,7 @@ export default function AdminEquipmentCategoriesPage() {
     setIsModalOpen(true);
   };
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
@@ -62,6 +64,12 @@ export default function AdminEquipmentCategoriesPage() {
       setError('ID và Tên danh mục không được để trống');
       return;
     }
+
+    setShowSaveConfirm(true);
+  };
+
+  const handleSave = async () => {
+    const finalId = catId.toLowerCase().trim().replace(/[^a-z0-9-]/g, '-');
 
     try {
       const payload = {
@@ -84,9 +92,11 @@ export default function AdminEquipmentCategoriesPage() {
       if (!res.ok) throw new Error(data.error || 'Lỗi khi lưu danh mục');
 
       setIsModalOpen(false);
+      setShowSaveConfirm(false);
       fetchCategories();
     } catch (err: any) {
       setError(err.message);
+      throw err;
     }
   };
 
@@ -186,9 +196,23 @@ export default function AdminEquipmentCategoriesPage() {
       )}
 
       {/* Add/Edit Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#111111] border border-white/10 rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl">
+      <AnimatePresence>
+        {isModalOpen && (
+        <motion.div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.18 }}
+          onClick={(e) => e.target === e.currentTarget && setIsModalOpen(false)}
+        >
+          <motion.div
+            className="bg-[#111111] border border-white/10 rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl"
+            initial={{ opacity: 0, scale: 0.94, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 4 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          >
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-heading text-xl font-bold uppercase text-white">
                 {editingCat ? 'Chỉnh Sửa Danh Mục' : 'Thêm Danh Mục Thiết Bị Mới'}
@@ -204,7 +228,7 @@ export default function AdminEquipmentCategoriesPage() {
               </div>
             )}
 
-            <form onSubmit={handleSave} className="space-y-4">
+            <form onSubmit={handleFormSubmit} className="space-y-4">
               <div className="space-y-2">
                 <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
                   ID Danh Mục (Slug) *
@@ -260,21 +284,22 @@ export default function AdminEquipmentCategoriesPage() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2.5 rounded-xl bg-[#161616] text-white text-xs uppercase"
+                  className="px-4 py-2.5 rounded-xl bg-[#161616] text-white text-xs uppercase hover:bg-white/10 active:scale-[0.96] transition-all duration-150"
                 >
                   Hủy Bỏ
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-[#b6ff2e] text-black font-bold text-xs uppercase hover:bg-[#9ee61a]"
+                  className="px-5 py-2.5 rounded-xl bg-[#b6ff2e] text-black font-bold text-xs uppercase hover:bg-[#9ee61a] active:scale-[0.96] transition-all duration-150"
                 >
                   Lưu Danh Mục
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Confirm Delete Modal */}
       <ConfirmModal
@@ -283,6 +308,22 @@ export default function AdminEquipmentCategoriesPage() {
         itemName={deleteTarget?.name || ''}
         onConfirm={handleDeleteConfirm}
         onCancel={() => setDeleteTarget(null)}
+      />
+
+      {/* Confirm Save Modal */}
+      <ConfirmModal
+        isOpen={showSaveConfirm}
+        title={editingCat ? 'Xác Nhận Cập Nhật Danh Mục' : 'Xác Nhận Thêm Danh Mục'}
+        itemName={catName}
+        variant="default"
+        confirmLabel={editingCat ? 'Xác Nhận Cập Nhật' : 'Xác Nhận Thêm'}
+        message={
+          editingCat
+            ? `Lưu thay đổi cho danh mục "${catName}"?`
+            : `Thêm danh mục thiết bị mới "${catName}"?`
+        }
+        onConfirm={handleSave}
+        onCancel={() => setShowSaveConfirm(false)}
       />
     </div>
   );

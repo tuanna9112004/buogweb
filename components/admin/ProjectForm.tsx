@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Project, ProjectTag } from '@/types';
+import { Project, ProjectTag, SiteSettings } from '@/types';
 import ImageCropperModal from './ImageCropperModal';
+import FeaturedSwapModal from './FeaturedSwapModal';
+import ConfirmModal from './ConfirmModal';
 import { Upload, Headphones, Image as ImageIcon, Loader2, Save, ArrowLeft, Plus, Crop } from 'lucide-react';
 
 interface ProjectFormProps {
@@ -35,6 +37,12 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Homepage featured-slot guard — see MusicForm for the same pattern.
+  const [featuredLimit, setFeaturedLimit] = useState(3);
+  const [otherFeatured, setOtherFeatured] = useState<Project[]>([]);
+  const [showSwapModal, setShowSwapModal] = useState(false);
+  const [swapping, setSwapping] = useState(false);
+
   // Image Cropper States
   const [rawImageSrc, setRawImageSrc] = useState<string | null>(null);
   const [isCropperOpen, setIsCropperOpen] = useState(false);
@@ -45,7 +53,53 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
       .then((res) => res.json())
       .then((data) => setAllTags(data))
       .catch(console.error);
-  }, []);
+
+    Promise.all([
+      fetch('/api/admin/settings').then((res) => res.json()),
+      fetch('/api/admin/projects').then((res) => res.json()),
+    ])
+      .then(([settings, list]: [SiteSettings, Project[]]) => {
+        setFeaturedLimit(settings.featuredProjectsCount ?? 3);
+        setOtherFeatured(list.filter((p) => p.featured && p.id !== initialData?.id));
+      })
+      .catch(console.error);
+  }, [initialData?.id]);
+
+  const handleFeaturedChange = (checked: boolean) => {
+    if (!checked) {
+      setFeatured(false);
+      return;
+    }
+    if (otherFeatured.length < featuredLimit) {
+      setFeatured(true);
+      return;
+    }
+    setShowSwapModal(true);
+  };
+
+  const handleSwapConfirm = async (idToReplace: string) => {
+    const target = otherFeatured.find((p) => p.id === idToReplace);
+    if (!target) return;
+    setSwapping(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/projects/${idToReplace}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...target, featured: false }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Không thể bỏ nổi bật mục đã chọn');
+
+      setOtherFeatured((prev) => prev.filter((p) => p.id !== idToReplace));
+      setFeatured(true);
+      setShowSwapModal(false);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setSwapping(false);
+    }
+  };
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
@@ -116,7 +170,9 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [showSaveConfirm, setShowSaveConfirm] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
@@ -125,6 +181,10 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
       return;
     }
 
+    setShowSaveConfirm(true);
+  };
+
+  const performSave = async () => {
     setSubmitting(true);
 
     try {
@@ -160,6 +220,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
       router.refresh();
     } catch (err: any) {
       setError(err.message);
+      throw err;
     } finally {
       setSubmitting(false);
     }
@@ -363,7 +424,7 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
             <input
               type="checkbox"
               checked={featured}
-              onChange={(e) => setFeatured(e.target.checked)}
+              onChange={(e) => handleFeaturedChange(e.target.checked)}
               className="w-4 h-4 accent-[#b6ff2e] rounded"
             />
             <span>Featured Home</span>
@@ -399,9 +460,39 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
         isOpen={isCropperOpen}
         imageSrc={rawImageSrc}
         fileName={pendingFileName}
-        aspectRatio={16 / 9}
+        aspectRatio={4 / 3}
         onCropComplete={handleCroppedImageUpload}
         onCancel={() => setIsCropperOpen(false)}
+      />
+
+      {/* Featured Home slot swap picker */}
+      <FeaturedSwapModal
+        isOpen={showSwapModal}
+        typeLabel="project"
+        limit={featuredLimit}
+        items={otherFeatured.map((p) => ({ id: p.id, title: p.title }))}
+        loading={swapping}
+        onConfirm={handleSwapConfirm}
+        onCancel={() => setShowSwapModal(false)}
+      />
+
+      {/* Save/Update confirmation */}
+      <ConfirmModal
+        isOpen={showSaveConfirm}
+        title={isEdit ? 'Xác Nhận Cập Nhật' : 'Xác Nhận Lưu Project'}
+        itemName={title}
+        variant="default"
+        confirmLabel={isEdit ? 'Xác Nhận Cập Nhật' : 'Xác Nhận Lưu'}
+        message={
+          isEdit
+            ? `Lưu thay đổi cho project "${title}"?`
+            : `Thêm project mới "${title}" vào hệ thống?`
+        }
+        onConfirm={async () => {
+          await performSave();
+          setShowSaveConfirm(false);
+        }}
+        onCancel={() => setShowSaveConfirm(false)}
       />
     </form>
   );

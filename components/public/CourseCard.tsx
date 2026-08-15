@@ -11,51 +11,49 @@ export default function CourseCard({ course }: CourseCardProps) {
   const thumbnail = course.thumbnail || '/media/courses/images/dj-full-cover.webp';
 
   return (
-    <div className="bg-[#101010] border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 ease-out hover:border-white/25 hover:-translate-y-1.5 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)] shadow-2xl group">
-      <div>
-        {/* Cover Thumbnail */}
-        <div className="relative aspect-video w-full bg-[#050505] overflow-hidden border-b border-white/10">
-          <Image
-            src={thumbnail}
-            alt={course.title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            unoptimized
-          />
-          <div className="absolute top-3 left-3 bg-[#050505]/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/15 text-xs font-mono text-white flex items-center gap-1.5">
-            <GraduationCap className="w-3.5 h-3.5 text-white/70" />
-            <span>Khóa học</span>
-          </div>
-        </div>
-
-        {/* Info Content */}
-        <div className="p-6 space-y-3">
-          <h3 className="font-heading text-xl font-semibold text-white transition-colors line-clamp-2">
-            {course.title}
-          </h3>
-          <p className="text-sm text-[#A8A8A8] line-clamp-2 leading-relaxed">
-            {course.shortDescription}
-          </p>
+    <div className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-white/[0.07] bg-[#101010] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-white/20 hover:bg-[#131313]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#050505]">
+        <Image
+          src={thumbnail}
+          alt={course.title}
+          fill
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          unoptimized
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-white backdrop-blur-md">
+          <GraduationCap className="h-3.5 w-3.5 text-white/70" />
+          <span>Khóa Học</span>
         </div>
       </div>
 
-      {/* Footer Price & CTA */}
-      <div className="p-6 pt-0 border-t border-white/10 mt-4 flex items-center justify-between">
-        <div>
-          <span className="text-[11px] text-[#737373] block font-mono uppercase">Học phí</span>
-          <span className="text-lg font-bold text-white font-mono">
-            {course.priceText || 'Liên hệ'}
-          </span>
-        </div>
+      <div className="flex flex-1 flex-col gap-3 p-5 sm:p-6">
+        <h3 className="font-heading text-lg sm:text-xl font-semibold text-white leading-snug line-clamp-2">
+          {course.title}
+        </h3>
+        <p className="text-sm text-[#8A8A8A] leading-relaxed line-clamp-2">
+          {course.shortDescription}
+        </p>
 
-        <Link
-          href={`/courses/${course.slug}`}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white text-[#050505] border border-white text-xs font-bold uppercase tracking-wider hover:bg-[#E6E6E6] transition-all duration-300 active:scale-[0.97]"
-        >
-          <span>Xem chi tiết</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        <div className="mt-auto flex items-center justify-between border-t border-white/[0.07] pt-4">
+          <div>
+            <span className="block font-mono text-[10px] uppercase tracking-wide text-[#6B6B6B]">
+              Học Phí
+            </span>
+            <span className="font-mono text-base font-bold text-white">
+              {course.priceText || 'Liên hệ'}
+            </span>
+          </div>
+
+          <Link
+            href={`/courses/${course.slug}`}
+            className="group/cta inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-white transition-colors duration-200 hover:text-[#B8B8B8]"
+          >
+            <span>Xem chi tiết</span>
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/cta:translate-x-1" />
+          </Link>
+        </div>
       </div>
     </div>
   );

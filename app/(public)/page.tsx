@@ -27,18 +27,18 @@ export default function HomePage() {
   // Data lists
   const allMusic = getMusicList(true);
   const musicTags = getMusicTags(true);
-  const featuredMusic = allMusic.filter((m) => m.featured).slice(0, 3);
+  const featuredMusic = allMusic.filter((m) => m.featured).slice(0, settings.featuredMusicCount);
 
   const allProjects = getProjects(true);
   const projectTags = getProjectTags(true);
-  const featuredProjects = allProjects.filter((p) => p.featured).slice(0, 3);
+  const featuredProjects = allProjects.filter((p) => p.featured).slice(0, settings.featuredProjectsCount);
 
   const allCourses = getCourses(true);
-  const featuredCourses = allCourses.filter((c) => c.featured).slice(0, 3);
+  const featuredCourses = allCourses.filter((c) => c.featured).slice(0, settings.featuredCoursesCount);
 
   const allEquipment = getEquipment(true);
   const equipmentCategories = getEquipmentCategories(true);
-  const featuredEquipment = allEquipment.filter((e) => e.featured).slice(0, 4);
+  const featuredEquipment = allEquipment.filter((e) => e.featured).slice(0, settings.featuredEquipmentCount);
 
   return (
     <div className="space-y-20 sm:space-y-28 lg:space-y-36 pb-24">
@@ -158,7 +158,7 @@ export default function HomePage() {
       </div>
 
       {/* FEATURED MUSIC SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
+      <section className="section-music max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
         <Reveal className="flex flex-col items-center text-center gap-3">
           <div className="kicker flex items-center justify-center gap-2 text-[#A8A8A8]">
             <Music className="w-3.5 h-3.5 text-white" />
@@ -196,7 +196,7 @@ export default function HomePage() {
       </section>
 
       {/* FEATURED FLP PROJECTS SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
+      <section className="section-projects max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
         <Reveal>
           <SectionHeading
             number="02"
@@ -222,7 +222,7 @@ export default function HomePage() {
       </section>
 
       {/* COURSES SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
+      <section className="section-courses max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
         <Reveal>
           <SectionHeading
             number="03"
@@ -248,7 +248,7 @@ export default function HomePage() {
       </section>
 
       {/* EQUIPMENT SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
+      <section className="section-equipment max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
         <Reveal>
           <SectionHeading
             number="04"

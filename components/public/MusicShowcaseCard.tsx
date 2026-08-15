@@ -27,9 +27,9 @@ export default function MusicShowcaseCard({ track, allTags = [], highlight = fal
       type="button"
       onClick={() => toggleTrack(track)}
       aria-pressed={isActivePlaying}
-      className={`group relative flex w-full flex-col overflow-hidden rounded-[22px] border bg-[#131118] text-left shadow-[0_20px_45px_rgba(0,0,0,0.5)] transition-all duration-300 ${
+      className={`group relative flex w-full flex-col overflow-hidden rounded-[20px] border bg-[#101010] text-left shadow-[0_20px_45px_rgba(0,0,0,0.45)] transition-all duration-300 ${
         highlight ? 'z-10 sm:scale-[1.1]' : ''
-      } ${isActive ? 'border-white/30' : 'border-white/10 hover:border-white/20'}`}
+      } ${isActive ? 'border-white/25' : 'border-white/[0.07] hover:border-white/20'}`}
     >
       {/* Cover — inset within the card, not stretched to the card's full width */}
       <div className="p-3 sm:p-3.5 pb-0">
@@ -65,7 +65,16 @@ export default function MusicShowcaseCard({ track, allTags = [], highlight = fal
           <h3 className="font-heading text-sm sm:text-base font-semibold text-white leading-snug truncate">
             {track.title}
           </h3>
-          <p className="mt-0.5 truncate text-xs text-[#8A8A8A]">{track.artists}</p>
+          <div className="mt-0.5 flex items-center gap-1.5">
+            <p className="truncate text-xs text-[#8A8A8A]">{track.artists}</p>
+            {isActivePlaying && (
+              <span className="flex items-end gap-[2px] h-2.5 flex-shrink-0" aria-hidden="true">
+                <span className="eq-bar w-[2px] bg-white" style={{ animationDelay: '0ms' }} />
+                <span className="eq-bar w-[2px] bg-white" style={{ animationDelay: '180ms' }} />
+                <span className="eq-bar w-[2px] bg-white" style={{ animationDelay: '340ms' }} />
+              </span>
+            )}
+          </div>
         </div>
         {primaryTag && (
           <span className="mt-0.5 flex-shrink-0 whitespace-nowrap font-mono text-[10px] text-[#6B6B6B]">

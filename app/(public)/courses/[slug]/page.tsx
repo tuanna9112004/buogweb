@@ -37,7 +37,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
 
       {/* Main Details Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        
+
         {/* Left Column: Image Gallery */}
         <div className="lg:col-span-7 space-y-6">
           <ImageGallery
@@ -52,7 +52,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
           <div className="space-y-3">
             <div className="inline-flex items-center gap-1.5 text-xs font-mono text-white bg-[#0A0A0A] px-3 py-1 rounded-full border border-white/10">
               <GraduationCap className="w-4 h-4 text-white/70" />
-              <span>ĐÀO TẠO THỰC CHUYÊN</span>
+              <span>ĐÀO TẠO THỰC CHIẾN</span>
             </div>
 
             <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-white">

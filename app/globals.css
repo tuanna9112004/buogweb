@@ -25,6 +25,7 @@
 
   html {
     overflow-x: hidden;
+    position: relative;
   }
 
   body {
@@ -36,11 +37,12 @@
     min-height: 100vh;
   }
 
-  /* Cinematic ambient backdrop — near-black tonal gradient + three faint studio
+  /* Cinematic ambient backdrop — near-black tonal gradient + two faint studio
      light pools. Fixed to the viewport (not the document) so the room feels
      lit from a constant source while the page scrolls past it. Negative
      z-index inside body's stacking context keeps it behind all real content
-     without requiring z-index changes anywhere else. */
+     without requiring z-index changes anywhere else. Deliberately understated —
+     the base should still read as "almost pure black" at a glance. */
   body::before {
     content: "";
     position: fixed;
@@ -48,10 +50,9 @@
     z-index: -2;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 60% 42% at 16% -8%, rgba(255, 255, 255, 0.05), transparent 62%),
-      radial-gradient(ellipse 48% 38% at 104% 14%, rgba(255, 255, 255, 0.035), transparent 58%),
-      radial-gradient(ellipse 55% 42% at 50% 106%, rgba(255, 255, 255, 0.028), transparent 62%),
-      linear-gradient(180deg, #090909 0%, #050505 38%, #030303 100%);
+      radial-gradient(900px circle at 18% 18%, rgba(255, 255, 255, 0.025) 0%, transparent 65%),
+      radial-gradient(800px circle at 86% 62%, rgba(255, 255, 255, 0.018) 0%, transparent 68%),
+      linear-gradient(180deg, #080808 0%, #060606 42%, #050505 100%);
   }
 
   /* Unified film grain — one grain field for the whole site so no section
@@ -66,6 +67,18 @@
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-size: 140px 140px;
+  }
+
+  /* Global vignette — the room's edges recede a touch darker than its center.
+     Lives on html (not body) so it gets its own pseudo-element slot without
+     fighting the ambient-gradient/grain pair already on body. */
+  html::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 48%, rgba(0, 0, 0, 0.16) 72%, rgba(0, 0, 0, 0.38) 100%);
   }
 
   /* Editorial display type: mixed-case serif, refined tracking.
@@ -138,6 +151,129 @@
   width: 100%;
   border: none;
   background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.14) 50%, transparent 100%);
+}
+
+/* ============================================================
+   Section lighting system — one shared stacking context per
+   section (.section-*) plus a ::before radial "spotlight" kept
+   behind content (z:-1). No decorative typography, no watermark —
+   just enough light variation that scrolling feels like moving
+   through a lit room instead of a flat black page.
+   ============================================================ */
+.section-music,
+.section-projects,
+.section-courses,
+.section-equipment,
+.section-page-music,
+.section-page-projects,
+.section-page-courses,
+.section-page-equipment {
+  position: relative;
+  isolation: isolate;
+}
+
+.section-music::before,
+.section-projects::before,
+.section-courses::before,
+.section-equipment::before,
+.section-page-music::before,
+.section-page-projects::before,
+.section-page-courses::before,
+.section-page-equipment::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Home — Music showcase: warm overhead pool + a low secondary glow */
+.section-music::before {
+  background:
+    radial-gradient(750px circle at 50% 8%, rgba(255, 255, 255, 0.035), transparent 68%),
+    radial-gradient(500px circle at 12% 75%, rgba(255, 255, 255, 0.016), transparent 70%);
+}
+
+/* Home — FLP Projects: slightly more technical, paired glow + a barely-there grid */
+.section-projects::before {
+  background:
+    radial-gradient(700px circle at 80% 25%, rgba(255, 255, 255, 0.026), transparent 68%),
+    radial-gradient(500px circle at 15% 80%, rgba(255, 255, 255, 0.014), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: auto, auto, 72px 72px, 72px 72px;
+  opacity: 0.85;
+}
+
+/* Home — Courses: one clean spotlight, no grid, no pattern */
+.section-courses::before {
+  background: radial-gradient(850px circle at 18% 5%, rgba(255, 255, 255, 0.028), transparent 68%);
+}
+
+/* Home — Equipment: industrial pairing, grid lighter than Projects' */
+.section-equipment::before {
+  background:
+    radial-gradient(780px circle at 78% 30%, rgba(255, 255, 255, 0.028), transparent 68%),
+    radial-gradient(500px circle at 18% 85%, rgba(255, 255, 255, 0.012), transparent 72%),
+    linear-gradient(rgba(255, 255, 255, 0.010) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.010) 1px, transparent 1px);
+  background-size: auto, auto, 80px 80px, 80px 80px;
+  opacity: 0.7;
+}
+
+/* Standalone list pages — one spotlight each, no grid except where noted */
+.section-page-music::before {
+  background: radial-gradient(900px circle at 70% 22%, rgba(255, 255, 255, 0.026), transparent 65%);
+}
+
+.section-page-projects::before {
+  background:
+    radial-gradient(700px circle at 78% 20%, rgba(255, 255, 255, 0.026), transparent 68%),
+    linear-gradient(rgba(255, 255, 255, 0.013) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.013) 1px, transparent 1px);
+  background-size: auto, 72px 72px, 72px 72px;
+  opacity: 0.8;
+}
+
+.section-page-courses::before {
+  background: radial-gradient(750px circle at 25% 18%, rgba(255, 255, 255, 0.025), transparent 68%);
+}
+
+.section-page-equipment::before {
+  background: radial-gradient(780px circle at 75% 25%, rgba(255, 255, 255, 0.026), transparent 70%);
+}
+
+/* Illumination behind the /music track list, not per-item */
+.music-list {
+  position: relative;
+  isolation: isolate;
+}
+.music-list::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(600px circle at 50% 30%, rgba(255, 255, 255, 0.015), transparent 72%);
+}
+
+/* Mobile: dial grid opacity/scale back so nothing costs paint time on
+   smaller GPUs and the effect stays imperceptible-but-felt */
+@media (max-width: 768px) {
+  .section-projects::before,
+  .section-page-projects::before {
+    background-size: auto, auto, 56px 56px, 56px 56px;
+    opacity: 0.5;
+  }
+
+  .section-equipment::before {
+    background-size: auto, auto, 60px 60px, 60px 60px;
+    opacity: 0.4;
+  }
+
+  body::after {
+    opacity: 0.015;
+  }
 }
 
 /* Subtle film-grain texture for cinematic imagery treatment */

@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Music, MusicTag } from '@/types';
+import { Music, MusicTag, SiteSettings } from '@/types';
 import ImageCropperModal from './ImageCropperModal';
+import FeaturedSwapModal from './FeaturedSwapModal';
+import ConfirmModal from './ConfirmModal';
 import { Upload, Music2, Image as ImageIcon, Loader2, Save, ArrowLeft, Crop } from 'lucide-react';
 
 interface MusicFormProps {
@@ -33,6 +35,14 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Homepage featured-slot guard: cap comes from Settings, current occupants
+  // come from the full music list so we can offer a swap instead of letting
+  // the admin silently exceed the homepage's slice(0, N).
+  const [featuredLimit, setFeaturedLimit] = useState(3);
+  const [otherFeatured, setOtherFeatured] = useState<Music[]>([]);
+  const [showSwapModal, setShowSwapModal] = useState(false);
+  const [swapping, setSwapping] = useState(false);
+
   // Image Cropper States
   const [rawCoverSrc, setRawCoverSrc] = useState<string | null>(null);
   const [isCropperOpen, setIsCropperOpen] = useState(false);
@@ -43,7 +53,53 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
       .then((res) => res.json())
       .then((data) => setAllTags(data))
       .catch(console.error);
-  }, []);
+
+    Promise.all([
+      fetch('/api/admin/settings').then((res) => res.json()),
+      fetch('/api/admin/music').then((res) => res.json()),
+    ])
+      .then(([settings, musicList]: [SiteSettings, Music[]]) => {
+        setFeaturedLimit(settings.featuredMusicCount ?? 3);
+        setOtherFeatured(musicList.filter((m) => m.featured && m.id !== initialData?.id));
+      })
+      .catch(console.error);
+  }, [initialData?.id]);
+
+  const handleFeaturedChange = (checked: boolean) => {
+    if (!checked) {
+      setFeatured(false);
+      return;
+    }
+    if (otherFeatured.length < featuredLimit) {
+      setFeatured(true);
+      return;
+    }
+    setShowSwapModal(true);
+  };
+
+  const handleSwapConfirm = async (idToReplace: string) => {
+    const target = otherFeatured.find((m) => m.id === idToReplace);
+    if (!target) return;
+    setSwapping(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/music/${idToReplace}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...target, featured: false }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Không thể bỏ nổi bật mục đã chọn');
+
+      setOtherFeatured((prev) => prev.filter((m) => m.id !== idToReplace));
+      setFeatured(true);
+      setShowSwapModal(false);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setSwapping(false);
+    }
+  };
 
   const handleCoverSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -99,7 +155,9 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [showSaveConfirm, setShowSaveConfirm] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
@@ -108,6 +166,10 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
       return;
     }
 
+    setShowSaveConfirm(true);
+  };
+
+  const performSave = async () => {
     setSubmitting(true);
 
     try {
@@ -138,6 +200,7 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
       router.refresh();
     } catch (err: any) {
       setError(err.message);
+      throw err;
     } finally {
       setSubmitting(false);
     }
@@ -316,7 +379,7 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
             <input
               type="checkbox"
               checked={featured}
-              onChange={(e) => setFeatured(e.target.checked)}
+              onChange={(e) => handleFeaturedChange(e.target.checked)}
               className="w-4 h-4 accent-[#b6ff2e] rounded"
             />
             <span>Xuất hiện ở Featured Home</span>
@@ -356,6 +419,36 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
         shape="circle"
         onCropComplete={handleCroppedImageUpload}
         onCancel={() => setIsCropperOpen(false)}
+      />
+
+      {/* Featured Home slot swap picker */}
+      <FeaturedSwapModal
+        isOpen={showSwapModal}
+        typeLabel="bài nhạc"
+        limit={featuredLimit}
+        items={otherFeatured.map((m) => ({ id: m.id, title: m.title }))}
+        loading={swapping}
+        onConfirm={handleSwapConfirm}
+        onCancel={() => setShowSwapModal(false)}
+      />
+
+      {/* Save/Update confirmation */}
+      <ConfirmModal
+        isOpen={showSaveConfirm}
+        title={isEdit ? 'Xác Nhận Cập Nhật' : 'Xác Nhận Lưu Bài Nhạc'}
+        itemName={title}
+        variant="default"
+        confirmLabel={isEdit ? 'Xác Nhận Cập Nhật' : 'Xác Nhận Lưu'}
+        message={
+          isEdit
+            ? `Lưu thay đổi cho bài nhạc "${title}"?`
+            : `Thêm bài nhạc mới "${title}" vào hệ thống?`
+        }
+        onConfirm={async () => {
+          await performSave();
+          setShowSaveConfirm(false);
+        }}
+        onCancel={() => setShowSaveConfirm(false)}
       />
     </form>
   );

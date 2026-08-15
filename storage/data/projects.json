@@ -1,27 +1,33 @@
 [
   {
-    "id": "project-001",
-    "slug": "sexy-my-mind",
-    "title": "Sexy My Mind",
-    "thumbnail": "/media/projects/images/sexy-my-mind-cover.webp",
-    "demoAudio": "/media/projects/audio/sexy-my-mind-demo.mp3",
-    "tags": ["vinahouse"],
+    "id": "project-msu94bs8-0zn4",
+    "slug": "nonstop-vinahouse-2024---full-set-nhac-huong-thai-hoang-remix---nst-bay-len-cao-cung-dj-thai-hoang",
+    "title": "NONSTOP VINAHOUSE 2024 - FULL SET NHẠC HƯỞNG THÁI HOÀNG REMIX - NST BAY LÊN CAO CÙNG DJ THÁI HOÀNG",
+    "thumbnail": "/media/projects/images/30e3cbc3-5a89-42d5-b3b1-9080e8c131ff.webp",
+    "demoAudio": "/media/projects/audio/fc7de567-4ef2-464d-9d0b-389eadba69a2.mp3",
+    "tags": [
+      "vinahouse"
+    ],
     "bpm": 128,
-    "price": 500000,
+    "price": null,
     "priceText": "500.000đ",
-    "shortDescription": "FL Studio Project dành cho producer chuyên dòng Vinahouse sôi động.",
-    "content": "## Giới thiệu Project\n\nProject FL Studio đầy đủ các track mixing, mastering chuẩn club. Bao gồm đầy đủ sample pack và preset cho Nexus & Sylenth1.\n\n## Yêu cầu Phần Mềm\n- FL Studio 21.2 trở lên\n- Plugins: FabFilter Bundle, Ozone 10, Kickstart 2\n- BPM: 128\n\n## Lưu Ý\nLiên hệ BUOGS qua Zalo hoặc Facebook để nhận link Google Drive tốc độ cao sau khi hoàn tất tư vấn.",
+    "shortDescription": "",
+    "content": "## Giới thiệu Project\n\nNội dung chi tiết...",
     "featured": true,
     "published": true,
-    "sortOrder": 1
+    "sortOrder": 1,
+    "createdAt": "2026-08-15T10:46:59.240Z",
+    "updatedAt": "2026-08-15T10:46:59.240Z"
   },
   {
     "id": "project-002",
     "slug": "night-vibes-vinatrance",
-    "title": "Night Vibes Vinatrance Project",
-    "thumbnail": "/media/projects/images/night-vibes-cover.webp",
+    "title": "Cánh Hoa Héo Tàn - Mochiii x Domino Remix | Có Lẽ Em Đã Không Còn Nước Mắt |Giống Như 1 Vở Kịch Buồn",
+    "thumbnail": "/media/projects/images/c24e1b65-2771-48a7-9b4a-d30a7372247b.webp",
     "demoAudio": "/media/projects/audio/night-vibes-demo.mp3",
-    "tags": ["vinatrance"],
+    "tags": [
+      "vinatrance"
+    ],
     "bpm": 132,
     "price": 800000,
     "priceText": "800.000đ",
@@ -29,6 +35,7 @@
     "content": "## Giới thiệu Project\n\nProject phong cách Vinatrance căng trào, bassline dầy dặn.\n\n## Chi Tiết\n- FL Studio 21+\n- Soundbank đầy đủ trong project file.",
     "featured": true,
     "published": true,
-    "sortOrder": 2
+    "sortOrder": 2,
+    "updatedAt": "2026-08-15T10:51:07.224Z"
   }
 ]

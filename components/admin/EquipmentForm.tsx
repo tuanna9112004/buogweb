@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Equipment, EquipmentCategory } from '@/types';
+import { Equipment, EquipmentCategory, SiteSettings } from '@/types';
 import ImageCropperModal from './ImageCropperModal';
+import FeaturedSwapModal from './FeaturedSwapModal';
+import ConfirmModal from './ConfirmModal';
 import { Image as ImageIcon, Loader2, Save, ArrowLeft, X, Plus, Crop } from 'lucide-react';
 
 interface EquipmentFormProps {
@@ -34,6 +36,12 @@ export default function EquipmentForm({ initialData, isEdit = false }: Equipment
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Homepage featured-slot guard — see MusicForm for the same pattern.
+  const [featuredLimit, setFeaturedLimit] = useState(4);
+  const [otherFeatured, setOtherFeatured] = useState<Equipment[]>([]);
+  const [showSwapModal, setShowSwapModal] = useState(false);
+  const [swapping, setSwapping] = useState(false);
+
   // Image Cropper States
   const [rawImageSrc, setRawImageSrc] = useState<string | null>(null);
   const [isCropperOpen, setIsCropperOpen] = useState(false);
@@ -45,7 +53,53 @@ export default function EquipmentForm({ initialData, isEdit = false }: Equipment
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch(console.error);
-  }, []);
+
+    Promise.all([
+      fetch('/api/admin/settings').then((res) => res.json()),
+      fetch('/api/admin/equipment').then((res) => res.json()),
+    ])
+      .then(([settings, list]: [SiteSettings, Equipment[]]) => {
+        setFeaturedLimit(settings.featuredEquipmentCount ?? 4);
+        setOtherFeatured(list.filter((eq) => eq.featured && eq.id !== initialData?.id));
+      })
+      .catch(console.error);
+  }, [initialData?.id]);
+
+  const handleFeaturedChange = (checked: boolean) => {
+    if (!checked) {
+      setFeatured(false);
+      return;
+    }
+    if (otherFeatured.length < featuredLimit) {
+      setFeatured(true);
+      return;
+    }
+    setShowSwapModal(true);
+  };
+
+  const handleSwapConfirm = async (idToReplace: string) => {
+    const target = otherFeatured.find((eq) => eq.id === idToReplace);
+    if (!target) return;
+    setSwapping(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/equipment/${idToReplace}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...target, featured: false }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Không thể bỏ nổi bật mục đã chọn');
+
+      setOtherFeatured((prev) => prev.filter((eq) => eq.id !== idToReplace));
+      setFeatured(true);
+      setShowSwapModal(false);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setSwapping(false);
+    }
+  };
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
@@ -112,7 +166,9 @@ export default function EquipmentForm({ initialData, isEdit = false }: Equipment
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [showSaveConfirm, setShowSaveConfirm] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
@@ -121,6 +177,10 @@ export default function EquipmentForm({ initialData, isEdit = false }: Equipment
       return;
     }
 
+    setShowSaveConfirm(true);
+  };
+
+  const performSave = async () => {
     setSubmitting(true);
 
     try {
@@ -155,6 +215,7 @@ export default function EquipmentForm({ initialData, isEdit = false }: Equipment
       router.refresh();
     } catch (err: any) {
       setError(err.message);
+      throw err;
     } finally {
       setSubmitting(false);
     }
@@ -344,7 +405,7 @@ export default function EquipmentForm({ initialData, isEdit = false }: Equipment
             <input
               type="checkbox"
               checked={featured}
-              onChange={(e) => setFeatured(e.target.checked)}
+              onChange={(e) => handleFeaturedChange(e.target.checked)}
               className="w-4 h-4 accent-[#b6ff2e] rounded"
             />
             <span>Featured Home</span>
@@ -380,9 +441,39 @@ export default function EquipmentForm({ initialData, isEdit = false }: Equipment
         isOpen={isCropperOpen}
         imageSrc={rawImageSrc}
         fileName={pendingFileName}
-        aspectRatio={1}
+        aspectRatio={4 / 3}
         onCropComplete={handleCroppedImageUpload}
         onCancel={() => setIsCropperOpen(false)}
+      />
+
+      {/* Featured Home slot swap picker */}
+      <FeaturedSwapModal
+        isOpen={showSwapModal}
+        typeLabel="thiết bị"
+        limit={featuredLimit}
+        items={otherFeatured.map((eq) => ({ id: eq.id, title: eq.title }))}
+        loading={swapping}
+        onConfirm={handleSwapConfirm}
+        onCancel={() => setShowSwapModal(false)}
+      />
+
+      {/* Save/Update confirmation */}
+      <ConfirmModal
+        isOpen={showSaveConfirm}
+        title={isEdit ? 'Xác Nhận Cập Nhật' : 'Xác Nhận Lưu Thiết Bị'}
+        itemName={title}
+        variant="default"
+        confirmLabel={isEdit ? 'Xác Nhận Cập Nhật' : 'Xác Nhận Lưu'}
+        message={
+          isEdit
+            ? `Lưu thay đổi cho thiết bị "${title}"?`
+            : `Thêm thiết bị mới "${title}" vào hệ thống?`
+        }
+        onConfirm={async () => {
+          await performSave();
+          setShowSaveConfirm(false);
+        }}
+        onCancel={() => setShowSaveConfirm(false)}
       />
     </form>
   );

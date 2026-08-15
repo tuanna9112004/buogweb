@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Course } from '@/types';
+import { Course, SiteSettings } from '@/types';
 import ImageCropperModal from './ImageCropperModal';
+import FeaturedSwapModal from './FeaturedSwapModal';
+import ConfirmModal from './ConfirmModal';
 import { Image as ImageIcon, Loader2, Save, ArrowLeft, X, Plus, Crop } from 'lucide-react';
 
 interface CourseFormProps {
@@ -31,6 +33,60 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Homepage featured-slot guard — see MusicForm for the same pattern.
+  const [featuredLimit, setFeaturedLimit] = useState(3);
+  const [otherFeatured, setOtherFeatured] = useState<Course[]>([]);
+  const [showSwapModal, setShowSwapModal] = useState(false);
+  const [swapping, setSwapping] = useState(false);
+
+  useEffect(() => {
+    Promise.all([
+      fetch('/api/admin/settings').then((res) => res.json()),
+      fetch('/api/admin/courses').then((res) => res.json()),
+    ])
+      .then(([settings, list]: [SiteSettings, Course[]]) => {
+        setFeaturedLimit(settings.featuredCoursesCount ?? 3);
+        setOtherFeatured(list.filter((c) => c.featured && c.id !== initialData?.id));
+      })
+      .catch(console.error);
+  }, [initialData?.id]);
+
+  const handleFeaturedChange = (checked: boolean) => {
+    if (!checked) {
+      setFeatured(false);
+      return;
+    }
+    if (otherFeatured.length < featuredLimit) {
+      setFeatured(true);
+      return;
+    }
+    setShowSwapModal(true);
+  };
+
+  const handleSwapConfirm = async (idToReplace: string) => {
+    const target = otherFeatured.find((c) => c.id === idToReplace);
+    if (!target) return;
+    setSwapping(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/courses/${idToReplace}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...target, featured: false }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Không thể bỏ nổi bật mục đã chọn');
+
+      setOtherFeatured((prev) => prev.filter((c) => c.id !== idToReplace));
+      setFeatured(true);
+      setShowSwapModal(false);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setSwapping(false);
+    }
+  };
 
   // Image Cropper States
   const [rawImageSrc, setRawImageSrc] = useState<string | null>(null);
@@ -103,7 +159,9 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [showSaveConfirm, setShowSaveConfirm] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
@@ -112,6 +170,10 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
       return;
     }
 
+    setShowSaveConfirm(true);
+  };
+
+  const performSave = async () => {
     setSubmitting(true);
 
     try {
@@ -145,6 +207,7 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
       router.refresh();
     } catch (err: any) {
       setError(err.message);
+      throw err;
     } finally {
       setSubmitting(false);
     }
@@ -316,7 +379,7 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
             <input
               type="checkbox"
               checked={featured}
-              onChange={(e) => setFeatured(e.target.checked)}
+              onChange={(e) => handleFeaturedChange(e.target.checked)}
               className="w-4 h-4 accent-[#b6ff2e] rounded"
             />
             <span>Featured Home</span>
@@ -352,9 +415,39 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
         isOpen={isCropperOpen}
         imageSrc={rawImageSrc}
         fileName={pendingFileName}
-        aspectRatio={1}
+        aspectRatio={4 / 3}
         onCropComplete={handleCroppedImageUpload}
         onCancel={() => setIsCropperOpen(false)}
+      />
+
+      {/* Featured Home slot swap picker */}
+      <FeaturedSwapModal
+        isOpen={showSwapModal}
+        typeLabel="khóa học"
+        limit={featuredLimit}
+        items={otherFeatured.map((c) => ({ id: c.id, title: c.title }))}
+        loading={swapping}
+        onConfirm={handleSwapConfirm}
+        onCancel={() => setShowSwapModal(false)}
+      />
+
+      {/* Save/Update confirmation */}
+      <ConfirmModal
+        isOpen={showSaveConfirm}
+        title={isEdit ? 'Xác Nhận Cập Nhật' : 'Xác Nhận Lưu Khóa Học'}
+        itemName={title}
+        variant="default"
+        confirmLabel={isEdit ? 'Xác Nhận Cập Nhật' : 'Xác Nhận Lưu'}
+        message={
+          isEdit
+            ? `Lưu thay đổi cho khóa học "${title}"?`
+            : `Thêm khóa học mới "${title}" vào hệ thống?`
+        }
+        onConfirm={async () => {
+          await performSave();
+          setShowSaveConfirm(false);
+        }}
+        onCancel={() => setShowSaveConfirm(false)}
       />
     </form>
   );

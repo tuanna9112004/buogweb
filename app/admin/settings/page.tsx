@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { SiteSettings } from '@/types';
-import { Save, Loader2, Settings, CheckCircle2 } from 'lucide-react';
+import ConfirmModal from '@/components/admin/ConfirmModal';
+import { Save, Loader2, CheckCircle2 } from 'lucide-react';
 
 export default function AdminSettingsPage() {
   const [formData, setFormData] = useState<SiteSettings>({
@@ -16,12 +17,17 @@ export default function AdminSettingsPage() {
     tiktokUrl: '',
     address: '',
     contactHeading: 'BOOKING / MUSIC / PROJECT / COURSE / EQUIPMENT',
+    featuredMusicCount: 3,
+    featuredProjectsCount: 3,
+    featuredCoursesCount: 3,
+    featuredEquipmentCount: 4,
   });
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showSaveConfirm, setShowSaveConfirm] = useState(false);
 
   useEffect(() => {
     fetch('/api/admin/settings')
@@ -37,10 +43,14 @@ export default function AdminSettingsPage() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccessMsg(null);
+    setShowSaveConfirm(true);
+  };
+
+  const performSave = async () => {
     setSubmitting(true);
 
     try {
@@ -56,6 +66,7 @@ export default function AdminSettingsPage() {
       setSuccessMsg('Đã lưu cấu hình thông tin website thành công!');
     } catch (err: any) {
       setError(err.message);
+      throw err;
     } finally {
       setSubmitting(false);
     }
@@ -248,6 +259,21 @@ export default function AdminSettingsPage() {
           </button>
         </div>
       </form>
+
+      {/* Confirm Save Modal */}
+      <ConfirmModal
+        isOpen={showSaveConfirm}
+        title="Xác Nhận Lưu Cấu Hình"
+        itemName={formData.brandName}
+        variant="default"
+        confirmLabel="Xác Nhận Lưu"
+        message="Lưu thay đổi cấu hình thông tin website? Thay đổi sẽ áp dụng ngay cho toàn bộ trang public."
+        onConfirm={async () => {
+          await performSave();
+          setShowSaveConfirm(false);
+        }}
+        onCancel={() => setShowSaveConfirm(false)}
+      />
     </div>
   );
 }

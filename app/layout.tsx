@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display, JetBrains_Mono, Permanent_Marker } from 'next/font/google';
+import { Inter, Playfair_Display, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
 const inter = Inter({
@@ -20,13 +20,6 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
-const permanentMarker = Permanent_Marker({
-  subsets: ['latin'],
-  weight: '400',
-  variable: '--font-marker',
-  display: 'swap',
-});
-
 export const metadata: Metadata = {
   title: 'BUOGS | Official DJ / Producer Portfolio',
   description: 'Official portfolio website of BUOGS - DJ / Producer. Vinyl, Vinahouse, House Lak, FL Studio Projects, DJ Courses & Equipment.',
@@ -44,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable} ${permanentMarker.variable} dark scroll-smooth`}
+      className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable} dark scroll-smooth`}
     >
       <body className="text-white antialiased selection:bg-white selection:text-black">
         {children}

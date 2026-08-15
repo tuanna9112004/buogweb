@@ -41,7 +41,7 @@ export default function MusicPage() {
     : musicList;
 
   return (
-    <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16 space-y-14">
+    <div className="section-page-music relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16 space-y-14">
       {/* Subtle radial depth behind the heading — barely-there, editorial not flashy */}
       <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[380px] w-[90vw] max-w-[720px] -translate-x-1/2 -translate-y-1/4 rounded-full bg-white/[0.035] blur-[130px]" />
 
@@ -102,7 +102,7 @@ export default function MusicPage() {
           <span className="text-sm font-mono text-[#737373]">Đang tải danh sách nhạc...</span>
         </div>
       ) : filteredMusic.length > 0 ? (
-        <div className="space-y-4 pt-2">
+        <div className="music-list space-y-4 pt-2">
           {filteredMusic.map((track, i) => (
             <Reveal key={track.id} delay={Math.min(i * 0.05, 0.3)} distance={16}>
               <MusicItemCard

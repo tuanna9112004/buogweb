@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   LayoutDashboard,
   Music2,
@@ -92,14 +93,21 @@ export default function AdminLayout({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                  className={`relative flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-200 ${
                     isActive
-                      ? 'bg-[#b6ff2e] text-black font-bold shadow-md shadow-[#b6ff2e]/20'
+                      ? 'text-black font-bold'
                       : 'text-[#a3a3a3] hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.label}</span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="admin-sidebar-active"
+                      className="absolute inset-0 bg-[#b6ff2e] rounded-xl shadow-md shadow-[#b6ff2e]/20"
+                      transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                    />
+                  )}
+                  <Icon className="w-4 h-4 relative z-10" />
+                  <span className="relative z-10">{item.label}</span>
                 </Link>
               );
             })}
@@ -117,7 +125,7 @@ export default function AdminLayout({
           </Link>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-950/30 border border-red-500/20 text-red-400 font-semibold text-xs uppercase tracking-wider hover:bg-red-900/40 transition-colors"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-950/30 border border-red-500/20 text-red-400 font-semibold text-xs uppercase tracking-wider hover:bg-red-900/40 active:scale-[0.98] transition-all duration-150"
           >
             <LogOut className="w-4 h-4" />
             <span>Đăng Xuất</span>
@@ -151,42 +159,61 @@ export default function AdminLayout({
         </header>
 
         {/* Mobile Drawer */}
-        {mobileSidebarOpen && (
-          <div className="lg:hidden bg-[#111111] border-b border-white/10 p-4 space-y-2">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive =
-                item.href === '/admin'
-                  ? pathname === '/admin'
-                  : pathname === item.href || pathname.startsWith(item.href + '/');
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileSidebarOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium ${
-                    isActive
-                      ? 'bg-[#b6ff2e] text-black font-bold'
-                      : 'text-[#a3a3a3] hover:text-white'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-950/30 text-red-400 font-semibold text-xs uppercase mt-4"
+        <AnimatePresence>
+          {mobileSidebarOpen && (
+            <motion.div
+              className="lg:hidden bg-[#111111] border-b border-white/10 overflow-hidden"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
             >
-              <LogOut className="w-4 h-4" />
-              <span>Đăng Xuất</span>
-            </button>
-          </div>
-        )}
+              <div className="p-4 space-y-2">
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive =
+                    item.href === '/admin'
+                      ? pathname === '/admin'
+                      : pathname === item.href || pathname.startsWith(item.href + '/');
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileSidebarOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150 active:scale-[0.98] ${
+                        isActive
+                          ? 'bg-[#b6ff2e] text-black font-bold'
+                          : 'text-[#a3a3a3] hover:text-white hover:bg-white/5'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-950/30 text-red-400 font-semibold text-xs uppercase mt-4 active:scale-[0.98] transition-transform duration-150"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Đăng Xuất</span>
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Admin Content Container */}
-        <main className="p-4 sm:p-8 flex-1">{children}</main>
+        <main className="p-4 sm:p-8 flex-1">
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {children}
+          </motion.div>
+        </main>
       </div>
 
     </div>

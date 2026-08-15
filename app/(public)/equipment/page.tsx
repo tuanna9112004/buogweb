@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import EquipmentCard from '@/components/public/EquipmentCard';
+import Reveal from '@/components/public/Reveal';
 import { Equipment, EquipmentCategory } from '@/types';
 import { Sliders, Filter, Loader2 } from 'lucide-react';
 
@@ -40,9 +41,9 @@ export default function EquipmentPage() {
     : equipmentList;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10 space-y-8">
+    <div className="section-page-equipment max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10 space-y-8">
       {/* Header Banner */}
-      <div className="space-y-3 border-b border-white/10 pb-6">
+      <Reveal className="space-y-3 border-b border-white/10 pb-6">
         <div className="text-xs font-mono text-[#A8A8A8] uppercase tracking-widest flex items-center gap-2">
           <Sliders className="w-4 h-4 text-white" />
           <span>EQUIPMENT SHOWROOM & CATALOG</span>
@@ -53,10 +54,10 @@ export default function EquipmentPage() {
         <p className="text-sm text-[#A8A8A8] max-w-2xl">
           Catalog các dòng máy Pioneer DJ, All-In-One Player, Controller và Loa kiểm âm chuyên nghiệp do BUOGS tư vấn & cung cấp.
         </p>
-      </div>
+      </Reveal>
 
       {/* Category Filter Bar */}
-      <div className="flex flex-wrap items-center gap-2 bg-[#0A0A0A] p-3 rounded-2xl border border-white/10">
+      <Reveal delay={0.08} className="flex flex-wrap items-center gap-2 bg-[#0A0A0A] p-3 rounded-2xl border border-white/10">
         <div className="flex items-center gap-2 text-xs font-mono text-[#737373] px-3 py-1">
           <Filter className="w-3.5 h-3.5 text-white/70" />
           <span>DANH MỤC:</span>
@@ -90,7 +91,7 @@ export default function EquipmentPage() {
             </button>
           );
         })}
-      </div>
+      </Reveal>
 
       {/* Grid Layout (Desktop 3-4, Tablet 2, Mobile 1) */}
       {loading ? (
@@ -100,8 +101,10 @@ export default function EquipmentPage() {
         </div>
       ) : filteredList.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredList.map((eq) => (
-            <EquipmentCard key={eq.id} equipment={eq} categories={categories} />
+          {filteredList.map((eq, i) => (
+            <Reveal key={eq.id} delay={Math.min(i * 0.05, 0.3)} distance={16}>
+              <EquipmentCard equipment={eq} categories={categories} />
+            </Reveal>
           ))}
         </div>
       ) : (

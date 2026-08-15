@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ProjectTag } from '@/types';
 import ConfirmModal from '@/components/admin/ConfirmModal';
 import { Plus, Edit, Trash2, Loader2, X } from 'lucide-react';
@@ -19,6 +20,7 @@ export default function AdminProjectTagsPage() {
   const [published, setPublished] = useState(true);
 
   const [deleteTarget, setDeleteTarget] = useState<ProjectTag | null>(null);
+  const [showSaveConfirm, setShowSaveConfirm] = useState(false);
 
   const fetchTags = async () => {
     try {
@@ -53,7 +55,7 @@ export default function AdminProjectTagsPage() {
     setIsModalOpen(true);
   };
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
@@ -62,6 +64,12 @@ export default function AdminProjectTagsPage() {
       setError('ID và Tên tag không được để trống');
       return;
     }
+
+    setShowSaveConfirm(true);
+  };
+
+  const handleSave = async () => {
+    const finalId = tagId.toLowerCase().trim().replace(/[^a-z0-9-]/g, '-');
 
     try {
       const payload = {
@@ -84,9 +92,11 @@ export default function AdminProjectTagsPage() {
       if (!res.ok) throw new Error(data.error || 'Lỗi khi lưu tag');
 
       setIsModalOpen(false);
+      setShowSaveConfirm(false);
       fetchTags();
     } catch (err: any) {
       setError(err.message);
+      throw err;
     }
   };
 
@@ -186,9 +196,23 @@ export default function AdminProjectTagsPage() {
       )}
 
       {/* Add/Edit Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#111111] border border-white/10 rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl">
+      <AnimatePresence>
+        {isModalOpen && (
+        <motion.div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.18 }}
+          onClick={(e) => e.target === e.currentTarget && setIsModalOpen(false)}
+        >
+          <motion.div
+            className="bg-[#111111] border border-white/10 rounded-2xl max-w-md w-full p-6 space-y-6 shadow-2xl"
+            initial={{ opacity: 0, scale: 0.94, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 4 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          >
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <h3 className="font-heading text-xl font-bold uppercase text-white">
                 {editingTag ? 'Chỉnh Sửa Tag' : 'Thêm Project Tag Mới'}
@@ -204,7 +228,7 @@ export default function AdminProjectTagsPage() {
               </div>
             )}
 
-            <form onSubmit={handleSave} className="space-y-4">
+            <form onSubmit={handleFormSubmit} className="space-y-4">
               <div className="space-y-2">
                 <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
                   ID Tag (Slug) *
@@ -260,21 +284,22 @@ export default function AdminProjectTagsPage() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2.5 rounded-xl bg-[#161616] text-white text-xs uppercase"
+                  className="px-4 py-2.5 rounded-xl bg-[#161616] text-white text-xs uppercase hover:bg-white/10 active:scale-[0.96] transition-all duration-150"
                 >
                   Hủy Bỏ
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-[#b6ff2e] text-black font-bold text-xs uppercase hover:bg-[#9ee61a]"
+                  className="px-5 py-2.5 rounded-xl bg-[#b6ff2e] text-black font-bold text-xs uppercase hover:bg-[#9ee61a] active:scale-[0.96] transition-all duration-150"
                 >
                   Lưu Tag
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Confirm Delete Modal */}
       <ConfirmModal
@@ -283,6 +308,22 @@ export default function AdminProjectTagsPage() {
         itemName={deleteTarget?.name || ''}
         onConfirm={handleDeleteConfirm}
         onCancel={() => setDeleteTarget(null)}
+      />
+
+      {/* Confirm Save Modal */}
+      <ConfirmModal
+        isOpen={showSaveConfirm}
+        title={editingTag ? 'Xác Nhận Cập Nhật Tag' : 'Xác Nhận Thêm Tag'}
+        itemName={tagName}
+        variant="default"
+        confirmLabel={editingTag ? 'Xác Nhận Cập Nhật' : 'Xác Nhận Thêm'}
+        message={
+          editingTag
+            ? `Lưu thay đổi cho tag "${tagName}"?`
+            : `Thêm project tag mới "${tagName}"?`
+        }
+        onConfirm={handleSave}
+        onCancel={() => setShowSaveConfirm(false)}
       />
     </div>
   );

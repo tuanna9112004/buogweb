@@ -99,4 +99,8 @@ export interface SiteSettings {
   tiktokUrl: string;
   address: string;
   contactHeading: string;
+  featuredMusicCount: number;
+  featuredProjectsCount: number;
+  featuredCoursesCount: number;
+  featuredEquipmentCount: number;
 }
