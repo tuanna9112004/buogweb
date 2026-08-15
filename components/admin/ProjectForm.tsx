@@ -7,6 +7,7 @@ import { Project, ProjectTag, SiteSettings } from '@/types';
 import ImageCropperModal from './ImageCropperModal';
 import FeaturedSwapModal from './FeaturedSwapModal';
 import ConfirmModal from './ConfirmModal';
+import { uploadFile } from './uploadFile';
 import { Upload, Headphones, Image as ImageIcon, Loader2, Save, ArrowLeft, Plus, Crop } from 'lucide-react';
 
 interface ProjectFormProps {
@@ -34,6 +35,8 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
   const [allTags, setAllTags] = useState<ProjectTag[]>([]);
   const [uploadingThumb, setUploadingThumb] = useState(false);
   const [uploadingAudio, setUploadingAudio] = useState(false);
+  const [thumbProgress, setThumbProgress] = useState(0);
+  const [audioProgress, setAudioProgress] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -128,32 +131,22 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
 
   const handleCroppedImageUpload = async (croppedFile: File) => {
     setIsCropperOpen(false);
-    await handleFileUpload(croppedFile, 'images', setThumbnail, setUploadingThumb);
+    await handleFileUpload(croppedFile, 'images', setThumbnail, setUploadingThumb, setThumbProgress);
   };
 
   const handleFileUpload = async (
     file: File,
     type: 'images' | 'audio' | 'covers',
     onSuccess: (url: string) => void,
-    setLoadingState: (l: boolean) => void
+    setLoadingState: (l: boolean) => void,
+    setProgress: (p: number) => void
   ) => {
     setError(null);
     setLoadingState(true);
+    setProgress(0);
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('module', 'projects');
-      formData.append('type', type);
-
-      const res = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Lỗi upload file');
-
+      const data = await uploadFile(file, 'projects', type, setProgress);
       onSuccess(data.url);
     } catch (err: any) {
       setError(err.message);
@@ -306,26 +299,37 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
           <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
             Ảnh Thumbnail Cover (Crop chữ nhật 16:9 - khớp tỉ lệ Card /projects)
           </label>
-          <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#111111] border border-white/10">
-            {thumbnail && (
-              <div className="relative w-32 h-[72px] rounded-xl overflow-hidden bg-[#080808] border-2 border-[#b6ff2e] flex-shrink-0">
-                <Image src={thumbnail} alt="Thumbnail preview" fill className="object-cover" unoptimized />
+          <div className="space-y-3 p-4 rounded-xl bg-[#111111] border border-white/10">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              {thumbnail && (
+                <div className="relative w-32 h-[72px] rounded-xl overflow-hidden bg-[#080808] border-2 border-[#b6ff2e] flex-shrink-0">
+                  <Image src={thumbnail} alt="Thumbnail preview" fill className="object-cover" unoptimized />
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                id="project-thumb-input"
+                className="hidden"
+                onChange={handleImageSelect}
+              />
+              <label
+                htmlFor="project-thumb-input"
+                className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2 flex-shrink-0"
+              >
+                {uploadingThumb ? <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" /> : <Crop className="w-4 h-4 text-[#b6ff2e]" />}
+                <span>{uploadingThumb ? `Đang tải lên... ${thumbProgress}%` : 'Tải & Crop Ảnh Thumbnail'}</span>
+              </label>
+            </div>
+
+            {uploadingThumb && (
+              <div className="h-1.5 w-full bg-[#161616] rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#b6ff2e] transition-all duration-150 ease-out"
+                  style={{ width: `${thumbProgress}%` }}
+                />
               </div>
             )}
-            <input
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              id="project-thumb-input"
-              className="hidden"
-              onChange={handleImageSelect}
-            />
-            <label
-              htmlFor="project-thumb-input"
-              className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2"
-            >
-              {uploadingThumb ? <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" /> : <Crop className="w-4 h-4 text-[#b6ff2e]" />}
-              <span>Tải & Crop Ảnh Thumbnail</span>
-            </label>
           </div>
         </div>
 
@@ -334,31 +338,51 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
           <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
             Demo Audio MP3 (Tối đa 30MB)
           </label>
-          <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#111111] border border-white/10">
-            <input
-              type="file"
-              accept="audio/mp3,audio/mpeg"
-              id="demo-audio-input"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handleFileUpload(file, 'audio', setDemoAudio, setUploadingAudio);
-              }}
-            />
-            <label
-              htmlFor="demo-audio-input"
-              className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2"
-            >
-              {uploadingAudio ? <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" /> : <Headphones className="w-4 h-4 text-[#b6ff2e]" />}
-              <span>Chọn File Demo MP3</span>
-            </label>
+          <div className="space-y-3 p-4 rounded-xl bg-[#111111] border border-white/10">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <input
+                type="file"
+                accept="audio/mp3,audio/mpeg"
+                id="demo-audio-input"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleFileUpload(file, 'audio', setDemoAudio, setUploadingAudio, setAudioProgress);
+                }}
+              />
+              <label
+                htmlFor="demo-audio-input"
+                className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2 flex-shrink-0"
+              >
+                {uploadingAudio ? <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" /> : <Headphones className="w-4 h-4 text-[#b6ff2e]" />}
+                <span>{uploadingAudio ? `Đang tải lên... ${audioProgress}%` : 'Chọn File Demo MP3'}</span>
+              </label>
 
-            {demoAudio ? (
-              <span className="text-xs font-mono text-[#b6ff2e] truncate max-w-md">
-                ✓ {demoAudio}
-              </span>
-            ) : (
-              <span className="text-xs font-mono text-[#666]">Chưa chọn demo audio</span>
+              {!uploadingAudio && (
+                demoAudio ? (
+                  <span className="text-xs font-mono text-[#b6ff2e] truncate max-w-md">
+                    ✓ {demoAudio}
+                  </span>
+                ) : (
+                  <span className="text-xs font-mono text-[#666]">Chưa chọn demo audio</span>
+                )
+              )}
+            </div>
+
+            {uploadingAudio && (
+              <div className="h-1.5 w-full bg-[#161616] rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#b6ff2e] transition-all duration-150 ease-out"
+                  style={{ width: `${audioProgress}%` }}
+                />
+              </div>
+            )}
+
+            {/* Nghe thử ngay khi đã có demo audio */}
+            {!uploadingAudio && demoAudio && (
+              <audio controls src={demoAudio} className="w-full h-10" preload="metadata">
+                Trình duyệt của bạn không hỗ trợ phát audio.
+              </audio>
             )}
           </div>
         </div>

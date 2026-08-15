@@ -7,6 +7,7 @@ import { Music, MusicTag, SiteSettings } from '@/types';
 import ImageCropperModal from './ImageCropperModal';
 import FeaturedSwapModal from './FeaturedSwapModal';
 import ConfirmModal from './ConfirmModal';
+import { uploadFile } from './uploadFile';
 import { Upload, Music2, Image as ImageIcon, Loader2, Save, ArrowLeft, Crop } from 'lucide-react';
 
 interface MusicFormProps {
@@ -32,6 +33,8 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
   const [allTags, setAllTags] = useState<MusicTag[]>([]);
   const [uploadingAudio, setUploadingAudio] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
+  const [audioProgress, setAudioProgress] = useState(0);
+  const [coverProgress, setCoverProgress] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -113,32 +116,22 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
 
   const handleCroppedImageUpload = async (croppedFile: File) => {
     setIsCropperOpen(false);
-    await handleFileUpload(croppedFile, 'covers', setCover, setUploadingCover);
+    await handleFileUpload(croppedFile, 'covers', setCover, setUploadingCover, setCoverProgress);
   };
 
   const handleFileUpload = async (
     file: File,
     type: 'audio' | 'covers',
     setter: (url: string) => void,
-    setLoadingState: (l: boolean) => void
+    setLoadingState: (l: boolean) => void,
+    setProgress: (p: number) => void
   ) => {
     setError(null);
     setLoadingState(true);
+    setProgress(0);
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('module', 'music');
-      formData.append('type', type);
-
-      const res = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Lỗi upload file');
-
+      const data = await uploadFile(file, 'music', type, setProgress);
       setter(data.url);
     } catch (err: any) {
       setError(err.message);
@@ -267,31 +260,51 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
           <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
             File Audio MP3 * (Tối đa 50MB)
           </label>
-          <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#111111] border border-white/10">
-            <input
-              type="file"
-              accept="audio/mp3,audio/mpeg"
-              id="audio-input"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handleFileUpload(file, 'audio', setAudio, setUploadingAudio);
-              }}
-            />
-            <label
-              htmlFor="audio-input"
-              className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2"
-            >
-              {uploadingAudio ? <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" /> : <Music2 className="w-4 h-4 text-[#b6ff2e]" />}
-              <span>Chọn File MP3</span>
-            </label>
+          <div className="space-y-3 p-4 rounded-xl bg-[#111111] border border-white/10">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <input
+                type="file"
+                accept="audio/mp3,audio/mpeg"
+                id="audio-input"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleFileUpload(file, 'audio', setAudio, setUploadingAudio, setAudioProgress);
+                }}
+              />
+              <label
+                htmlFor="audio-input"
+                className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2 flex-shrink-0"
+              >
+                {uploadingAudio ? <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" /> : <Music2 className="w-4 h-4 text-[#b6ff2e]" />}
+                <span>{uploadingAudio ? `Đang tải lên... ${audioProgress}%` : 'Chọn File MP3'}</span>
+              </label>
 
-            {audio ? (
-              <span className="text-xs font-mono text-[#b6ff2e] truncate max-w-md">
-                ✓ {audio}
-              </span>
-            ) : (
-              <span className="text-xs font-mono text-[#666]">Chưa chọn file audio</span>
+              {!uploadingAudio && (
+                audio ? (
+                  <span className="text-xs font-mono text-[#b6ff2e] truncate max-w-md">
+                    ✓ {audio}
+                  </span>
+                ) : (
+                  <span className="text-xs font-mono text-[#666]">Chưa chọn file audio</span>
+                )
+              )}
+            </div>
+
+            {uploadingAudio && (
+              <div className="h-1.5 w-full bg-[#161616] rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#b6ff2e] transition-all duration-150 ease-out"
+                  style={{ width: `${audioProgress}%` }}
+                />
+              </div>
+            )}
+
+            {/* Nghe thử ngay khi đã có file audio */}
+            {!uploadingAudio && audio && (
+              <audio controls src={audio} className="w-full h-10" preload="metadata">
+                Trình duyệt của bạn không hỗ trợ phát audio.
+              </audio>
             )}
           </div>
         </div>
@@ -301,35 +314,46 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
           <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
             Ảnh đại diện Track (Cover dạng đĩa tròn - Hỗ trợ Crop tròn chuẩn)
           </label>
-          <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#111111] border border-white/10">
-            {cover && (
-              <div className="relative w-20 h-20 rounded-full overflow-hidden bg-[#080808] border-2 border-[#b6ff2e] flex-shrink-0 shadow-lg shadow-[#b6ff2e]/10">
-                <Image src={cover} alt="Cover preview" fill className="object-cover" unoptimized />
-              </div>
-            )}
-            <input
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              id="cover-input"
-              className="hidden"
-              onChange={handleCoverSelect}
-            />
-            <label
-              htmlFor="cover-input"
-              className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2"
-            >
-              {uploadingCover ? (
-                <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" />
-              ) : (
-                <Crop className="w-4 h-4 text-[#b6ff2e]" />
+          <div className="space-y-3 p-4 rounded-xl bg-[#111111] border border-white/10">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              {cover && (
+                <div className="relative w-20 h-20 rounded-full overflow-hidden bg-[#080808] border-2 border-[#b6ff2e] flex-shrink-0 shadow-lg shadow-[#b6ff2e]/10">
+                  <Image src={cover} alt="Cover preview" fill className="object-cover" unoptimized />
+                </div>
               )}
-              <span>{cover ? 'Chọn & Crop Lại Ảnh Cover' : 'Chọn Ảnh & Crop Vuông 1:1'}</span>
-            </label>
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                id="cover-input"
+                className="hidden"
+                onChange={handleCoverSelect}
+              />
+              <label
+                htmlFor="cover-input"
+                className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2 flex-shrink-0"
+              >
+                {uploadingCover ? (
+                  <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" />
+                ) : (
+                  <Crop className="w-4 h-4 text-[#b6ff2e]" />
+                )}
+                <span>{uploadingCover ? `Đang tải lên... ${coverProgress}%` : cover ? 'Chọn & Crop Lại Ảnh Cover' : 'Chọn Ảnh & Crop Vuông 1:1'}</span>
+              </label>
 
-            {cover && (
-              <span className="text-xs font-mono text-[#b6ff2e] truncate">
-                ✓ Đã tải ảnh cover tròn
-              </span>
+              {!uploadingCover && cover && (
+                <span className="text-xs font-mono text-[#b6ff2e] truncate">
+                  ✓ Đã tải ảnh cover tròn
+                </span>
+              )}
+            </div>
+
+            {uploadingCover && (
+              <div className="h-1.5 w-full bg-[#161616] rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#b6ff2e] transition-all duration-150 ease-out"
+                  style={{ width: `${coverProgress}%` }}
+                />
+              </div>
             )}
           </div>
         </div>

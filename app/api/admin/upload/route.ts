@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
+import { promises as fsp } from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 
@@ -43,19 +43,19 @@ export async function POST(request: NextRequest) {
 
     // Determine target physical directory: storage/media/[module]/[targetSubdir]
     const destDir = path.join(process.cwd(), 'storage', 'media', moduleType, targetSubdir);
-    if (!fs.existsSync(destDir)) {
-      fs.mkdirSync(destDir, { recursive: true });
-    }
+    await fsp.mkdir(destDir, { recursive: true });
 
     // Generate random UUID file name with original extension
     const ext = path.extname(file.name).toLowerCase() || (isAudio ? '.mp3' : '.webp');
     const randomName = `${crypto.randomUUID()}${ext}`;
     const physicalPath = path.join(destDir, randomName);
 
-    // Save buffer to physical path
+    // Save buffer to physical path — async so a large audio upload never
+    // blocks the Node event loop (and every other request on the server)
+    // for the duration of the disk write.
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    fs.writeFileSync(physicalPath, buffer);
+    await fsp.writeFile(physicalPath, buffer);
 
     // Public accessible URL: /media/[module]/[targetSubdir]/[randomName]
     const publicUrl = `/media/${moduleType}/${targetSubdir}/${randomName}`;

@@ -7,6 +7,7 @@ import { Course, SiteSettings } from '@/types';
 import ImageCropperModal from './ImageCropperModal';
 import FeaturedSwapModal from './FeaturedSwapModal';
 import ConfirmModal from './ConfirmModal';
+import { uploadFile } from './uploadFile';
 import { Image as ImageIcon, Loader2, Save, ArrowLeft, X, Plus, Crop } from 'lucide-react';
 
 interface CourseFormProps {
@@ -31,6 +32,7 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
 
   const [uploadingThumb, setUploadingThumb] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -136,21 +138,10 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
   ) => {
     setError(null);
     setLoadingState(true);
+    setUploadProgress(0);
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('module', 'courses');
-      formData.append('type', 'images');
-
-      const res = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Lỗi upload file');
-
+      const data = await uploadFile(file, 'courses', 'images', setUploadProgress);
       onSuccess(data.url);
     } catch (err: any) {
       setError(err.message);
@@ -279,26 +270,33 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
           <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
             Ảnh Thumbnail Khóa Học (Hỗ trợ Crop vuông 1:1)
           </label>
-          <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-xl bg-[#111111] border border-white/10">
-            {thumbnail && (
-              <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-[#080808] border-2 border-[#b6ff2e] flex-shrink-0">
-                <Image src={thumbnail} alt="Thumbnail preview" fill className="object-cover" unoptimized />
+          <div className="space-y-3 p-4 rounded-xl bg-[#111111] border border-white/10">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              {thumbnail && (
+                <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-[#080808] border-2 border-[#b6ff2e] flex-shrink-0">
+                  <Image src={thumbnail} alt="Thumbnail preview" fill className="object-cover" unoptimized />
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                id="course-thumb-input"
+                className="hidden"
+                onChange={(e) => handleImageSelect(e, 'thumbnail')}
+              />
+              <label
+                htmlFor="course-thumb-input"
+                className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2 flex-shrink-0"
+              >
+                {uploadingThumb ? <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" /> : <Crop className="w-4 h-4 text-[#b6ff2e]" />}
+                <span>{uploadingThumb ? `Đang tải lên... ${uploadProgress}%` : 'Tải & Crop Ảnh Thumbnail'}</span>
+              </label>
+            </div>
+            {uploadingThumb && (
+              <div className="h-1.5 w-full bg-[#161616] rounded-full overflow-hidden">
+                <div className="h-full bg-[#b6ff2e] transition-all duration-150 ease-out" style={{ width: `${uploadProgress}%` }} />
               </div>
             )}
-            <input
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              id="course-thumb-input"
-              className="hidden"
-              onChange={(e) => handleImageSelect(e, 'thumbnail')}
-            />
-            <label
-              htmlFor="course-thumb-input"
-              className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2"
-            >
-              {uploadingThumb ? <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" /> : <Crop className="w-4 h-4 text-[#b6ff2e]" />}
-              <span>Tải & Crop Ảnh Thumbnail</span>
-            </label>
           </div>
         </div>
 
@@ -321,9 +319,15 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
                 className="px-4 py-2.5 rounded-xl bg-[#161616] border border-white/10 text-xs font-mono text-white hover:border-[#b6ff2e] hover:text-[#b6ff2e] cursor-pointer flex items-center gap-2"
               >
                 {uploadingGallery ? <Loader2 className="w-4 h-4 animate-spin text-[#b6ff2e]" /> : <Crop className="w-4 h-4 text-[#b6ff2e]" />}
-                <span>Chọn & Crop Ảnh Gallery</span>
+                <span>{uploadingGallery ? `Đang tải lên... ${uploadProgress}%` : 'Chọn & Crop Ảnh Gallery'}</span>
               </label>
             </div>
+
+            {uploadingGallery && (
+              <div className="h-1.5 w-full bg-[#161616] rounded-full overflow-hidden">
+                <div className="h-full bg-[#b6ff2e] transition-all duration-150 ease-out" style={{ width: `${uploadProgress}%` }} />
+              </div>
+            )}
 
             {images.length > 0 && (
               <div className="flex flex-wrap gap-3 pt-2">
