@@ -59,8 +59,8 @@ export default function MusicPage() {
         </p>
       </div>
 
-      {/* Filter Bar — luxury pill system */}
-      <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 overflow-x-auto pb-1 -mx-1 px-1 sm:mx-0 sm:px-0">
+      {/* Filter Bar — luxury pill system; horizontal scroll strip on mobile, wraps from sm+ */}
+      <div className="flex flex-nowrap items-center gap-2 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 sm:mx-0 sm:flex-wrap sm:gap-2.5 sm:overflow-visible sm:px-0">
         <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#5c5c5c] uppercase tracking-[0.15em] pr-1 flex-shrink-0">
           <Filter className="w-3 h-3" />
         </div>

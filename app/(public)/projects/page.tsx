@@ -25,12 +25,12 @@ export default function ProjectsPage() {
         </p>
       </Reveal>
 
-      {/* Grid Layout (Desktop 3, Tablet 2, Mobile 1) */}
+      {/* Grid Layout (Desktop 3, Tablet 2, Mobile 3-compact) */}
       {projects.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, i) => (
             <Reveal key={project.id} delay={Math.min(i * 0.05, 0.3)} distance={16}>
-              <FLPProjectCard project={project} allTags={tags} />
+              <FLPProjectCard project={project} allTags={tags} compact />
             </Reveal>
           ))}
         </div>

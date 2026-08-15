@@ -24,12 +24,12 @@ export default function CoursesPage() {
         </p>
       </Reveal>
 
-      {/* Grid Layout */}
+      {/* Grid Layout (Desktop 3, Tablet 2, Mobile 3-compact) */}
       {courses.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
           {courses.map((course, i) => (
             <Reveal key={course.id} delay={Math.min(i * 0.05, 0.3)} distance={16}>
-              <CourseCard course={course} />
+              <CourseCard course={course} compact />
             </Reveal>
           ))}
         </div>

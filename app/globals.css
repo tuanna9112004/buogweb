@@ -329,6 +329,15 @@
   animation: eq-bounce 620ms ease-in-out infinite;
 }
 
+/* Hides scrollbar while keeping native scroll — used for mobile horizontal filter/category strips */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

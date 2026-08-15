@@ -56,16 +56,16 @@ export default function EquipmentPage() {
         </p>
       </Reveal>
 
-      {/* Category Filter Bar */}
-      <Reveal delay={0.08} className="flex flex-wrap items-center gap-2 bg-[#0A0A0A] p-3 rounded-2xl border border-white/10">
-        <div className="flex items-center gap-2 text-xs font-mono text-[#737373] px-3 py-1">
+      {/* Category Filter Bar — horizontal scroll strip on mobile, wraps from sm+ */}
+      <Reveal delay={0.08} className="flex flex-nowrap items-center gap-2 overflow-x-auto no-scrollbar bg-[#0A0A0A] p-3 rounded-2xl border border-white/10 sm:flex-wrap sm:overflow-visible">
+        <div className="flex flex-shrink-0 items-center gap-2 text-xs font-mono text-[#737373] px-1 sm:px-3 py-1">
           <Filter className="w-3.5 h-3.5 text-white/70" />
-          <span>DANH MỤC:</span>
+          <span className="hidden sm:inline">DANH MỤC:</span>
         </div>
 
         <button
           onClick={() => setSelectedCat(null)}
-          className={`text-xs px-4 py-2 rounded-xl font-mono uppercase tracking-wider transition-all ${
+          className={`flex-shrink-0 whitespace-nowrap text-xs px-4 py-2 rounded-xl font-mono uppercase tracking-wider transition-all ${
             selectedCat === null
               ? 'bg-white text-black font-bold shadow-md'
               : 'bg-[#101010] text-[#737373] hover:text-white border border-white/10 hover:border-white/30'
@@ -81,7 +81,7 @@ export default function EquipmentPage() {
             <button
               key={cat.id}
               onClick={() => setSelectedCat(isSelected ? null : cat.id)}
-              className={`text-xs px-4 py-2 rounded-xl font-mono uppercase tracking-wider transition-all ${
+              className={`flex-shrink-0 whitespace-nowrap text-xs px-4 py-2 rounded-xl font-mono uppercase tracking-wider transition-all ${
                 isSelected
                   ? 'bg-white text-black font-bold shadow-md'
                   : 'bg-[#101010] text-[#737373] hover:text-white border border-white/10 hover:border-white/30'
@@ -93,17 +93,17 @@ export default function EquipmentPage() {
         })}
       </Reveal>
 
-      {/* Grid Layout (Desktop 3-4, Tablet 2, Mobile 1) */}
+      {/* Grid Layout (Desktop 4, Tablet 2, Mobile 4-compact) */}
       {loading ? (
         <div className="py-20 text-center flex flex-col items-center gap-3">
           <Loader2 className="w-8 h-8 animate-spin text-white" />
           <span className="text-sm font-mono text-[#737373]">Đang tải catalog thiết bị...</span>
         </div>
       ) : filteredList.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-4 gap-2.5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           {filteredList.map((eq, i) => (
             <Reveal key={eq.id} delay={Math.min(i * 0.05, 0.3)} distance={16}>
-              <EquipmentCard equipment={eq} categories={categories} />
+              <EquipmentCard equipment={eq} categories={categories} compact />
             </Reveal>
           ))}
         </div>

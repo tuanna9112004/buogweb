@@ -209,9 +209,9 @@ export default function HomePage() {
         </Reveal>
 
         {featuredProjects.length > 0 ? (
-          <Reveal delay={0.1} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Reveal delay={0.1} className="grid grid-cols-3 gap-3 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
             {featuredProjects.map((project) => (
-              <FLPProjectCard key={project.id} project={project} allTags={projectTags} />
+              <FLPProjectCard key={project.id} project={project} allTags={projectTags} compact />
             ))}
           </Reveal>
         ) : (
@@ -235,9 +235,9 @@ export default function HomePage() {
         </Reveal>
 
         {featuredCourses.length > 0 ? (
-          <Reveal delay={0.1} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Reveal delay={0.1} className="grid grid-cols-3 gap-3 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
             {featuredCourses.map((course) => (
-              <CourseCard key={course.id} course={course} />
+              <CourseCard key={course.id} course={course} compact />
             ))}
           </Reveal>
         ) : (
@@ -261,9 +261,9 @@ export default function HomePage() {
         </Reveal>
 
         {featuredEquipment.length > 0 ? (
-          <Reveal delay={0.1} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Reveal delay={0.1} className="grid grid-cols-4 gap-2.5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
             {featuredEquipment.map((eq) => (
-              <EquipmentCard key={eq.id} equipment={eq} categories={equipmentCategories} />
+              <EquipmentCard key={eq.id} equipment={eq} categories={equipmentCategories} compact />
             ))}
           </Reveal>
         ) : (
