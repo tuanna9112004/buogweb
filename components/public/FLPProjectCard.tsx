@@ -12,7 +12,10 @@ export default function FLPProjectCard({ project, allTags = [] }: FLPProjectCard
   const thumbnail = project.thumbnail || '/media/projects/images/sexy-my-mind-cover.webp';
 
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-white/[0.07] bg-[#101010] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-white/20 hover:bg-[#131313]">
+    <Link
+      href={`/projects/${project.slug}`}
+      className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-white/[0.07] bg-[#101010] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-white/20 hover:bg-[#131313]"
+    >
       {/* Preview — dominant portion of the card */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#050505]">
         <Image
@@ -59,25 +62,22 @@ export default function FLPProjectCard({ project, allTags = [] }: FLPProjectCard
           {project.shortDescription}
         </p>
 
-        <div className="mt-auto flex items-center justify-between border-t border-white/[0.07] pt-4">
-          <div>
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-3 border-t border-white/[0.07] pt-4">
+          <div className="min-w-0 flex-1">
             <span className="block font-mono text-[10px] uppercase tracking-wide text-[#6B6B6B]">
               Giá Project
             </span>
-            <span className="font-mono text-base font-bold text-white">
+            <span className="block font-mono text-base font-bold text-white">
               {project.priceText || 'Liên hệ'}
             </span>
           </div>
 
-          <Link
-            href={`/projects/${project.slug}`}
-            className="group/cta inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-white transition-colors duration-200 hover:text-[#B8B8B8]"
-          >
+          <span className="shrink-0 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-white/[0.05] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-all duration-200 group-hover:border-white group-hover:bg-white group-hover:text-[#111111]">
             <span>Xem chi tiết</span>
-            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/cta:translate-x-1" />
-          </Link>
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+          </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
