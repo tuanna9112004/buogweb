@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Tăng giới hạn dung lượng body để cho phép upload file audio lên đến 50MB qua Proxy
-  middlewareClientMaxBodySize: '50mb',
+  // Cấu hình Next.js 16.3: Tăng giới hạn upload qua proxy (trước đây là middleware)
+  experimental: {
+    proxyClientMaxBodySize: '50mb',
+  },
 };
 
 export default nextConfig;
