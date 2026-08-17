@@ -32,7 +32,6 @@ export default function Header({ settings }: HeaderProps) {
     { href: '/music', label: 'MUSIC' },
     { href: '/projects', label: 'FLP PROJECTS' },
     { href: '/courses', label: 'COURSES' },
-    { href: '/equipment', label: 'EQUIPMENT' },
   ];
 
   const brand = settings?.brandName || 'BUOGS';
@@ -67,10 +66,10 @@ export default function Header({ settings }: HeaderProps) {
             <div>
               <span className="sr-only">{brand}</span>
               <Image
-                src="/buogs-logo-mark.png"
+                src="/buogs-logo-mark-v2.png"
                 alt=""
-                width={463}
-                height={74}
+                width={744}
+                height={130}
                 className="h-4 sm:h-[18px] w-auto invert block"
                 unoptimized
               />

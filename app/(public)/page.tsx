@@ -6,18 +6,15 @@ import {
   getProjects,
   getProjectTags,
   getCourses,
-  getEquipment,
-  getEquipmentCategories,
   getSettings,
 } from '@/lib/storage/repository';
 import MusicShowcaseCard from '@/components/public/MusicShowcaseCard';
 import FLPProjectCard from '@/components/public/FLPProjectCard';
 import CourseCard from '@/components/public/CourseCard';
-import EquipmentCard from '@/components/public/EquipmentCard';
 import Reveal from '@/components/public/Reveal';
 import SectionHeading from '@/components/public/SectionHeading';
 import HeroContactButton from '@/components/public/HeroContactButton';
-import { ArrowRight, Sliders, Music, Headphones, Award, Play, Sparkles } from 'lucide-react';
+import { ArrowRight, Music, Headphones, Award, Play, Sparkles } from 'lucide-react';
 
 export const revalidate = 0; // Dynamic server rendering for live JSON edits
 
@@ -35,10 +32,6 @@ export default function HomePage() {
 
   const allCourses = getCourses(true);
   const featuredCourses = allCourses.filter((c) => c.featured).slice(0, settings.featuredCoursesCount);
-
-  const allEquipment = getEquipment(true);
-  const equipmentCategories = getEquipmentCategories(true);
-  const featuredEquipment = allEquipment.filter((e) => e.featured).slice(0, settings.featuredEquipmentCount);
 
   return (
     <div className="space-y-20 sm:space-y-28 lg:space-y-36 pb-24">
@@ -107,8 +100,16 @@ export default function HomePage() {
 
             {/* Title */}
             <Reveal delay={0.08} duration={0.42} distance={14} className="mt-[32px]">
-              <h1 className="font-heading text-5xl sm:text-6xl lg:text-[76px] font-medium tracking-[-2.5px] text-[#F4F2EE] uppercase leading-[0.95] lg:max-w-[360px]">
-                {settings.brandName || 'BUOGS'}
+              <h1 className="lg:max-w-[360px]">
+                <Image
+                  src="/buogs-logo-mark-v2.png"
+                  alt={settings.brandName || 'BUOGS'}
+                  width={744}
+                  height={130}
+                  className="h-12 sm:h-14 lg:h-16 w-auto invert mx-auto lg:mx-0"
+                  unoptimized
+                  priority
+                />
               </h1>
             </Reveal>
 
@@ -125,7 +126,7 @@ export default function HomePage() {
             {/* Description */}
             <Reveal delay={0.22} duration={0.42} distance={14} className="hidden sm:block mt-[32px]">
               <p className="text-[15px] text-white/72 max-w-[500px] mx-auto lg:mx-0 leading-[1.65]">
-                {settings.about || 'BUOGS là DJ / Producer chuyên nghiệp trong lĩnh vực âm nhạc điện tử, cung cấp các sản phẩm FL Studio chất lượng cao, đào tạo DJ/Producer chuyên sâu và tư vấn thiết bị DJ cao cấp.'}
+                {settings.about || 'BUOGS là DJ / Producer chuyên nghiệp trong lĩnh vực âm nhạc điện tử, cung cấp các sản phẩm FL Studio chất lượng cao và đào tạo DJ/Producer chuyên sâu.'}
               </p>
             </Reveal>
 
@@ -147,9 +148,9 @@ export default function HomePage() {
             </Reveal>
           </div>
 
-          {/* Empty breathing-space column — keeps text clear of the portrait */}
-          <div />
-          <div />
+          {/* Empty breathing-space column — keeps text clear of the portrait; desktop-only so it doesn't add phantom stacked rows on mobile's single-column grid */}
+          <div className="hidden lg:block" />
+          <div className="hidden lg:block" />
         </div>
       </section>
 
@@ -243,32 +244,6 @@ export default function HomePage() {
         ) : (
           <p className="text-sm font-mono text-[#737373] py-8 text-center bg-[#0A0A0A] rounded-2xl border border-white/10">
             Chưa có khóa học nổi bật.
-          </p>
-        )}
-      </section>
-
-      {/* EQUIPMENT SECTION */}
-      <section className="section-equipment max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
-        <Reveal>
-          <SectionHeading
-            number="04"
-            icon={Sliders}
-            eyebrow="Equipment Catalog"
-            title="THIẾT BỊ DJ / PRODUCER"
-            ctaLabel="Xem Tất Cả Thiết Bị"
-            ctaHref="/equipment"
-          />
-        </Reveal>
-
-        {featuredEquipment.length > 0 ? (
-          <Reveal delay={0.1} className="grid grid-cols-4 gap-2.5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-            {featuredEquipment.map((eq) => (
-              <EquipmentCard key={eq.id} equipment={eq} categories={equipmentCategories} compact />
-            ))}
-          </Reveal>
-        ) : (
-          <p className="text-sm font-mono text-[#737373] py-8 text-center bg-[#0A0A0A] rounded-2xl border border-white/10">
-            Chưa có thiết bị nổi bật.
           </p>
         )}
       </section>

@@ -44,10 +44,10 @@ export default function Footer({ settings }: FooterProps) {
               <div>
                 <span className="sr-only">{brandName}</span>
                 <Image
-                  src="/buogs-logo-mark.png"
+                  src="/buogs-logo-mark-v2.png"
                   alt=""
-                  width={463}
-                  height={74}
+                  width={744}
+                  height={130}
                   className="h-5 w-auto invert block"
                   unoptimized
                 />
@@ -62,7 +62,7 @@ export default function Footer({ settings }: FooterProps) {
             </p>
 
             <p className="text-sm text-[#a8a8a8] max-w-md leading-relaxed">
-              Official portfolio website of {brandName} DJ/Producer. Providing high-quality FL Studio Projects, DJ Training Courses and Premier Equipment.
+              Official portfolio website of {brandName} DJ/Producer. Providing high-quality FL Studio Projects and DJ Training Courses.
             </p>
           </div>
 
@@ -71,7 +71,7 @@ export default function Footer({ settings }: FooterProps) {
             <h4 className="kicker text-white/80">
               Navigation
             </h4>
-            <ul className="space-y-3 text-xs font-mono">
+            <ul className="flex flex-wrap gap-x-4 gap-y-2 md:block md:space-y-3 text-xs font-mono">
               <li>
                 <Link href="/" className="text-[#8a8a8a] hover:text-white transition-colors duration-200">
                   Home
@@ -92,11 +92,6 @@ export default function Footer({ settings }: FooterProps) {
                   Courses
                 </Link>
               </li>
-              <li>
-                <Link href="/equipment" className="text-[#8a8a8a] hover:text-white transition-colors duration-200">
-                  Equipment
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -105,7 +100,7 @@ export default function Footer({ settings }: FooterProps) {
             <h4 className="kicker text-white/80">
               Connect
             </h4>
-            <ul className="space-y-3 text-xs font-mono">
+            <ul className="flex flex-wrap gap-x-4 gap-y-2 md:block md:space-y-3 text-xs font-mono">
               {zaloUrl && (
                 <li>
                   <a
