@@ -78,7 +78,7 @@ export async function setAdminSessionCookie(username: string) {
   const token = createSessionToken(username);
   cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === 'production' && process.env.REQUIRE_HTTPS === 'true',
     sameSite: 'lax',
     maxAge: 7 * 24 * 60 * 60, // 7 days
     path: '/',
