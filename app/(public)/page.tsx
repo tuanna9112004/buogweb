@@ -248,51 +248,7 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* ABOUT BUOGS SECTION — Brand statement: left manifesto, right capability list */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#0A0A0A] p-8 sm:p-14 lg:p-16">
-          <div className="pointer-events-none absolute -top-1/3 -right-1/4 h-[560px] w-[560px] rounded-full bg-white/[0.04] blur-[120px]" />
 
-          <div className="relative grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-            <div className="space-y-6">
-              <div className="kicker text-[#A8A8A8]">About {settings.brandName || 'BUOGS'}</div>
-              <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.05] max-w-xl">
-                Giới Thiệu
-                <br />
-                Thương Hiệu
-              </h2>
-              <p className="max-w-xl text-base leading-relaxed text-[#A8A8A8] sm:text-lg">
-                {settings.about}
-              </p>
-            </div>
-
-            <div className="space-y-5 lg:pt-2">
-              {[
-                { title: '100% DJ / PRODUCER', desc: 'Đặc tả chuẩn phong cách Club' },
-                { title: 'FL STUDIO PROJECTS', desc: 'Preset, Sample Pack & Mixing' },
-                { title: '1-ON-1 TRAINING', desc: 'Thực hành thiết bị Pioneer DJ' },
-              ].map((item, i) => (
-                <div
-                  key={item.title}
-                  className="flex items-start gap-4 border-t border-white/[0.08] pt-5 first:border-t-0 first:pt-0"
-                >
-                  <span className="index-numeral flex-shrink-0 select-none text-3xl sm:text-4xl">
-                    0{i + 1}
-                  </span>
-                  <div>
-                    <span className="block font-heading text-lg sm:text-xl font-bold text-white">
-                      {item.title}
-                    </span>
-                    <span className="mt-1 block font-mono text-[11px] uppercase tracking-wide text-[#737373]">
-                      {item.desc}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-      </section>
 
     </div>
   );

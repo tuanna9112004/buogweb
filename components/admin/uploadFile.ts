@@ -19,7 +19,10 @@ export function uploadFile(
 ): Promise<UploadResult> {
   return new Promise((resolve, reject) => {
     const formData = new FormData();
-    formData.append('file', file);
+    // Sử dụng tên file an toàn (chỉ giữ lại extension) để tránh lỗi "Failed to parse body as FormData" 
+    // của Next.js do bug xử lý ký tự non-ASCII (tiếng Việt có dấu, tiếng Trung) trong tên file.
+    const ext = file.name.substring(file.name.lastIndexOf('.'));
+    formData.append('file', file, 'upload' + ext);
     formData.append('module', module);
     formData.append('type', type);
 
