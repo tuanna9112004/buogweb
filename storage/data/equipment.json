@@ -1,55 +1,19 @@
 [
   {
-    "id": "equipment-001",
-    "slug": "pioneer-xdj-rx3",
-    "title": "Pioneer XDJ-RX3 All-In-One",
-    "category": "dj-player",
-    "thumbnail": "/media/equipment/images/8d52d7fc-d474-481f-9b74-c3645758d693.webp",
-    "images": [
-      "/media/equipment/images/95c4a625-1dff-47e4-9045-4f1032f5b961.webp",
-      "/media/equipment/images/2b9baaef-dc10-4d9d-9549-f3abc7bd2dd7.webp",
-      "/media/equipment/images/e75bf79a-2e31-4a5d-a782-ff85800bc75f.webp"
-    ],
+    "id": "equipment-msx377si-k3z5",
+    "slug": "usb-san-nhac",
+    "title": "USB SẴN NHẠC",
+    "category": "accessories",
+    "thumbnail": "/media/equipment/images/ffd9dfbb-238f-430c-90f6-c1338eae459d.webp",
+    "images": [],
     "price": null,
-    "priceText": "Liên hệ",
-    "shortDescription": "Hệ thống DJ All-In-One cao cấp 2 kênh màn hình cảm ứng 10.1 inch chuyên nghiệp.",
-    "content": "## Thông Tin Sản Phẩm\n\n- Tình trạng: Mới 99% nguyên bản, đầy đủ hộp phụ kiện.\n- Màn hình 10.1 inch mượt mà như CDJ-3000.\n- Phụ kiện đi kèm: Dây nguồn, cáp USB, túi chống xốc cao cấp.\n- Bảo hành 12 tháng tại studio.",
+    "priceText": "999K",
+    "shortDescription": "USB REKORBOX SẴN NHẠC CHO ANH EM DJ",
+    "content": "USB REKORBOX SẴN NHẠC\nVINAHOUSE - HOUSELAK\n- 2000 TRACK\n- PHÂN LOẠI LIST NHẠC",
     "featured": true,
     "published": true,
     "sortOrder": 1,
-    "updatedAt": "2026-08-15T10:28:41.534Z"
-  },
-  {
-    "id": "equipment-msu7tu9j-3852",
-    "slug": "may-nghe-nhac",
-    "title": "máy nghe nhạc",
-    "category": "dj-player",
-    "thumbnail": "/media/equipment/images/3e3ec862-2030-43b8-8ef5-e0d51964c1b2.webp",
-    "images": [],
-    "price": null,
-    "priceText": "Liên hệ",
-    "shortDescription": "sản phẩm mới",
-    "content": "## Thông Tin Sản Phẩm\n\nNội dung chi tiết...",
-    "featured": false,
-    "published": true,
-    "sortOrder": 1,
-    "createdAt": "2026-08-15T10:10:50.359Z",
-    "updatedAt": "2026-08-15T10:10:50.359Z"
-  },
-  {
-    "id": "equipment-002",
-    "slug": "pioneer-ddj-flx6",
-    "title": "Pioneer DDJ-FLX6-GT",
-    "category": "controller",
-    "thumbnail": "/media/equipment/images/ff51aa77-faa1-4afb-bf5c-6fb356441b73.webp",
-    "images": [],
-    "price": 18500000,
-    "priceText": "18.500.000đ",
-    "shortDescription": "Bàn Controller 4 kênh dành cho Rekordbox & Serato DJ Pro.",
-    "content": "## Thông Tin Sản Phẩm\n\nController 4 kênh thiết kế màu mờ sang trọng, jogwheel kích thước chuẩn CDJ.",
-    "featured": true,
-    "published": true,
-    "sortOrder": 2,
-    "updatedAt": "2026-08-15T10:22:33.118Z"
+    "createdAt": "2026-08-17T10:24:34.866Z",
+    "updatedAt": "2026-08-18T14:18:05.750Z"
   }
 ]

@@ -28,5 +28,11 @@
     "name": "EDM",
     "published": true,
     "sortOrder": 5
+  },
+  {
+    "id": "vietmix",
+    "name": "VIETMIX",
+    "published": true,
+    "sortOrder": 6
   }
 ]

@@ -1,32 +1,281 @@
 [
   {
-    "id": "music-msu91f0l-dg8t",
-    "title": "khuôn mặt đáng thương",
-    "artists": "Sơn Tùng",
-    "audio": "/media/music/audio/308efcd0-500c-4099-8995-b88b64cc31c8.mp3",
-    "cover": "/media/music/covers/194b5be8-9da8-4bb8-95fe-cb72c2acb1c8.webp",
-    "tags": [],
-    "publishDate": "2026-08-15",
-    "featured": true,
+    "id": "music-msylwu7v-v5rl",
+    "title": "RHYTHYM THE NIGHT",
+    "artists": "BUOGS",
+    "audio": "/media/music/audio/75ae7529-145f-40e0-afd5-4ae6d2e53210.mp3",
+    "cover": "/media/music/covers/f5b4b317-1ba4-4cfc-998b-66900405b22f.webp",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "publishDate": "2026-08-18",
+    "featured": false,
     "published": true,
     "sortOrder": 0,
-    "createdAt": "2026-08-15T10:44:43.461Z",
-    "updatedAt": "2026-08-15T10:48:54.960Z"
+    "createdAt": "2026-08-18T11:56:09.595Z",
+    "updatedAt": "2026-08-18T11:56:09.595Z"
   },
   {
-    "id": "music-mspv43tc-juqh",
-    "title": "em của ngày hôm qua",
-    "artists": "Sơn Tùng",
-    "audio": "/media/music/audio/2e17eaa8-be3b-43bf-8c8f-e5b1195501d1.mp3",
-    "cover": "/media/music/covers/2e3a252d-42b3-4bb3-8985-bb04d10c1fae.webp",
+    "id": "music-msylagqv-u7t3",
+    "title": "MY EVERYTHING",
+    "artists": "BUOGS X ZENO",
+    "audio": "/media/music/audio/722d646c-87cf-4c64-bd75-b8110efb275c.mp3",
+    "cover": "/media/music/covers/0eb7d64b-1a06-4c69-a024-1e6ad7c696b4.webp",
     "tags": [
-      "vinahouse"
+      "vinahouse",
+      "remix",
+      "vietmix"
     ],
-    "publishDate": "2026-08-12",
+    "publishDate": "2026-08-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-18T11:38:45.703Z",
+    "updatedAt": "2026-08-18T11:39:35.828Z"
+  },
+  {
+    "id": "music-msyl83p9-07ka",
+    "title": "OLD TOWN ROAD",
+    "artists": "BUOGS X KGO",
+    "audio": "/media/music/audio/d6eaa2b8-c5ab-468d-bad9-926557c10263.mp3",
+    "cover": "/media/music/covers/6ecef3fa-d9d9-48cf-b6f4-7f697c215a3b.webp",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "publishDate": "2026-08-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-18T11:36:55.485Z",
+    "updatedAt": "2026-08-18T11:36:55.485Z"
+  },
+  {
+    "id": "music-msykuvkm-6ksn",
+    "title": "HEY HELLO",
+    "artists": "BUOGS X ZENO",
+    "audio": "/media/music/audio/ef9c4132-0402-4cb1-a129-64969d054cc6.mp3",
+    "cover": "/media/music/covers/6bda19a7-0b75-4758-aea8-539f34facda8.webp",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "publishDate": "2026-08-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-18T11:26:38.422Z",
+    "updatedAt": "2026-08-18T11:26:38.422Z"
+  },
+  {
+    "id": "music-msykreqq-ceor",
+    "title": "BOOM BOOM BOOM",
+    "artists": "BUOGS",
+    "audio": "/media/music/audio/1c932dcf-2b4d-4d87-abd7-f7dec4c29888.mp3",
+    "cover": "/media/music/covers/01213a5d-188c-45fb-b484-4dec141c9f8c.webp",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "publishDate": "2026-08-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-18T11:23:56.642Z",
+    "updatedAt": "2026-08-18T11:23:56.642Z"
+  },
+  {
+    "id": "music-msykpx51-5mtd",
+    "title": "THỜI GIAN SẼ TRẢ LỜI",
+    "artists": "BUOGS X ZENO",
+    "audio": "/media/music/audio/32b4305c-1d00-4c3d-af0f-f3a4a88bba5b.mp3",
+    "cover": "/media/music/covers/f4ae980b-66df-42d4-8c7b-331654087c1c.webp",
+    "tags": [
+      "remix",
+      "vinahouse",
+      "vietmix"
+    ],
+    "publishDate": "2026-08-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-18T11:22:47.173Z",
+    "updatedAt": "2026-08-18T11:39:41.312Z"
+  },
+  {
+    "id": "music-msykouit-100a",
+    "title": "NẾU",
+    "artists": "BUOGS X SIMPLED",
+    "audio": "/media/music/audio/8d39532d-1d03-4ade-b00b-ca47de53fa57.mp3",
+    "cover": "/media/music/covers/a8506b36-91ed-4940-8151-1b4346d316c9.webp",
+    "tags": [
+      "vinahouse",
+      "remix",
+      "vietmix"
+    ],
+    "publishDate": "2026-08-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-18T11:21:57.125Z",
+    "updatedAt": "2026-08-18T11:39:50.984Z"
+  },
+  {
+    "id": "music-msyknkka-wyt6",
+    "title": "ANH THÔI NHÂN NHƯỢNG",
+    "artists": "BUOGS X SIMPLED",
+    "audio": "/media/music/audio/a19bc774-7f5e-4160-b391-14ffd3f79811.mp3",
+    "cover": "/media/music/covers/3a6f5be5-a449-420b-ad12-81c631a9b22a.webp",
+    "tags": [
+      "vinahouse",
+      "remix",
+      "vietmix"
+    ],
+    "publishDate": "2026-08-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-18T11:20:57.562Z",
+    "updatedAt": "2026-08-18T11:39:55.484Z"
+  },
+  {
+    "id": "music-msykmo3w-as4g",
+    "title": "PHÁO HỒNG",
+    "artists": "BUOGS X XICALOB",
+    "audio": "/media/music/audio/34427d90-1ac2-4bdd-88e3-1cb43f33e7d3.mp3",
+    "cover": "/media/music/covers/6eaa1b4a-f3f0-43a7-98ec-7eb27e57334f.webp",
+    "tags": [
+      "vinahouse",
+      "remix",
+      "vietmix"
+    ],
+    "publishDate": "2026-08-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-18T11:20:15.500Z",
+    "updatedAt": "2026-08-18T11:40:07.281Z"
+  },
+  {
+    "id": "music-msyklg3q-2i93",
+    "title": "GOT US DJ",
+    "artists": "BUOGS",
+    "audio": "/media/music/audio/93d7c2e4-07e5-4a80-8dd0-fafa966745e3.mp3",
+    "cover": "/media/music/covers/b902a7b9-4f46-43ac-a096-dc7a178019e5.webp",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "publishDate": "2026-08-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-18T11:19:18.454Z",
+    "updatedAt": "2026-08-18T11:19:18.454Z"
+  },
+  {
+    "id": "music-msykiwse-7xz6",
+    "title": "CÀO CÀO LÁ TRE",
+    "artists": "BUOGS",
+    "audio": "/media/music/audio/b4b1f6eb-3a01-4bbc-91b7-88e0d7c64bde.mp3",
+    "cover": "/media/music/covers/08e0145c-c017-4787-b05e-4777c183a516.webp",
+    "tags": [
+      "vinahouse",
+      "remix",
+      "vietmix"
+    ],
+    "publishDate": "2026-08-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-18T11:17:20.126Z",
+    "updatedAt": "2026-08-18T11:40:12.109Z"
+  },
+  {
+    "id": "music-msyki7ba-c43u",
+    "title": "IN MY DREAM",
+    "artists": "BUOGS",
+    "audio": "/media/music/audio/c36fb191-8647-4a4e-97d4-68871e5c2e63.mp3",
+    "cover": "/media/music/covers/33be5c11-3810-4aa9-b923-ffe21ad92587.webp",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "publishDate": "2026-08-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-18T11:16:47.110Z",
+    "updatedAt": "2026-08-18T11:17:31.079Z"
+  },
+  {
+    "id": "music-msykfpdf-nfkt",
+    "title": "ROCKSTAR X MR CHARMING",
+    "artists": "BUOGS",
+    "audio": "/media/music/audio/d3250073-b7fb-41b0-bc7b-fe04d66dcf06.mp3",
+    "cover": "/media/music/covers/ea27e1d4-5c4b-43fc-b528-69b70ae73374.webp",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "publishDate": "2026-08-18",
     "featured": true,
     "published": true,
     "sortOrder": 0,
-    "createdAt": "2026-08-12T09:03:49.502Z",
-    "updatedAt": "2026-08-15T10:49:00.028Z"
+    "createdAt": "2026-08-18T11:14:50.531Z",
+    "updatedAt": "2026-08-18T11:15:01.719Z"
+  },
+  {
+    "id": "music-msx2jifl-8uzz",
+    "title": "HÌNH XĂM TRONG ANH",
+    "artists": "BUOGS X REVIX",
+    "audio": "/media/music/audio/1c8c3ab4-8ee4-43ce-b7cf-a2af87b2edca.mp3",
+    "cover": "/media/music/covers/2c09d73c-8b5f-4961-9d45-c053adebd2bb.webp",
+    "tags": [
+      "vinahouse",
+      "remix",
+      "vietmix"
+    ],
+    "publishDate": "2026-08-17",
+    "featured": true,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-17T10:06:08.913Z",
+    "updatedAt": "2026-08-18T11:40:16.734Z"
+  },
+  {
+    "id": "music-msx2fa8v-qjka",
+    "title": "ANH KHÔNG ĐÒI QUÀ",
+    "artists": "BUOGS X TRX",
+    "audio": "/media/music/audio/2dbfa87a-9437-424c-ace8-23dba76854b8.mp3",
+    "cover": "/media/music/covers/916a6e55-0acf-4e7b-9207-1468dec9c553.webp",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "publishDate": "2026-08-17",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-17T10:02:51.679Z",
+    "updatedAt": "2026-08-18T11:14:59.219Z"
+  },
+  {
+    "id": "music-msx1tiws-ctn1",
+    "title": "GIÓ LỚN ĐAG THỔI,TUYẾT ĐANG RƠI (大风在刮大雪在下)",
+    "artists": "BUOGS x REVIX",
+    "audio": "/media/music/audio/f6a192fa-34d4-4e64-831d-3bf133991505.mp3",
+    "cover": "/media/music/covers/8980277e-a041-4468-b766-8893370180cb.webp",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "publishDate": "2026-08-17",
+    "featured": true,
+    "published": true,
+    "sortOrder": 0,
+    "createdAt": "2026-08-17T09:45:56.476Z",
+    "updatedAt": "2026-08-17T09:46:13.804Z"
   }
 ]

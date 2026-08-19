@@ -16,5 +16,17 @@
     "name": "HOUSE LAK",
     "published": true,
     "sortOrder": 3
+  },
+  {
+    "id": "flp",
+    "name": "FLP",
+    "published": true,
+    "sortOrder": 4
+  },
+  {
+    "id": "project",
+    "name": "PROJECT",
+    "published": true,
+    "sortOrder": 5
   }
 ]
