@@ -24,6 +24,9 @@ export default function AdminCoursesPage() {
   };
 
   useEffect(() => {
+    // fetchCourses only calls setState after an await (network round-trip),
+    // never synchronously — safe despite the rule's static-analysis flag.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchCourses();
   }, []);
 

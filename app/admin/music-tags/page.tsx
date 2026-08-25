@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { MusicTag } from '@/types';
 import ConfirmModal from '@/components/admin/ConfirmModal';
-import { Plus, Edit, Trash2, Tag, Loader2, Save, X } from 'lucide-react';
+import { Plus, Edit, Trash2, Loader2, X } from 'lucide-react';
 
 export default function AdminMusicTagsPage() {
   const [tags, setTags] = useState<MusicTag[]>([]);
@@ -35,6 +35,9 @@ export default function AdminMusicTagsPage() {
   };
 
   useEffect(() => {
+    // fetchTags only calls setState after an await (network round-trip),
+    // never synchronously — safe despite the rule's static-analysis flag.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchTags();
   }, []);
 
@@ -95,8 +98,8 @@ export default function AdminMusicTagsPage() {
       setIsModalOpen(false);
       setShowSaveConfirm(false);
       fetchTags();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi khi lưu tag');
       throw err;
     }
   };

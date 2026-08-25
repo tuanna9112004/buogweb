@@ -13,6 +13,7 @@ export default function AdminSettingsPage() {
     about: '',
     phone: '',
     zaloUrl: '',
+    wechatUrl: '',
     facebookUrl: '',
     tiktokUrl: '',
     address: '',
@@ -64,8 +65,8 @@ export default function AdminSettingsPage() {
       if (!res.ok) throw new Error(data.error || 'Lỗi khi lưu cài đặt');
 
       setSuccessMsg('Đã lưu cấu hình thông tin website thành công!');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi khi lưu cài đặt');
       throw err;
     } finally {
       setSubmitting(false);
@@ -190,6 +191,19 @@ export default function AdminSettingsPage() {
               value={formData.zaloUrl}
               onChange={(e) => handleChange('zaloUrl', e.target.value)}
               placeholder="https://zalo.me/0988888888"
+              className="w-full bg-[#161616] border border-white/10 rounded-xl p-3 text-white text-sm font-mono focus:border-[#b6ff2e] focus:outline-none"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
+              WeChat ID / URL
+            </label>
+            <input
+              type="text"
+              value={formData.wechatUrl || ''}
+              onChange={(e) => handleChange('wechatUrl', e.target.value)}
+              placeholder="Ví dụ: buogs_wechat"
               className="w-full bg-[#161616] border border-white/10 rounded-xl p-3 text-white text-sm font-mono focus:border-[#b6ff2e] focus:outline-none"
             />
           </div>

@@ -34,6 +34,9 @@ export default function AdminEquipmentCategoriesPage() {
   };
 
   useEffect(() => {
+    // fetchCategories only calls setState after an await (network round-trip),
+    // never synchronously — safe despite the rule's static-analysis flag.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchCategories();
   }, []);
 
@@ -94,8 +97,8 @@ export default function AdminEquipmentCategoriesPage() {
       setIsModalOpen(false);
       setShowSaveConfirm(false);
       fetchCategories();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi khi lưu danh mục');
       throw err;
     }
   };

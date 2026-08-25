@@ -13,6 +13,7 @@ export default function Footer({ settings }: FooterProps) {
   const genres = settings?.genresText || 'VINAHOUSE · HOUSE LAK · VINATRANCE';
   const phone = settings?.phone || '0988888888';
   const zaloUrl = settings?.zaloUrl || '#';
+  const wechatUrl = settings?.wechatUrl || '';
   const facebookUrl = settings?.facebookUrl || '#';
   const tiktokUrl = settings?.tiktokUrl || '#';
 
@@ -110,6 +111,19 @@ export default function Footer({ settings }: FooterProps) {
                     className="group inline-flex items-center gap-1.5 text-[#8a8a8a] hover:text-white transition-colors duration-200"
                   >
                     <span>Zalo Official</span>
+                    <ExternalLink className="w-3 h-3 text-[#5c5c5c] transition-colors duration-200 group-hover:text-white/70" />
+                  </a>
+                </li>
+              )}
+              {wechatUrl && (
+                <li>
+                  <a
+                    href={wechatUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-1.5 text-[#8a8a8a] hover:text-white transition-colors duration-200"
+                  >
+                    <span>WeChat</span>
                     <ExternalLink className="w-3 h-3 text-[#5c5c5c] transition-colors duration-200 group-hover:text-white/70" />
                   </a>
                 </li>

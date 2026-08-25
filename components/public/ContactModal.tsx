@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import Image from 'next/image';
-import { X, Phone } from 'lucide-react';
+import { X, Phone, MessageCircle } from 'lucide-react';
 import { SiteSettings } from '@/types';
 
 interface ContactModalProps {
@@ -118,6 +118,20 @@ export default function ContactModal({ open, onClose, settings }: ContactModalPr
                 <MessengerLogo className="h-4 w-4" />
               </span>
               <span>Facebook Messenger</span>
+            </a>
+          )}
+
+          {settings?.wechatUrl && (
+            <a
+              href={settings.wechatUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-center gap-3 rounded-full border border-white/18 bg-white/[0.04] pl-3 pr-6 py-2.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/10 active:scale-[0.97]"
+            >
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#07C160] shadow-sm transition-transform duration-300 group-hover:scale-105">
+                <MessageCircle className="h-4 w-4 text-white" />
+              </span>
+              <span>WeChat</span>
             </a>
           )}
 

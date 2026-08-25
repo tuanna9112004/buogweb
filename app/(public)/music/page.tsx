@@ -42,9 +42,6 @@ export default function MusicPage() {
 
   return (
     <div className="section-page-music relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-16 space-y-14">
-      {/* Subtle radial depth behind the heading — barely-there, editorial not flashy */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[380px] w-[90vw] max-w-[720px] -translate-x-1/2 -translate-y-1/4 rounded-full bg-white/[0.035] blur-[130px]" />
-
       {/* Header Banner */}
       <div className="space-y-4 max-w-2xl">
         <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.32em] text-[#8a8a8a]">

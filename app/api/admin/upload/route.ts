@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { promises as fsp } from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import { requireAdminAuth } from '@/lib/auth/session';
 
 const MAX_IMAGE_SIZE = 8 * 1024 * 1024; // 8MB
 const MAX_AUDIO_SIZE = 50 * 1024 * 1024; // 50MB
@@ -10,6 +11,9 @@ const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const ALLOWED_AUDIO_TYPES = ['audio/mpeg', 'audio/mp3'];
 
 export async function POST(request: NextRequest) {
+  const authError = await requireAdminAuth();
+  if (authError) return authError;
+
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
@@ -24,8 +28,8 @@ export async function POST(request: NextRequest) {
     const size = file.size;
 
     let targetSubdir = 'images';
-    let isImage = ALLOWED_IMAGE_TYPES.includes(mimeType);
-    let isAudio = ALLOWED_AUDIO_TYPES.includes(mimeType) || file.name.endsWith('.mp3');
+    const isImage = ALLOWED_IMAGE_TYPES.includes(mimeType);
+    const isAudio = ALLOWED_AUDIO_TYPES.includes(mimeType) || file.name.endsWith('.mp3');
 
     if (isImage) {
       if (size > MAX_IMAGE_SIZE) {
@@ -66,8 +70,9 @@ export async function POST(request: NextRequest) {
       size,
       mimeType,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Upload handler error:', error);
-    return NextResponse.json({ error: error.message || 'Lỗi xử lý file upload' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Lỗi xử lý file upload';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

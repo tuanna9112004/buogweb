@@ -1,6 +1,6 @@
 import { readJSON, writeJSONAtomic } from './json-db';
 import {
-  Music, MusicTag, Project, ProjectTag, Course, Equipment, EquipmentCategory, SiteSettings
+  Music, MusicTag, DemoMusic, Project, ProjectTag, Course, Equipment, EquipmentCategory, SiteSettings
 } from '@/types';
 import fs from 'fs';
 import path from 'path';
@@ -9,6 +9,7 @@ import path from 'path';
 const FILES = {
   MUSIC: 'music.json',
   MUSIC_TAGS: 'music-tags.json',
+  DEMO_MUSIC: 'demo-music.json',
   PROJECTS: 'projects.json',
   PROJECT_TAGS: 'project-tags.json',
   COURSES: 'courses.json',
@@ -18,7 +19,7 @@ const FILES = {
 };
 
 // Media Orphan Cleanup Helper
-export function cleanupOrphanMediaFile(mediaUrl: string, excludeCollection?: string) {
+export function cleanupOrphanMediaFile(mediaUrl: string) {
   if (!mediaUrl || !mediaUrl.startsWith('/media/')) return;
   
   const relativePath = mediaUrl.replace('/media/', '');
@@ -30,6 +31,9 @@ export function cleanupOrphanMediaFile(mediaUrl: string, excludeCollection?: str
   const isReferencedInMusic = readJSON<Music[]>(FILES.MUSIC, []).some(
     m => m.audio === mediaUrl || m.cover === mediaUrl
   );
+  const isReferencedInDemoMusic = readJSON<DemoMusic[]>(FILES.DEMO_MUSIC, []).some(
+    d => d.demoAudio === mediaUrl || d.cover === mediaUrl
+  );
   const isReferencedInProjects = readJSON<Project[]>(FILES.PROJECTS, []).some(
     p => p.thumbnail === mediaUrl || p.demoAudio === mediaUrl
   );
@@ -40,7 +44,7 @@ export function cleanupOrphanMediaFile(mediaUrl: string, excludeCollection?: str
     e => e.thumbnail === mediaUrl || (e.images && e.images.includes(mediaUrl))
   );
 
-  if (!isReferencedInMusic && !isReferencedInProjects && !isReferencedInCourses && !isReferencedInEquipment) {
+  if (!isReferencedInMusic && !isReferencedInDemoMusic && !isReferencedInProjects && !isReferencedInCourses && !isReferencedInEquipment) {
     try {
       fs.unlinkSync(physicalPath);
       console.log(`Cleaned up orphaned media file: ${physicalPath}`);
@@ -101,6 +105,7 @@ export async function saveMusic(item: Partial<Music> & { id?: string }): Promise
       featured: item.featured ?? false,
       published: item.published ?? true,
       sortOrder: item.sortOrder ?? (list.length + 1),
+      isDownloadable: item.isDownloadable ?? false,
       createdAt: nowStr,
       updatedAt: nowStr,
     };
@@ -120,6 +125,77 @@ export async function deleteMusic(id: string): Promise<boolean> {
 
   // Orphan cleanup for audio and cover
   if (target.audio) cleanupOrphanMediaFile(target.audio);
+  if (target.cover) cleanupOrphanMediaFile(target.cover);
+
+  return true;
+}
+
+// ----------------------------------------------------
+// DEMO MUSIC REPOSITORY
+// ----------------------------------------------------
+export function getDemoMusicList(publishedOnly = false): DemoMusic[] {
+  const list = readJSON<DemoMusic[]>(FILES.DEMO_MUSIC, []);
+  const filtered = publishedOnly ? list.filter(m => m.published) : list;
+  return filtered.sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
+}
+
+export function getDemoMusicById(id: string): DemoMusic | undefined {
+  const list = getDemoMusicList(false);
+  return list.find(m => m.id === id);
+}
+
+export async function saveDemoMusic(item: Partial<DemoMusic> & { id?: string }): Promise<DemoMusic> {
+  const list = getDemoMusicList(false);
+  const nowStr = new Date().toISOString();
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date());
+
+  if (item.id) {
+    const index = list.findIndex(m => m.id === item.id);
+    if (index === -1) throw new Error('Bản Demo không tồn tại');
+
+    const existing = list[index];
+    const updated: DemoMusic = {
+      ...existing,
+      ...item,
+      publishDate: item.publishDate || existing.publishDate || today,
+      updatedAt: nowStr,
+    };
+    list[index] = updated;
+    await writeJSONAtomic(FILES.DEMO_MUSIC, list);
+    return updated;
+  } else {
+    const newId = `demo-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
+    const newTrack: DemoMusic = {
+      id: newId,
+      title: item.title || '',
+      artists: item.artists || 'BUOGS',
+      demoAudio: item.demoAudio || '',
+      cover: item.cover || '',
+      tags: item.tags || [],
+      price: item.price ?? null,
+      priceText: item.priceText || 'Liên hệ',
+      publishDate: item.publishDate || today,
+      featured: item.featured ?? false,
+      published: item.published ?? true,
+      sortOrder: item.sortOrder ?? (list.length + 1),
+      createdAt: nowStr,
+      updatedAt: nowStr,
+    };
+    list.unshift(newTrack);
+    await writeJSONAtomic(FILES.DEMO_MUSIC, list);
+    return newTrack;
+  }
+}
+
+export async function deleteDemoMusic(id: string): Promise<boolean> {
+  const list = getDemoMusicList(false);
+  const target = list.find(m => m.id === id);
+  if (!target) return false;
+
+  const newList = list.filter(m => m.id !== id);
+  await writeJSONAtomic(FILES.DEMO_MUSIC, newList);
+
+  if (target.demoAudio) cleanupOrphanMediaFile(target.demoAudio);
   if (target.cover) cleanupOrphanMediaFile(target.cover);
 
   return true;
@@ -472,6 +548,7 @@ const SETTINGS_DEFAULTS: SiteSettings = {
   about: 'Nội dung giới thiệu BUOGS',
   phone: '',
   zaloUrl: '',
+  wechatUrl: '',
   facebookUrl: '',
   tiktokUrl: '',
   address: '',

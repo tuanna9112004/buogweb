@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { Music, MusicTag } from '@/types';
 import TrackPlayerRow from './TrackPlayerRow';
 import { useAudio } from './AudioPlayerContext';
@@ -39,7 +40,10 @@ export default function MusicItemCard({
     >
       <div className="flex items-center gap-4 sm:gap-5">
         {/* Cover — brand-consistent disc treatment; falls back to the BUOGS mark, never a raw placeholder */}
-        <div className="relative w-[68px] h-[68px] sm:w-20 sm:h-20 rounded-full overflow-hidden flex-shrink-0 bg-[#0A0A0A] border border-white/[0.08] transition-colors duration-300 group-hover:border-white/20">
+        <Link
+          href={`/music/${track.id}`}
+          className="relative w-[68px] h-[68px] sm:w-20 sm:h-20 rounded-full overflow-hidden flex-shrink-0 bg-[#0A0A0A] border border-white/[0.08] transition-colors duration-300 group-hover:border-white/20"
+        >
           {hasCover ? (
             <>
               <Image
@@ -64,14 +68,16 @@ export default function MusicItemCard({
               />
             </div>
           )}
-        </div>
+        </Link>
 
         {/* Content */}
         <div className="flex-1 min-w-0 flex flex-col gap-2">
           <div className="flex items-start justify-between gap-3">
-            <h3 className="font-heading text-base sm:text-[19px] font-semibold text-white leading-snug line-clamp-2">
-              {track.title}
-            </h3>
+            <Link href={`/music/${track.id}`} className="min-w-0 group/title">
+              <h3 className="font-heading text-base sm:text-[19px] font-semibold text-white leading-snug line-clamp-2 group-hover/title:text-[#EDEAE2] transition-colors duration-200">
+                {track.title}
+              </h3>
+            </Link>
             <span className="flex-shrink-0 hidden sm:block text-[10px] font-mono text-[#5c5c5c] mt-1.5 whitespace-nowrap tracking-wide">
               {formatDate(track.publishDate)}
             </span>
@@ -106,8 +112,23 @@ export default function MusicItemCard({
             )}
           </div>
 
-          <div className="pt-1">
-            <TrackPlayerRow track={track} />
+          <div className="pt-1 flex items-center gap-3">
+            <div className="flex-1 min-w-0">
+              <TrackPlayerRow track={track} />
+            </div>
+            
+            {track.isDownloadable && (
+              <a
+                href={track.audio}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#111] hover:bg-[#b6ff2e] text-white hover:text-black border border-white/10 hover:border-[#b6ff2e] transition-all"
+                title="Tải bài nhạc này"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              </a>
+            )}
           </div>
         </div>
       </div>

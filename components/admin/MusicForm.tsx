@@ -8,7 +8,7 @@ import ImageCropperModal from './ImageCropperModal';
 import FeaturedSwapModal from './FeaturedSwapModal';
 import ConfirmModal from './ConfirmModal';
 import { uploadFile } from './uploadFile';
-import { Upload, Music2, Image as ImageIcon, Loader2, Save, ArrowLeft, Crop } from 'lucide-react';
+import { Music2, Loader2, Save, ArrowLeft, Crop } from 'lucide-react';
 
 interface MusicFormProps {
   initialData?: Music;
@@ -29,6 +29,7 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
   const [publishDate, setPublishDate] = useState(initialData?.publishDate || todayStr);
   const [featured, setFeatured] = useState(initialData?.featured ?? false);
   const [published, setPublished] = useState(initialData?.published ?? true);
+  const [isDownloadable, setIsDownloadable] = useState(initialData?.isDownloadable ?? false);
 
   const [allTags, setAllTags] = useState<MusicTag[]>([]);
   const [uploadingAudio, setUploadingAudio] = useState(false);
@@ -97,8 +98,8 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
       setOtherFeatured((prev) => prev.filter((m) => m.id !== idToReplace));
       setFeatured(true);
       setShowSwapModal(false);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Không thể bỏ nổi bật mục đã chọn');
     } finally {
       setSwapping(false);
     }
@@ -133,8 +134,8 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
     try {
       const data = await uploadFile(file, 'music', type, setProgress);
       setter(data.url);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi khi tải file lên');
     } finally {
       setLoadingState(false);
     }
@@ -175,6 +176,7 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
         publishDate,
         featured,
         published,
+        isDownloadable,
       };
 
       const url = isEdit ? `/api/admin/music/${initialData?.id}` : '/api/admin/music';
@@ -191,8 +193,8 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
 
       router.push('/admin/music');
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi lưu thông tin bài nhạc');
       throw err;
     } finally {
       setSubmitting(false);
@@ -394,6 +396,25 @@ export default function MusicForm({ initialData, isEdit = false }: MusicFormProp
                 </button>
               );
             })}
+          </div>
+        </div>
+
+        {/* Download Config */}
+        <div className="space-y-4 md:col-span-2 p-4 rounded-xl bg-[#111111] border border-white/10">
+          <label className="block text-xs font-mono text-[#a3a3a3] uppercase border-b border-white/5 pb-2">
+            Tính Năng Tải Về
+          </label>
+          
+          <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+            <label className="flex items-center gap-2 cursor-pointer text-sm font-mono">
+              <input
+                type="checkbox"
+                checked={isDownloadable}
+                onChange={(e) => setIsDownloadable(e.target.checked)}
+                className="w-4 h-4 accent-[#b6ff2e] rounded"
+              />
+              <span>Cho phép User tải file Audio</span>
+            </label>
           </div>
         </div>
 

@@ -25,7 +25,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
   const relatedCourses = allCourses.filter((c) => c.id !== course.id).slice(0, 3);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10 space-y-12">
+    <div className="section-detail max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10 space-y-12">
       {/* Back link */}
       <Link
         href="/courses"
@@ -77,10 +77,6 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-white" />
                 <span>Học 1-on-1 trực tiếp với BUOGS</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-white" />
-                <span>Thực hành 100% trên bàn Pioneer DJ</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-white" />

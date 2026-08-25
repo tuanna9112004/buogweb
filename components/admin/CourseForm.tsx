@@ -8,7 +8,7 @@ import ImageCropperModal from './ImageCropperModal';
 import FeaturedSwapModal from './FeaturedSwapModal';
 import ConfirmModal from './ConfirmModal';
 import { uploadFile } from './uploadFile';
-import { Image as ImageIcon, Loader2, Save, ArrowLeft, X, Plus, Crop } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, X, Crop } from 'lucide-react';
 
 interface CourseFormProps {
   initialData?: Course;
@@ -22,13 +22,13 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
   const [slug, setSlug] = useState(initialData?.slug || '');
   const [thumbnail, setThumbnail] = useState(initialData?.thumbnail || '');
   const [images, setImages] = useState<string[]>(initialData?.images || []);
-  const [price, setPrice] = useState<number | ''>(initialData?.price ?? '');
+  const price = initialData?.price ?? '';
   const [priceText, setPriceText] = useState(initialData?.priceText || '20.000.000đ');
   const [shortDescription, setShortDescription] = useState(initialData?.shortDescription || '');
   const [content, setContent] = useState(initialData?.content || '## Giới Thiệu Khóa Học\n\nNội dung khóa học...');
   const [featured, setFeatured] = useState(initialData?.featured ?? false);
   const [published, setPublished] = useState(initialData?.published ?? true);
-  const [sortOrder, setSortOrder] = useState(initialData?.sortOrder ?? 1);
+  const sortOrder = initialData?.sortOrder ?? 1;
 
   const [uploadingThumb, setUploadingThumb] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
@@ -83,8 +83,8 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
       setOtherFeatured((prev) => prev.filter((c) => c.id !== idToReplace));
       setFeatured(true);
       setShowSwapModal(false);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Không thể bỏ nổi bật mục đã chọn');
     } finally {
       setSwapping(false);
     }
@@ -143,8 +143,8 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
     try {
       const data = await uploadFile(file, 'courses', 'images', setUploadProgress);
       onSuccess(data.url);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi khi tải ảnh lên');
     } finally {
       setLoadingState(false);
     }
@@ -196,8 +196,8 @@ export default function CourseForm({ initialData, isEdit = false }: CourseFormPr
 
       router.push('/admin/courses');
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi lưu khóa học');
       throw err;
     } finally {
       setSubmitting(false);

@@ -19,6 +19,20 @@ export const MusicTagSchema = z.object({
   sortOrder: z.number().int().default(0),
 });
 
+export const DemoMusicSchema = z.object({
+  title: z.string().min(1, 'Tiêu đề không được để trống'),
+  artists: z.string().min(1, 'Tên nghệ sĩ không được để trống'),
+  demoAudio: z.string().min(1, 'File audio không được để trống'),
+  cover: z.string().default(''),
+  tags: z.array(z.string()).default([]),
+  price: z.number().nullable().optional(),
+  priceText: z.string().default('Liên hệ'),
+  publishDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Ngày đăng phải có định dạng YYYY-MM-DD'),
+  featured: z.boolean().default(false),
+  published: z.boolean().default(true),
+  sortOrder: z.number().int().default(0),
+});
+
 export const ProjectSchema = z.object({
   slug: z.string().min(1, 'Slug không được để trống').regex(/^[a-z0-9-]+$/, 'Slug chỉ gồm chữ thường, số và dấu gạch ngang'),
   title: z.string().min(1, 'Tiêu đề không được để trống'),
@@ -85,6 +99,7 @@ export const SiteSettingsSchema = z.object({
   about: z.string().default(''),
   phone: z.string().default(''),
   zaloUrl: z.string().default(''),
+  wechatUrl: z.string().default(''),
   facebookUrl: z.string().default(''),
   tiktokUrl: z.string().default(''),
   address: z.string().default(''),

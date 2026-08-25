@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Star, RefreshCw, Loader2 } from 'lucide-react';
 
@@ -35,9 +35,14 @@ export default function FeaturedSwapModal({
 }: FeaturedSwapModalProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  useEffect(() => {
+  // Reset the selection whenever the modal transitions to open. Adjusted
+  // during render (React's documented pattern for resetting state on a prop
+  // change) rather than in an effect, so there's no extra commit+paint.
+  const [wasOpen, setWasOpen] = useState(isOpen);
+  if (isOpen !== wasOpen) {
+    setWasOpen(isOpen);
     if (isOpen) setSelectedId(null);
-  }, [isOpen]);
+  }
 
   return (
     <AnimatePresence>

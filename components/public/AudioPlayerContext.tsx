@@ -68,7 +68,9 @@ export function useAudioTime() {
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const timeStoreRef = useRef(new TimeStore());
+  // useState (not useRef) so the stable instance can be read during render
+  // (as TimeStoreContext's value) without tripping the no-refs-in-render rule.
+  const [timeStore] = useState(() => new TimeStore());
 
   const audioCtxRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -131,7 +133,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     if (activeTrackRef.current?.id !== track.id) {
       setHasError(false);
       setIsBuffering(true);
-      timeStoreRef.current.set(0);
+      timeStore.set(0);
       audio.src = track.audio;
       audio.currentTime = 0;
     }
@@ -140,7 +142,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     audio.play().catch((err) => {
       console.warn('Playback failed:', err);
     });
-  }, [ensureAudioGraph]);
+  }, [ensureAudioGraph, timeStore]);
 
   const pauseTrack = useCallback(() => {
     audioRef.current?.pause();
@@ -170,15 +172,15 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     setActiveTrack(null);
     setIsBuffering(false);
     setHasError(false);
-    timeStoreRef.current.set(0);
-  }, []);
+    timeStore.set(0);
+  }, [timeStore]);
 
   const seek = useCallback((time: number) => {
     const audio = audioRef.current;
     if (!audio || !Number.isFinite(time)) return;
     audio.currentTime = time;
-    timeStoreRef.current.set(time);
-  }, []);
+    timeStore.set(time);
+  }, [timeStore]);
 
   // Native <audio> events are the single source of truth for play state —
   // covers OS media-key pauses, tab audio focus loss, etc., not just our own calls.
@@ -186,7 +188,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const onTimeUpdate = () => timeStoreRef.current.set(audio.currentTime);
+    const onTimeUpdate = () => timeStore.set(audio.currentTime);
     const onLoadedMetadata = () => {
       const track = activeTrackRef.current;
       if (track && Number.isFinite(audio.duration)) {
@@ -200,7 +202,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const onEnded = () => {
       setIsPlaying(false);
       audio.currentTime = 0;
-      timeStoreRef.current.set(0);
+      timeStore.set(0);
     };
     const onError = () => {
       console.warn('Audio playback error for track:', activeTrackRef.current?.id);
@@ -227,7 +229,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       audio.removeEventListener('ended', onEnded);
       audio.removeEventListener('error', onError);
     };
-  }, []);
+  }, [timeStore]);
 
   const value = useMemo<AudioContextType>(() => ({
     currentTrackId: activeTrack?.id ?? null,
@@ -246,7 +248,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AudioPlayerContext.Provider value={value}>
-      <TimeStoreContext.Provider value={timeStoreRef.current}>
+      <TimeStoreContext.Provider value={timeStore}>
         {children}
         {/* Single global audio element — persists across route changes within
             this layout, so playback survives navigation. preload="none" means

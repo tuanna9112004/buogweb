@@ -8,7 +8,7 @@ import ImageCropperModal from './ImageCropperModal';
 import FeaturedSwapModal from './FeaturedSwapModal';
 import ConfirmModal from './ConfirmModal';
 import { uploadFile } from './uploadFile';
-import { Upload, Headphones, Image as ImageIcon, Loader2, Save, ArrowLeft, Plus, Crop } from 'lucide-react';
+import { Headphones, Loader2, Save, ArrowLeft, Crop } from 'lucide-react';
 
 interface ProjectFormProps {
   initialData?: Project;
@@ -24,13 +24,13 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
   const [demoAudio, setDemoAudio] = useState(initialData?.demoAudio || '');
   const [tags, setTags] = useState<string[]>(initialData?.tags || []);
   const [bpm, setBpm] = useState<number | ''>(initialData?.bpm || 128);
-  const [price, setPrice] = useState<number | ''>(initialData?.price ?? '');
+  const price = initialData?.price ?? '';
   const [priceText, setPriceText] = useState(initialData?.priceText || '500.000đ');
   const [shortDescription, setShortDescription] = useState(initialData?.shortDescription || '');
   const [content, setContent] = useState(initialData?.content || '## Giới thiệu Project\n\nNội dung chi tiết...');
   const [featured, setFeatured] = useState(initialData?.featured ?? false);
   const [published, setPublished] = useState(initialData?.published ?? true);
-  const [sortOrder, setSortOrder] = useState(initialData?.sortOrder ?? 1);
+  const sortOrder = initialData?.sortOrder ?? 1;
 
   const [allTags, setAllTags] = useState<ProjectTag[]>([]);
   const [uploadingThumb, setUploadingThumb] = useState(false);
@@ -97,8 +97,8 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
       setOtherFeatured((prev) => prev.filter((p) => p.id !== idToReplace));
       setFeatured(true);
       setShowSwapModal(false);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Không thể bỏ nổi bật mục đã chọn');
     } finally {
       setSwapping(false);
     }
@@ -148,8 +148,8 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
     try {
       const data = await uploadFile(file, 'projects', type, setProgress);
       onSuccess(data.url);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi khi tải file lên');
     } finally {
       setLoadingState(false);
     }
@@ -211,8 +211,8 @@ export default function ProjectForm({ initialData, isEdit = false }: ProjectForm
 
       router.push('/admin/projects');
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi lưu thông tin project');
       throw err;
     } finally {
       setSubmitting(false);

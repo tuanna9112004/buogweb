@@ -8,7 +8,7 @@ import ImageCropperModal from './ImageCropperModal';
 import { uploadFile } from './uploadFile';
 import FeaturedSwapModal from './FeaturedSwapModal';
 import ConfirmModal from './ConfirmModal';
-import { Image as ImageIcon, Loader2, Save, ArrowLeft, X, Plus, Crop } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, X, Crop } from 'lucide-react';
 
 interface EquipmentFormProps {
   initialData?: Equipment;
@@ -23,13 +23,13 @@ export default function EquipmentForm({ initialData, isEdit = false }: Equipment
   const [category, setCategory] = useState(initialData?.category || 'dj-player');
   const [thumbnail, setThumbnail] = useState(initialData?.thumbnail || '');
   const [images, setImages] = useState<string[]>(initialData?.images || []);
-  const [price, setPrice] = useState<number | ''>(initialData?.price ?? '');
+  const price = initialData?.price ?? '';
   const [priceText, setPriceText] = useState(initialData?.priceText || 'Liên hệ');
   const [shortDescription, setShortDescription] = useState(initialData?.shortDescription || '');
   const [content, setContent] = useState(initialData?.content || '## Thông Tin Sản Phẩm\n\nNội dung chi tiết...');
   const [featured, setFeatured] = useState(initialData?.featured ?? false);
   const [published, setPublished] = useState(initialData?.published ?? true);
-  const [sortOrder, setSortOrder] = useState(initialData?.sortOrder ?? 1);
+  const sortOrder = initialData?.sortOrder ?? 1;
 
   const [categories, setCategories] = useState<EquipmentCategory[]>([]);
   const [uploadingThumb, setUploadingThumb] = useState(false);
@@ -96,8 +96,8 @@ export default function EquipmentForm({ initialData, isEdit = false }: Equipment
       setOtherFeatured((prev) => prev.filter((eq) => eq.id !== idToReplace));
       setFeatured(true);
       setShowSwapModal(false);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Không thể bỏ nổi bật mục đã chọn');
     } finally {
       setSwapping(false);
     }
@@ -150,8 +150,8 @@ export default function EquipmentForm({ initialData, isEdit = false }: Equipment
     try {
       const data = await uploadFile(file, 'equipment', 'images', setUploadProgress);
       onSuccess(data.url);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi khi tải ảnh lên');
     } finally {
       setLoadingState(false);
     }
@@ -204,8 +204,8 @@ export default function EquipmentForm({ initialData, isEdit = false }: Equipment
 
       router.push('/admin/equipment');
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi lưu thiết bị');
       throw err;
     } finally {
       setSubmitting(false);

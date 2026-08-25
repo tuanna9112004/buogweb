@@ -34,6 +34,9 @@ export default function AdminProjectTagsPage() {
   };
 
   useEffect(() => {
+    // fetchTags only calls setState after an await (network round-trip),
+    // never synchronously — safe despite the rule's static-analysis flag.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchTags();
   }, []);
 
@@ -94,8 +97,8 @@ export default function AdminProjectTagsPage() {
       setIsModalOpen(false);
       setShowSaveConfirm(false);
       fetchTags();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Lỗi khi lưu tag');
       throw err;
     }
   };

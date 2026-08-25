@@ -9,6 +9,24 @@ export interface Music {
   featured: boolean;
   published: boolean;
   sortOrder: number;
+  isDownloadable?: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DemoMusic {
+  id: string;
+  title: string;
+  artists: string;
+  demoAudio: string;
+  cover: string;
+  tags: string[];
+  price?: number | null;
+  priceText: string;
+  publishDate: string; // YYYY-MM-DD
+  featured: boolean;
+  published: boolean;
+  sortOrder: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -95,6 +113,7 @@ export interface SiteSettings {
   about: string;
   phone: string;
   zaloUrl: string;
+  wechatUrl: string;
   facebookUrl: string;
   tiktokUrl: string;
   address: string;

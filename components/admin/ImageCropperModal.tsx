@@ -53,10 +53,10 @@ export default function ImageCropperModal({
     return Math.min(ratio, 1 / ratio);
   }, [imageObj, aspectRatio, rotation]);
 
-  // Keep the current zoom valid whenever the floor moves (new image, rotate)
-  useEffect(() => {
-    setZoom((z) => Math.min(Math.max(z, minZoom), 3));
-  }, [minZoom]);
+  // Clamp for display/drawing whenever the floor moves (new image, rotate),
+  // without writing back into zoom state — keeps the slider's raw value and
+  // avoids a setState-in-effect render round-trip.
+  const clampedZoom = Math.min(Math.max(zoom, minZoom), 3);
 
   // Load Image Object when imageSrc changes
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function ImageCropperModal({
     // Center origin for rotation and translation
     ctx.translate(canvas.width / 2 + offset.x, canvas.height / 2 + offset.y);
     ctx.rotate((rotation * Math.PI) / 180);
-    ctx.scale(zoom, zoom);
+    ctx.scale(clampedZoom, clampedZoom);
 
     // Calculate base draw size fitting container
     const scale = Math.max(canvas.width / imageObj.width, canvas.height / imageObj.height);
@@ -106,7 +106,7 @@ export default function ImageCropperModal({
 
     ctx.drawImage(imageObj, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
     ctx.restore();
-  }, [imageObj, zoom, rotation, offset, aspectRatio, isCircle]);
+  }, [imageObj, clampedZoom, rotation, offset, aspectRatio, isCircle]);
 
   useEffect(() => {
     if (isOpen && imageObj) {
@@ -159,7 +159,7 @@ export default function ImageCropperModal({
       exportCanvas.height / 2 + offset.y * scaleFactor
     );
     ctx.rotate((rotation * Math.PI) / 180);
-    ctx.scale(zoom, zoom);
+    ctx.scale(clampedZoom, clampedZoom);
 
     const baseScale = Math.max(
       exportCanvas.width / imageObj.width,
@@ -267,13 +267,13 @@ export default function ImageCropperModal({
               min={minZoom}
               max="3"
               step="0.01"
-              value={zoom}
+              value={clampedZoom}
               onChange={(e) => setZoom(parseFloat(e.target.value))}
               className="w-full accent-[#b6ff2e] cursor-pointer"
             />
             <ZoomIn className="w-4 h-4 text-[#a3a3a3]" />
             <span className="text-xs font-mono text-[#b6ff2e] w-12 text-right">
-              {Math.round(zoom * 100)}%
+              {Math.round(clampedZoom * 100)}%
             </span>
           </div>
 

@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     await setAdminSessionCookie(username);
     return NextResponse.json({ success: true, message: 'Đăng nhập thành công' });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json({ error: 'Đã xảy ra lỗi khi đăng nhập' }, { status: 500 });
   }

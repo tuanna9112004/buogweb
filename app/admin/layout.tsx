@@ -45,6 +45,7 @@ export default function AdminLayout({
   const navItems = [
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/music', label: 'Music Tracks', icon: Music2 },
+    { href: '/admin/demos', label: 'Demo Music', icon: Headphones },
     { href: '/admin/music-tags', label: 'Music Tags', icon: Tag },
     { href: '/admin/projects', label: 'FLP Projects', icon: Headphones },
     { href: '/admin/project-tags', label: 'Project Tags', icon: Tag },

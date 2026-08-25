@@ -1,0 +1,20 @@
+[
+  {
+    "id": "demo-mt16vf73-g89l",
+    "title": "sản phẩm mới",
+    "artists": "BUOGS",
+    "demoAudio": "/media/music/audio/7b35c42d-4f84-4e45-8343-11150485a06a.mp3",
+    "cover": "/media/music/covers/4ed39de7-b6fb-4438-84f9-1bcefc50e124.webp",
+    "tags": [
+      "vinahouse"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-20",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-20T07:18:27.749Z",
+    "updatedAt": "2026-08-20T07:18:27.749Z"
+  }
+]

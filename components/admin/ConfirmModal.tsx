@@ -38,8 +38,9 @@ export default function ConfirmModal({
     setLoading(true);
     try {
       await onConfirm();
-    } catch (err: any) {
-      setError(err.message || (isDanger ? 'Lỗi khi xóa mục này' : 'Lỗi khi lưu mục này'));
+    } catch (err) {
+      const fallback = isDanger ? 'Lỗi khi xóa mục này' : 'Lỗi khi lưu mục này';
+      setError(err instanceof Error ? err.message : fallback);
     } finally {
       setLoading(false);
     }
@@ -73,7 +74,7 @@ export default function ConfirmModal({
             <p className="text-sm text-[#a3a3a3] leading-relaxed">
               {message ?? (
                 <>
-                  Bạn có chắc chắn muốn xóa <strong className="text-white">"{itemName}"</strong>? Hành động này sẽ xóa vĩnh viễn dữ liệu và không thể hoàn tác.
+                  Bạn có chắc chắn muốn xóa <strong className="text-white">&quot;{itemName}&quot;</strong>? Hành động này sẽ xóa vĩnh viễn dữ liệu và không thể hoàn tác.
                 </>
               )}
             </p>

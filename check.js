@@ -1,1 +1,2 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- standalone CommonJS debug script, not part of the app build
 console.log(require('bcryptjs').compareSync('adminlog123', '$2b$10$0z.ZJcfwbbjvxhX2/SA1TuoO0HswSdzZlHc7Mbp6YIjm8Sdo.YPCO'));

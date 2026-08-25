@@ -30,6 +30,7 @@ export default function Header({ settings }: HeaderProps) {
   const navLinks = [
     { href: '/', label: 'HOME' },
     { href: '/music', label: 'MUSIC' },
+    { href: '/demos', label: 'DEMO MUSIC' },
     { href: '/projects', label: 'FLP PROJECTS' },
     { href: '/courses', label: 'COURSES' },
   ];

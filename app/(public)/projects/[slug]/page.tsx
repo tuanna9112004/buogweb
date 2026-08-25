@@ -47,7 +47,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     : null;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10 space-y-12">
+    <div className="section-detail max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10 space-y-12">
       {/* Back link */}
       <Link
         href="/projects"

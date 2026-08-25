@@ -243,6 +243,61 @@
   background: radial-gradient(780px circle at 75% 25%, rgba(255, 255, 255, 0.026), transparent 70%);
 }
 
+/* Demo Music list — mirrors .section-page-music's single spotlight, shifted
+   to the opposite side so the two catalog pages don't feel identical. */
+.section-page-demos {
+  position: relative;
+  isolation: isolate;
+}
+.section-page-demos::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(900px circle at 28% 20%, rgba(255, 255, 255, 0.026), transparent 65%);
+}
+
+/* Detail pages (track / demo / project / course) — restrained two-glow
+   pairing so pages that were previously flat (no lighting class at all)
+   pick up the same quiet depth as the rest of the site without competing
+   with the content-heavy layout below (price box, player, gallery, etc.) */
+.section-detail {
+  position: relative;
+  isolation: isolate;
+}
+.section-detail::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(820px circle at 74% 10%, rgba(255, 255, 255, 0.028), transparent 66%),
+    radial-gradient(560px circle at 8% 85%, rgba(255, 255, 255, 0.014), transparent 70%);
+}
+
+/* Ambient light "breathes" very slowly — barely perceptible on its own,
+   but reads as a living, lit room instead of a static gradient once you
+   linger on a page. Small amplitude + long, staggered durations keep it
+   from ever feeling like an obvious animated effect. Respects the global
+   prefers-reduced-motion override above. */
+@keyframes ambient-breathe {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.82; transform: scale(1.035); }
+}
+.section-music::before { animation: ambient-breathe 17s ease-in-out infinite; }
+.section-projects::before { animation: ambient-breathe 19s ease-in-out infinite -4s; }
+.section-courses::before { animation: ambient-breathe 15s ease-in-out infinite -9s; }
+.section-equipment::before { animation: ambient-breathe 18s ease-in-out infinite -2s; }
+.section-page-music::before { animation: ambient-breathe 16s ease-in-out infinite -6s; }
+.section-page-projects::before { animation: ambient-breathe 20s ease-in-out infinite -11s; }
+.section-page-courses::before { animation: ambient-breathe 14s ease-in-out infinite -3s; }
+.section-page-equipment::before { animation: ambient-breathe 18.5s ease-in-out infinite -8s; }
+.section-page-demos::before { animation: ambient-breathe 16.5s ease-in-out infinite -5s; }
+.section-detail::before { animation: ambient-breathe 15.5s ease-in-out infinite -7s; }
+.music-list::before { animation: ambient-breathe 21s ease-in-out infinite -10s; }
+
 /* Illumination behind the /music track list, not per-item */
 .music-list {
   position: relative;
