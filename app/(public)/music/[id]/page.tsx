@@ -139,7 +139,7 @@ export default async function MusicDetailPage({ params }: MusicDetailPageProps) 
           {track.isDownloadable && (
             <a
               href={track.audio}
-              download
+              download={`${track.title.replace(/[\\/:*?"<>|]/g, '').trim()} - buogsdj.mp3`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-[#101010] px-5 py-3 text-xs font-bold uppercase tracking-wider font-mono text-white hover:border-[#b6ff2e]/50 hover:text-[#b6ff2e] transition-all duration-200"

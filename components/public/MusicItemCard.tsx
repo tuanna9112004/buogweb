@@ -120,7 +120,7 @@ export default function MusicItemCard({
             {track.isDownloadable && (
               <a
                 href={track.audio}
-                download
+                download={`${track.title.replace(/[\\/:*?"<>|]/g, '').trim()} - buogsdj.mp3`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#111] hover:bg-[#b6ff2e] text-white hover:text-black border border-white/10 hover:border-[#b6ff2e] transition-all"

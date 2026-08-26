@@ -10,6 +10,7 @@ export const MusicSchema = z.object({
   featured: z.boolean().default(false),
   published: z.boolean().default(true),
   sortOrder: z.number().int().default(0),
+  isDownloadable: z.boolean().default(false),
 });
 
 export const MusicTagSchema = z.object({
