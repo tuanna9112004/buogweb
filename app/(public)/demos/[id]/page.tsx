@@ -209,7 +209,7 @@ export default async function DemoDetailPage({ params }: DemoDetailPageProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {related.map((rel, i) => (
               <Reveal key={rel.id} delay={Math.min(i * 0.05, 0.3)} distance={16} className="h-full">
-                <DemoMusicCard track={rel} allTags={allTags} />
+                <DemoMusicCard track={rel} allTags={allTags} zaloUrl={settings.zaloUrl} />
               </Reveal>
             ))}
           </div>

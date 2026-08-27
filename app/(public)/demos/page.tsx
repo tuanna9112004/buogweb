@@ -9,15 +9,17 @@ import { ShoppingCart, Filter, Loader2 } from 'lucide-react';
 export default function DemosPage() {
   const [demos, setDemos] = useState<DemoMusic[]>([]);
   const [tags, setTags] = useState<MusicTag[]>([]);
+  const [zaloUrl, setZaloUrl] = useState<string | undefined>(undefined);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [resDemos, resTags] = await Promise.all([
+        const [resDemos, resTags, resSettings] = await Promise.all([
           fetch('/api/public/demos'),
           fetch('/api/public/music-tags'),
+          fetch('/api/public/settings'),
         ]);
         if (resDemos.ok) {
           const data = await resDemos.json();
@@ -26,6 +28,10 @@ export default function DemosPage() {
         if (resTags.ok) {
           const tagData = await resTags.json();
           setTags(tagData);
+        }
+        if (resSettings.ok) {
+          const settingsData = await resSettings.json();
+          setZaloUrl(settingsData.zaloUrl);
         }
       } catch (err) {
         console.error('Failed to load demo music data:', err);
@@ -105,6 +111,7 @@ export default function DemosPage() {
               <DemoMusicCard
                 track={track}
                 allTags={tags}
+                zaloUrl={zaloUrl}
               />
             </Reveal>
           ))}

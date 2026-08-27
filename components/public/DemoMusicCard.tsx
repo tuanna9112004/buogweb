@@ -10,11 +10,13 @@ import { ShoppingCart } from 'lucide-react';
 interface DemoMusicCardProps {
   track: DemoMusic;
   allTags?: MusicTag[];
+  zaloUrl?: string;
 }
 
 export default function DemoMusicCard({
   track,
   allTags = [],
+  zaloUrl,
 }: DemoMusicCardProps) {
   const { currentTrackId } = useAudio();
   const isActive = currentTrackId === track.id;
@@ -128,7 +130,7 @@ export default function DemoMusicCard({
         </div>
 
         <a
-          href="https://zalo.me" 
+          href={zaloUrl || 'https://zalo.me'}
           target="_blank"
           rel="noopener noreferrer"
           className="shrink-0 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-white/[0.05] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-all duration-200 group-hover:border-[#b6ff2e] group-hover:bg-[#b6ff2e]/10 group-hover:text-[#b6ff2e]"
