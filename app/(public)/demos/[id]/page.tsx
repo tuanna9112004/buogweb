@@ -194,6 +194,18 @@ export default async function DemoDetailPage({ params }: DemoDetailPageProps) {
                 </a>
               )}
 
+              {settings.telegramUrl && (
+                <a
+                  href={settings.telegramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-[#101010] border border-white/15 text-white font-bold text-sm uppercase tracking-wider hover:border-white/30 transition-all"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>Liên Hệ Qua Telegram</span>
+                </a>
+              )}
+
               <CopyLinkButton className="w-full py-3.5" />
             </div>
           </div>
@@ -209,7 +221,7 @@ export default async function DemoDetailPage({ params }: DemoDetailPageProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {related.map((rel, i) => (
               <Reveal key={rel.id} delay={Math.min(i * 0.05, 0.3)} distance={16} className="h-full">
-                <DemoMusicCard track={rel} allTags={allTags} zaloUrl={settings.zaloUrl} />
+                <DemoMusicCard track={rel} allTags={allTags} zaloUrl={settings.zaloUrl} telegramUrl={settings.telegramUrl} />
               </Reveal>
             ))}
           </div>

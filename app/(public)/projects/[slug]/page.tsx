@@ -169,6 +169,18 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   <span>Facebook Messenger</span>
                 </a>
               )}
+
+              {settings.telegramUrl && (
+                <a
+                  href={settings.telegramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-[#101010] border border-white/15 text-white font-bold text-sm uppercase tracking-wider hover:border-white/30 transition-all"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>Liên Hệ Qua Telegram</span>
+                </a>
+              )}
             </div>
           </div>
 

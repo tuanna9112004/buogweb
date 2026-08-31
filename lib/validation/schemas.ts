@@ -101,6 +101,7 @@ export const SiteSettingsSchema = z.object({
   phone: z.string().default(''),
   zaloUrl: z.string().default(''),
   wechatUrl: z.string().default(''),
+  telegramUrl: z.string().default(''),
   facebookUrl: z.string().default(''),
   tiktokUrl: z.string().default(''),
   address: z.string().default(''),

@@ -114,6 +114,7 @@ export interface SiteSettings {
   phone: string;
   zaloUrl: string;
   wechatUrl: string;
+  telegramUrl: string;
   facebookUrl: string;
   tiktokUrl: string;
   address: string;

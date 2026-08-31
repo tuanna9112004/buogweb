@@ -10,6 +10,7 @@ export default function DemosPage() {
   const [demos, setDemos] = useState<DemoMusic[]>([]);
   const [tags, setTags] = useState<MusicTag[]>([]);
   const [zaloUrl, setZaloUrl] = useState<string | undefined>(undefined);
+  const [telegramUrl, setTelegramUrl] = useState<string | undefined>(undefined);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -32,6 +33,7 @@ export default function DemosPage() {
         if (resSettings.ok) {
           const settingsData = await resSettings.json();
           setZaloUrl(settingsData.zaloUrl);
+          setTelegramUrl(settingsData.telegramUrl);
         }
       } catch (err) {
         console.error('Failed to load demo music data:', err);
@@ -112,6 +114,7 @@ export default function DemosPage() {
                 track={track}
                 allTags={tags}
                 zaloUrl={zaloUrl}
+                telegramUrl={telegramUrl}
               />
             </Reveal>
           ))}

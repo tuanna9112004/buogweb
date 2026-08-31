@@ -5,18 +5,20 @@ import Link from 'next/link';
 import { DemoMusic, MusicTag, Music } from '@/types';
 import TrackPlayerRow from './TrackPlayerRow';
 import { useAudio } from './AudioPlayerContext';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Send } from 'lucide-react';
 
 interface DemoMusicCardProps {
   track: DemoMusic;
   allTags?: MusicTag[];
   zaloUrl?: string;
+  telegramUrl?: string;
 }
 
 export default function DemoMusicCard({
   track,
   allTags = [],
   zaloUrl,
+  telegramUrl,
 }: DemoMusicCardProps) {
   const { currentTrackId } = useAudio();
   const isActive = currentTrackId === track.id;
@@ -129,15 +131,28 @@ export default function DemoMusicCard({
           </span>
         </div>
 
-        <a
-          href={zaloUrl || 'https://zalo.me'}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="shrink-0 inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-white/[0.05] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-all duration-200 group-hover:border-[#b6ff2e] group-hover:bg-[#b6ff2e]/10 group-hover:text-[#b6ff2e]"
-        >
-          <ShoppingCart className="h-3.5 w-3.5" />
-          <span>Liên Hệ Mua</span>
-        </a>
+        <div className="flex shrink-0 items-center gap-2">
+          {telegramUrl && (
+            <a
+              href={telegramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Liên hệ qua Telegram"
+              className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-white transition-all duration-200 hover:border-[#b6ff2e] hover:bg-[#b6ff2e]/10 hover:text-[#b6ff2e]"
+            >
+              <Send className="h-3.5 w-3.5" />
+            </a>
+          )}
+          <a
+            href={zaloUrl || 'https://zalo.me'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-white/[0.05] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white transition-all duration-200 group-hover:border-[#b6ff2e] group-hover:bg-[#b6ff2e]/10 group-hover:text-[#b6ff2e]"
+          >
+            <ShoppingCart className="h-3.5 w-3.5" />
+            <span>Liên Hệ Mua</span>
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ export default function AdminSettingsPage() {
     phone: '',
     zaloUrl: '',
     wechatUrl: '',
+    telegramUrl: '',
     facebookUrl: '',
     tiktokUrl: '',
     address: '',
@@ -204,6 +205,19 @@ export default function AdminSettingsPage() {
               value={formData.wechatUrl || ''}
               onChange={(e) => handleChange('wechatUrl', e.target.value)}
               placeholder="Ví dụ: buogs_wechat"
+              className="w-full bg-[#161616] border border-white/10 rounded-xl p-3 text-white text-sm font-mono focus:border-[#b6ff2e] focus:outline-none"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-xs font-mono text-[#a3a3a3] uppercase">
+              Link Telegram
+            </label>
+            <input
+              type="text"
+              value={formData.telegramUrl || ''}
+              onChange={(e) => handleChange('telegramUrl', e.target.value)}
+              placeholder="https://t.me/buogsofficial"
               className="w-full bg-[#161616] border border-white/10 rounded-xl p-3 text-white text-sm font-mono focus:border-[#b6ff2e] focus:outline-none"
             />
           </div>

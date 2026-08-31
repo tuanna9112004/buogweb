@@ -549,6 +549,7 @@ const SETTINGS_DEFAULTS: SiteSettings = {
   phone: '',
   zaloUrl: '',
   wechatUrl: '',
+  telegramUrl: '',
   facebookUrl: '',
   tiktokUrl: '',
   address: '',
