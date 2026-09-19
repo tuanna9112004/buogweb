@@ -12,14 +12,14 @@
     ],
     "bpm": 138,
     "price": null,
-    "priceText": "666K",
+    "priceText": "999K",
     "shortDescription": "FLP PROJECT FULL TRACK \nSEXY ON MY MIND\nSIZE: 170MB\n\n",
     "content": "FLP PROJECT FULL TRACK \nSEXY ON MY MIND\nSIZE: 170MB\n",
     "featured": false,
     "published": true,
     "sortOrder": 1,
     "createdAt": "2026-08-18T11:46:32.312Z",
-    "updatedAt": "2026-08-18T15:25:10.798Z"
+    "updatedAt": "2026-08-26T06:39:02.836Z"
   },
   {
     "id": "project-msylv00l-8bdh",
@@ -34,14 +34,14 @@
     ],
     "bpm": 140,
     "price": null,
-    "priceText": "3999K",
+    "priceText": "2999K",
     "shortDescription": "FLP PROJECT FULL TRACK\nSIZE: 140MB",
     "content": "FLP PROJECT FULL TRACK\nSIZE: 140MB",
     "featured": false,
     "published": true,
     "sortOrder": 1,
     "createdAt": "2026-08-18T11:54:43.797Z",
-    "updatedAt": "2026-08-18T15:30:28.782Z"
+    "updatedAt": "2026-08-26T05:23:08.118Z"
   },
   {
     "id": "project-msym3yvg-t3qc",
@@ -211,14 +211,14 @@
     ],
     "bpm": 140,
     "price": null,
-    "priceText": "3999K",
+    "priceText": "3499K",
     "shortDescription": "FLP PROJECT FULL\nSIZE: 80MB",
     "content": "FLP PROJECT FULL\nSIZE: 80MB",
     "featured": true,
     "published": true,
     "sortOrder": 1,
     "createdAt": "2026-08-18T15:30:30.767Z",
-    "updatedAt": "2026-08-18T15:53:25.219Z"
+    "updatedAt": "2026-08-26T16:17:53.681Z"
   },
   {
     "id": "project-msyupduv-8lwu",
@@ -233,14 +233,14 @@
     ],
     "bpm": 140,
     "price": null,
-    "priceText": "2999K",
+    "priceText": "2499K",
     "shortDescription": "FLP PROJECT FULL\nSIZE: 90MB",
     "content": "FLP PROJECT FULL\nSIZE: 90MB",
     "featured": false,
     "published": true,
     "sortOrder": 1,
     "createdAt": "2026-08-18T16:02:18.343Z",
-    "updatedAt": "2026-08-18T16:02:18.343Z"
+    "updatedAt": "2026-08-26T16:18:25.259Z"
   },
   {
     "id": "project-mszp8hmc-myh8",
@@ -263,5 +263,27 @@
     "sortOrder": 1,
     "createdAt": "2026-08-19T06:16:58.164Z",
     "updatedAt": "2026-08-19T06:16:58.164Z"
+  },
+  {
+    "id": "project-mtgtvzkj-vd06",
+    "slug": "yanbi---den-khi-nao",
+    "title": "YANBI - ĐẾN KHI NÀO",
+    "thumbnail": "/media/projects/images/3fef0f2b-9636-4ce9-b07a-d8619686c74c.webp",
+    "demoAudio": "/media/projects/audio/ad8b7293-b798-46e7-afa0-158bd3746755.mp3",
+    "tags": [
+      "flp",
+      "project",
+      "vinahouse"
+    ],
+    "bpm": 140,
+    "price": null,
+    "priceText": "3999K",
+    "shortDescription": "FULL 138MB",
+    "content": "FULL 138MB",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-31T05:59:17.971Z",
+    "updatedAt": "2026-08-31T05:59:42.283Z"
   }
 ]

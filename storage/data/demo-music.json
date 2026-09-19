@@ -1,20 +1,291 @@
 [
   {
-    "id": "demo-mt16vf73-g89l",
-    "title": "sản phẩm mới",
-    "artists": "BUOGS",
-    "demoAudio": "/media/music/audio/7b35c42d-4f84-4e45-8343-11150485a06a.mp3",
-    "cover": "/media/music/covers/4ed39de7-b6fb-4438-84f9-1bcefc50e124.webp",
+    "id": "demo-mts7k32f-wkal",
+    "title": "LỆ QUYÊN - GIÁ NHƯ ANH LÀ EM",
+    "artists": "BUOGS X REVIX",
+    "demoAudio": "/media/music/audio/8b604a0d-5e43-4bc6-821d-d9dcda3435f5.mp3",
+    "cover": "",
     "tags": [
-      "vinahouse"
+      "vinahouse",
+      "remix",
+      "vietmix"
     ],
     "price": null,
     "priceText": "Liên hệ",
-    "publishDate": "2026-08-20",
+    "publishDate": "2026-09-08",
     "featured": false,
     "published": true,
     "sortOrder": 1,
-    "createdAt": "2026-08-20T07:18:27.749Z",
-    "updatedAt": "2026-08-20T07:18:27.749Z"
+    "createdAt": "2026-09-08T05:07:25.082Z",
+    "updatedAt": "2026-09-08T05:07:25.082Z"
+  },
+  {
+    "id": "demo-mtgtufru-b6h0",
+    "title": "YANBI - ĐẾN KHI NÀO",
+    "artists": "BUOGS X REVIX",
+    "demoAudio": "/media/music/audio/d09cd1a7-c062-4331-8800-5808d9c8955b.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "vietmix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-31",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-31T05:58:05.658Z",
+    "updatedAt": "2026-08-31T05:58:05.658Z"
+  },
+  {
+    "id": "demo-mt9nx80q-zhjv",
+    "title": "HOÀNG HÔN VÀ EM (SLOT)",
+    "artists": "BUOGS X ERIC TJ",
+    "demoAudio": "/media/music/audio/7416b6b5-9d19-4bd4-9f92-497c21a69c34.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:37:54.650Z",
+    "updatedAt": "2026-08-26T05:37:54.650Z"
+  },
+  {
+    "id": "demo-mt9nwla4-vq08",
+    "title": "DENG SENT ME JUN (SLOT)",
+    "artists": "BUOGS X ZENO",
+    "demoAudio": "/media/music/audio/9bb32c44-4e56-4c52-88f9-e34171c4f14d.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:37:25.180Z",
+    "updatedAt": "2026-08-26T05:37:25.180Z"
+  },
+  {
+    "id": "demo-mt9nvt90-ojui",
+    "title": "I SAY YEAH (SLOT)",
+    "artists": "BUOGS X REVIX",
+    "demoAudio": "/media/music/audio/eb156de6-d63e-4534-a89d-8d06d5925434.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:36:48.852Z",
+    "updatedAt": "2026-08-26T05:36:48.852Z"
+  },
+  {
+    "id": "demo-mt9nnohj-b3ka",
+    "title": "HIT 1 LIKE",
+    "artists": "BUOGS X REVIX",
+    "demoAudio": "/media/music/audio/0cb507d1-14b3-4493-87f2-4218d6c9947e.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:30:29.431Z",
+    "updatedAt": "2026-08-26T05:30:29.431Z"
+  },
+  {
+    "id": "demo-mt9nn2s9-f2u4",
+    "title": "Another Day X I Want It",
+    "artists": "BUOGS x REVIX",
+    "demoAudio": "/media/music/audio/f2f5be46-86bc-4ae0-b110-23b9d19bf6ef.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": true,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:30:01.305Z",
+    "updatedAt": "2026-08-26T05:30:01.305Z"
+  },
+  {
+    "id": "demo-mt9n057c-kb40",
+    "title": "E.T (SLOT)",
+    "artists": "BUOGS X REVIX",
+    "demoAudio": "/media/music/audio/016450aa-c863-4397-86b9-ef2eb70e5531.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:12:11.352Z",
+    "updatedAt": "2026-08-26T05:12:11.352Z"
+  },
+  {
+    "id": "demo-mt9mzicv-rdbm",
+    "title": "IN THE ARMY NOW",
+    "artists": "BUOGS",
+    "demoAudio": "/media/music/audio/6390f467-010c-4cad-b301-4159815427e9.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": true,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:11:41.743Z",
+    "updatedAt": "2026-08-26T05:11:41.743Z"
+  },
+  {
+    "id": "demo-mt9myil4-91q5",
+    "title": "NẮM CHẶT TAY ANH (SLOT)",
+    "artists": "BUOGS X REVIX",
+    "demoAudio": "/media/music/audio/c1f8732a-3664-4765-8ce5-3e434ee23cc6.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "remix",
+      "vietmix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:10:55.384Z",
+    "updatedAt": "2026-08-26T05:10:55.384Z"
+  },
+  {
+    "id": "demo-mt9mxp7s-i441",
+    "title": "YOU SPIN ME ROUND (SLOT)",
+    "artists": "BUOGS",
+    "demoAudio": "/media/music/audio/a9566eca-46b5-48be-85f7-655685088365.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:10:17.320Z",
+    "updatedAt": "2026-08-26T05:10:17.320Z"
+  },
+  {
+    "id": "demo-mt9mwx6o-rubk",
+    "title": "DÒNG THỜI GIAN (SLOT)",
+    "artists": "BUOGS",
+    "demoAudio": "/media/music/audio/701056c5-fa0e-48d4-a718-8e466937a7b0.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "vietmix",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:09:40.992Z",
+    "updatedAt": "2026-08-26T05:09:40.992Z"
+  },
+  {
+    "id": "demo-mt9mvw73-pgyo",
+    "title": "ĐÀO HOA NẶC (SLOT)",
+    "artists": "BUOGS",
+    "demoAudio": "/media/music/audio/7b166fef-cfaf-4b4b-8fa8-04efc56221e1.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:08:53.055Z",
+    "updatedAt": "2026-08-26T05:08:53.055Z"
+  },
+  {
+    "id": "demo-mt9mv3je-ejpt",
+    "title": "TÌNH ĐƠN PHƯƠNG (SLOT)",
+    "artists": "BUOGS",
+    "demoAudio": "/media/music/audio/040767c5-46a4-46d1-8c4c-70466a636e6d.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "vietmix",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:08:15.914Z",
+    "updatedAt": "2026-08-26T05:08:15.914Z"
+  },
+  {
+    "id": "demo-mt9mt8vo-9ggp",
+    "title": "BROTHER LOUIS (VOCAL VIỆT) (SLOT)",
+    "artists": "BUOGS",
+    "demoAudio": "/media/music/audio/dcd0c307-2c41-46ec-9fc4-affae630b0f0.mp3",
+    "cover": "",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-08-26",
+    "featured": true,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-08-26T05:06:49.524Z",
+    "updatedAt": "2026-08-26T05:06:49.524Z"
   }
 ]

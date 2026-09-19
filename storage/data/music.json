@@ -1,5 +1,24 @@
 [
   {
+    "id": "music-mtfpo0as-66gu",
+    "title": "GỌI TÊN EM TRONG ĐÊM",
+    "artists": "BUOGS x REVIX",
+    "audio": "/media/music/audio/e4bde4d3-37b4-4cd5-9aeb-06005644c0db.mp3",
+    "cover": "/media/music/covers/4b4f2be0-1350-43d4-92d0-8a3070bc2697.webp",
+    "tags": [
+      "vinahouse",
+      "vietmix",
+      "remix"
+    ],
+    "publishDate": "2026-08-30",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "isDownloadable": true,
+    "createdAt": "2026-08-30T11:13:21.013Z",
+    "updatedAt": "2026-08-30T11:13:38.575Z"
+  },
+  {
     "id": "music-msylwu7v-v5rl",
     "title": "RHYTHYM THE NIGHT",
     "artists": "BUOGS",
@@ -34,7 +53,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-18T11:38:45.703Z",
-    "updatedAt": "2026-08-18T11:39:35.828Z"
+    "updatedAt": "2026-08-26T09:13:20.196Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msyl83p9-07ka",
@@ -51,7 +71,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-18T11:36:55.485Z",
-    "updatedAt": "2026-08-18T11:36:55.485Z"
+    "updatedAt": "2026-08-26T11:27:49.821Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msykuvkm-6ksn",
@@ -68,7 +89,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-18T11:26:38.422Z",
-    "updatedAt": "2026-08-18T11:26:38.422Z"
+    "updatedAt": "2026-08-26T15:17:53.976Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msykreqq-ceor",
@@ -103,7 +125,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-18T11:22:47.173Z",
-    "updatedAt": "2026-08-18T11:39:41.312Z"
+    "updatedAt": "2026-08-26T11:27:59.743Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msykouit-100a",
@@ -121,7 +144,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-18T11:21:57.125Z",
-    "updatedAt": "2026-08-18T11:39:50.984Z"
+    "updatedAt": "2026-08-26T14:57:18.054Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msyknkka-wyt6",
@@ -139,7 +163,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-18T11:20:57.562Z",
-    "updatedAt": "2026-08-18T11:39:55.484Z"
+    "updatedAt": "2026-08-26T15:08:11.366Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msykmo3w-as4g",
@@ -157,7 +182,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-18T11:20:15.500Z",
-    "updatedAt": "2026-08-18T11:40:07.281Z"
+    "updatedAt": "2026-08-26T14:57:27.491Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msyklg3q-2i93",
@@ -174,7 +200,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-18T11:19:18.454Z",
-    "updatedAt": "2026-08-18T11:19:18.454Z"
+    "updatedAt": "2026-08-26T14:57:54.429Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msykiwse-7xz6",
@@ -192,7 +219,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-18T11:17:20.126Z",
-    "updatedAt": "2026-08-18T11:40:12.109Z"
+    "updatedAt": "2026-08-26T11:28:11.352Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msyki7ba-c43u",
@@ -209,7 +237,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-18T11:16:47.110Z",
-    "updatedAt": "2026-08-18T11:17:31.079Z"
+    "updatedAt": "2026-08-26T11:28:19.056Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msykfpdf-nfkt",
@@ -226,7 +255,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-18T11:14:50.531Z",
-    "updatedAt": "2026-08-18T11:15:01.719Z"
+    "updatedAt": "2026-08-26T14:57:41.350Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msx2jifl-8uzz",
@@ -244,7 +274,8 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-17T10:06:08.913Z",
-    "updatedAt": "2026-08-18T11:40:16.734Z"
+    "updatedAt": "2026-08-26T15:18:20.039Z",
+    "isDownloadable": true
   },
   {
     "id": "music-msx2fa8v-qjka",
@@ -278,6 +309,7 @@
     "published": true,
     "sortOrder": 0,
     "createdAt": "2026-08-17T09:45:56.476Z",
-    "updatedAt": "2026-08-17T09:46:13.804Z"
+    "updatedAt": "2026-08-26T11:28:30.524Z",
+    "isDownloadable": true
   }
 ]
