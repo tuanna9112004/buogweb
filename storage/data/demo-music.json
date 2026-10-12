@@ -1,23 +1,42 @@
 [
   {
-    "id": "demo-mts7k32f-wkal",
-    "title": "LỆ QUYÊN - GIÁ NHƯ ANH LÀ EM",
-    "artists": "BUOGS X REVIX",
-    "demoAudio": "/media/music/audio/8b604a0d-5e43-4bc6-821d-d9dcda3435f5.mp3",
+    "id": "demo-mv3g7jhf-ptys",
+    "title": "NẾU NHƯ NGÀY ĐÓ",
+    "artists": "BUOGS",
+    "demoAudio": "/media/music/audio/6176bbfd-3b4f-45b7-bcea-a513f5da8925.mp3",
     "cover": "",
     "tags": [
       "vinahouse",
-      "remix",
-      "vietmix"
+      "vietmix",
+      "remix"
     ],
     "price": null,
     "priceText": "Liên hệ",
-    "publishDate": "2026-09-08",
+    "publishDate": "2026-10-11",
     "featured": false,
     "published": true,
     "sortOrder": 1,
-    "createdAt": "2026-09-08T05:07:25.082Z",
-    "updatedAt": "2026-09-08T05:07:25.082Z"
+    "createdAt": "2026-10-11T06:34:46.755Z",
+    "updatedAt": "2026-10-11T06:34:46.755Z"
+  },
+  {
+    "id": "demo-mv2iusci-gsj7",
+    "title": "WAITTING FOR LOVE",
+    "artists": "BUOGS x REVIX",
+    "demoAudio": "/media/music/audio/9edcfa38-0d1e-47b6-a461-6b6f86bb0e1f.mp3",
+    "cover": "/media/music/covers/bb984d76-9c98-41c4-9455-a591b4f3b822.webp",
+    "tags": [
+      "vinahouse",
+      "remix"
+    ],
+    "price": null,
+    "priceText": "Liên hệ",
+    "publishDate": "2026-10-10",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-10-10T15:01:04.386Z",
+    "updatedAt": "2026-10-10T15:01:04.386Z"
   },
   {
     "id": "demo-mtgtufru-b6h0",

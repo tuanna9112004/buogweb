@@ -79,14 +79,14 @@
     ],
     "bpm": 140,
     "price": null,
-    "priceText": "1999K",
+    "priceText": "2999K",
     "shortDescription": "FLP PROJECT FULL TRACK\nSIZE: 130MB",
     "content": "FLP PROJECT FULL TRACK\nSIZE: 130MB",
     "featured": false,
     "published": true,
     "sortOrder": 1,
     "createdAt": "2026-08-18T12:10:29.157Z",
-    "updatedAt": "2026-08-18T14:13:04.142Z"
+    "updatedAt": "2026-10-12T06:39:58.697Z"
   },
   {
     "id": "project-msymj6yc-aj0l",
@@ -211,14 +211,14 @@
     ],
     "bpm": 140,
     "price": null,
-    "priceText": "3499K",
+    "priceText": "2999K",
     "shortDescription": "FLP PROJECT FULL\nSIZE: 80MB",
     "content": "FLP PROJECT FULL\nSIZE: 80MB",
     "featured": true,
     "published": true,
     "sortOrder": 1,
     "createdAt": "2026-08-18T15:30:30.767Z",
-    "updatedAt": "2026-08-26T16:17:53.681Z"
+    "updatedAt": "2026-10-12T06:41:17.965Z"
   },
   {
     "id": "project-msyupduv-8lwu",
@@ -285,5 +285,93 @@
     "sortOrder": 1,
     "createdAt": "2026-08-31T05:59:17.971Z",
     "updatedAt": "2026-08-31T05:59:42.283Z"
+  },
+  {
+    "id": "project-mv4yr4uh-8hwh",
+    "slug": "neu-nhu-ngay-do",
+    "title": "NẾU NHƯ NGÀY ĐÓ",
+    "thumbnail": "/media/projects/images/90d01eae-e895-487d-9892-59aedd2b3a2c.webp",
+    "demoAudio": "/media/projects/audio/af231ee7-5f22-490c-b9cd-9f5a0803b806.mp3",
+    "tags": [
+      "project",
+      "flp",
+      "vinahouse"
+    ],
+    "bpm": 140,
+    "price": null,
+    "priceText": "3499K",
+    "shortDescription": "SIZE: 110MB",
+    "content": "SIZE: 110MB",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-10-12T08:01:40.169Z",
+    "updatedAt": "2026-10-12T08:01:40.169Z"
+  },
+  {
+    "id": "project-mv4ytlky-u0nh",
+    "slug": "nguoc-loi-yeu",
+    "title": "NGƯỢC LỐI YÊU",
+    "thumbnail": "/media/projects/images/b79a4e2d-bf1a-411b-a1d2-50b670d39a0e.webp",
+    "demoAudio": "/media/projects/audio/f66f27ab-d770-4e33-9186-63246267a5cb.mp3",
+    "tags": [
+      "flp",
+      "project",
+      "vinahouse"
+    ],
+    "bpm": 140,
+    "price": null,
+    "priceText": "2999K",
+    "shortDescription": "150MB",
+    "content": "150MB",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-10-12T08:03:35.170Z",
+    "updatedAt": "2026-10-12T08:03:35.170Z"
+  },
+  {
+    "id": "project-mv4z0bf4-4dcw",
+    "slug": "gia-nhu-anh-la-em",
+    "title": "GIÁ NHƯ ANH LÀ EM",
+    "thumbnail": "/media/projects/images/7dc3273e-f1a2-48a6-aa31-81572780f0dd.webp",
+    "demoAudio": "/media/projects/audio/996c307e-c55a-4ff6-b243-b58208573775.mp3",
+    "tags": [
+      "vinahouse",
+      "flp",
+      "project"
+    ],
+    "bpm": 140,
+    "price": null,
+    "priceText": "3999K",
+    "shortDescription": "SIZE: 90MB",
+    "content": "SIZE: 90MB",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-10-12T08:08:48.592Z",
+    "updatedAt": "2026-10-12T08:08:48.592Z"
+  },
+  {
+    "id": "project-mv4z4vgx-g9ej",
+    "slug": "hit-1-like",
+    "title": "HIT 1 LIKE",
+    "thumbnail": "/media/projects/images/c74514f2-4227-41bb-afd9-c6691d89f492.webp",
+    "demoAudio": "/media/projects/audio/067adf53-c824-4f7e-b683-5077f9043703.mp3",
+    "tags": [
+      "vinahouse",
+      "project",
+      "flp"
+    ],
+    "bpm": 140,
+    "price": null,
+    "priceText": "3999K",
+    "shortDescription": "FULL FLP: 150MB",
+    "content": "FULL FLP: 150MB",
+    "featured": false,
+    "published": true,
+    "sortOrder": 1,
+    "createdAt": "2026-10-12T08:12:21.201Z",
+    "updatedAt": "2026-10-12T08:13:09.920Z"
   }
 ]

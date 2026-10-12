@@ -1,5 +1,43 @@
 [
   {
+    "id": "music-mv4z1ikx-ym25",
+    "title": "GIÁ NHƯ ANH LÀ EM",
+    "artists": "BUOGS x REVIX",
+    "audio": "/media/music/audio/5b9a2c61-4189-41eb-afe7-0787be704a6f.mp3",
+    "cover": "/media/music/covers/90a88eb3-2816-4668-b204-78e089d0f77d.webp",
+    "tags": [
+      "vinahouse",
+      "vietmix",
+      "remix"
+    ],
+    "publishDate": "2026-10-12",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "isDownloadable": true,
+    "createdAt": "2026-10-12T08:09:44.483Z",
+    "updatedAt": "2026-10-12T08:09:44.483Z"
+  },
+  {
+    "id": "music-mv2iprcx-bkp7",
+    "title": "MTP X TYGA - COME MY WAY",
+    "artists": "BUOGS x REVIX",
+    "audio": "/media/music/audio/5a9d7f58-fa40-49eb-bf35-632a9df1bdab.mp3",
+    "cover": "/media/music/covers/8ff67678-470b-4585-873d-8688b494937b.webp",
+    "tags": [
+      "vinahouse",
+      "remix",
+      "vietmix"
+    ],
+    "publishDate": "2026-10-10",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "isDownloadable": true,
+    "createdAt": "2026-10-10T14:57:09.792Z",
+    "updatedAt": "2026-10-10T14:57:09.792Z"
+  },
+  {
     "id": "music-mtfpo0as-66gu",
     "title": "GỌI TÊN EM TRONG ĐÊM",
     "artists": "BUOGS x REVIX",
