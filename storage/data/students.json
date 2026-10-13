@@ -1,1 +1,164 @@
-[]
+[
+  {
+    "name": "DJ/PRODUCER NIX",
+    "photo": "/media/students/images/25f3c964-87da-4035-9c9f-9f1315d12ebf.webp",
+    "published": true,
+    "sortOrder": 1,
+    "id": "fcb994cf-7c05-47f3-b4f3-2b38c362d8d0",
+    "createdAt": "2026-10-13T06:17:43.462Z",
+    "updatedAt": "2026-10-13T06:17:43.462Z"
+  },
+  {
+    "name": "DJ/PRODUCER TRX",
+    "photo": "/media/students/images/78db9afb-b9d0-4d0d-aa5d-5c2ddcbc86f9.webp",
+    "published": true,
+    "sortOrder": 2,
+    "id": "1804de9d-2be3-4a16-b1f0-7cb087f223f9",
+    "createdAt": "2026-10-13T06:21:00.021Z",
+    "updatedAt": "2026-10-13T06:21:00.021Z"
+  },
+  {
+    "name": "DJ/PRODUCER KNV",
+    "photo": "/media/students/images/7c4f40a7-3d80-440a-889e-69713336fc94.webp",
+    "published": true,
+    "sortOrder": 3,
+    "id": "db8fb578-2e34-41f2-9dd2-f0ea9f8bc627",
+    "createdAt": "2026-10-13T06:21:25.130Z",
+    "updatedAt": "2026-10-13T06:21:25.130Z"
+  },
+  {
+    "name": "DJ EMMY",
+    "photo": "/media/students/images/acb670de-22db-4f74-94b5-6b2f4b46e8dc.webp",
+    "published": true,
+    "sortOrder": 4,
+    "id": "033e148b-d546-4f07-9815-724860cfcb71",
+    "createdAt": "2026-10-13T06:21:42.787Z",
+    "updatedAt": "2026-10-13T06:21:42.787Z"
+  },
+  {
+    "name": "DJ DIỆP",
+    "photo": "/media/students/images/f71adfc8-7ad6-4b2d-8637-80bf747085af.webp",
+    "published": true,
+    "sortOrder": 5,
+    "id": "03bb753b-a983-4938-bf9c-7687667985eb",
+    "createdAt": "2026-10-13T06:22:05.193Z",
+    "updatedAt": "2026-10-13T06:22:05.193Z"
+  },
+  {
+    "name": "DJ RIO FROM BERLIN",
+    "photo": "/media/students/images/4ecb969b-2e07-4ab9-bf2a-143a068ec8a5.webp",
+    "published": true,
+    "sortOrder": 6,
+    "id": "10ee3746-4e0c-462b-8123-28c017f12a16",
+    "createdAt": "2026-10-13T06:22:35.321Z",
+    "updatedAt": "2026-10-13T06:22:35.321Z"
+  },
+  {
+    "name": "DJ QUÂN FROM JAPAN",
+    "photo": "/media/students/images/ee0e4aeb-3316-46c2-b49d-9fc37aeccc04.webp",
+    "published": true,
+    "sortOrder": 7,
+    "id": "3522daf5-9ca0-4fcb-893f-154ebcfc1400",
+    "createdAt": "2026-10-13T06:22:51.087Z",
+    "updatedAt": "2026-10-13T06:22:51.087Z"
+  },
+  {
+    "name": "DJ PUKA",
+    "photo": "/media/students/images/e2d3873b-1251-4945-b1a8-e0757674f9b2.webp",
+    "published": true,
+    "sortOrder": 8,
+    "id": "79da4353-a196-486a-bb9d-d061a30f4108",
+    "createdAt": "2026-10-13T06:23:01.258Z",
+    "updatedAt": "2026-10-13T06:23:01.258Z"
+  },
+  {
+    "name": "DJ MINH LIKE",
+    "photo": "/media/students/images/54938abb-d464-4cd8-87c8-700df957064b.webp",
+    "published": true,
+    "sortOrder": 9,
+    "id": "f40e9efc-41a0-4f25-b2f7-39adaa873bdc",
+    "createdAt": "2026-10-13T06:23:17.040Z",
+    "updatedAt": "2026-10-13T06:23:17.040Z"
+  },
+  {
+    "name": "DJ/PRODUCER ZENO",
+    "photo": "/media/students/images/39218164-cf47-4789-a9c2-fe096d1bdcec.webp",
+    "published": true,
+    "sortOrder": 10,
+    "id": "50f632c2-3d63-4e3f-bd0a-253385de65e7",
+    "createdAt": "2026-10-13T06:23:29.383Z",
+    "updatedAt": "2026-10-13T06:23:29.383Z"
+  },
+  {
+    "name": "DJ HÙNG",
+    "photo": "/media/students/images/6a1f7468-9f72-4e50-bbd7-a13cf8eb3c25.webp",
+    "published": true,
+    "sortOrder": 11,
+    "id": "f7c48efe-a362-4230-b2a4-5d6eea2204ba",
+    "createdAt": "2026-10-13T06:23:50.977Z",
+    "updatedAt": "2026-10-13T06:23:50.977Z"
+  },
+  {
+    "name": "DJ HOÀNG ORANGE",
+    "photo": "/media/students/images/36890101-19ab-4d1a-96b9-d330d98c9b05.webp",
+    "published": true,
+    "sortOrder": 12,
+    "id": "a90a95e7-a76f-4d12-9a99-ecee1b00eacd",
+    "createdAt": "2026-10-13T06:24:18.274Z",
+    "updatedAt": "2026-10-13T06:24:18.274Z"
+  },
+  {
+    "name": "DJ HUNG 2",
+    "photo": "/media/students/images/f6d4a985-d905-4007-8e86-35f7a3593c3e.webp",
+    "published": true,
+    "sortOrder": 13,
+    "id": "1d059ab7-998a-4fbc-8411-d8f3129182fb",
+    "createdAt": "2026-10-13T06:25:04.946Z",
+    "updatedAt": "2026-10-13T06:25:04.946Z"
+  },
+  {
+    "name": "DJ TRUNG ĐỨC",
+    "photo": "/media/students/images/6c1dc44d-f7e4-416e-ad93-4c258e51d7a4.webp",
+    "published": true,
+    "sortOrder": 13,
+    "id": "fb29c9b3-7b61-4d7d-84c8-ece1b312eaeb",
+    "createdAt": "2026-10-13T06:25:25.868Z",
+    "updatedAt": "2026-10-13T06:25:25.868Z"
+  },
+  {
+    "name": "DJ BRUCELEE",
+    "photo": "/media/students/images/0095b5e7-86f1-4a1e-becb-eee12e7b9e5c.webp",
+    "published": true,
+    "sortOrder": 14,
+    "id": "45155054-db3c-4d6d-b457-4f4b974a4df9",
+    "createdAt": "2026-10-13T06:26:10.899Z",
+    "updatedAt": "2026-10-13T06:26:10.899Z"
+  },
+  {
+    "name": "DJ SANG",
+    "photo": "/media/students/images/c1292b29-a4ff-4641-b90e-b5aa8142f9aa.webp",
+    "published": true,
+    "sortOrder": 15,
+    "id": "d90ea99b-0bca-40d5-8dbf-a9bdaa12d56c",
+    "createdAt": "2026-10-13T06:26:40.962Z",
+    "updatedAt": "2026-10-13T06:26:40.962Z"
+  },
+  {
+    "name": "DJ LOAN",
+    "photo": "/media/students/images/007f2897-498f-49b9-b841-861d4d2c7dbd.webp",
+    "published": true,
+    "sortOrder": 16,
+    "id": "86259394-f5d2-4c18-a0b0-abe3e2fe0967",
+    "createdAt": "2026-10-13T06:27:06.040Z",
+    "updatedAt": "2026-10-13T06:27:06.040Z"
+  },
+  {
+    "name": "DJ NHI",
+    "photo": "/media/students/images/f8793c69-40d9-4bf4-9f4e-dbda5e58afa9.webp",
+    "published": true,
+    "sortOrder": 5,
+    "id": "c12d77e2-dd64-455c-a6fa-f4e1c6c8b97d",
+    "createdAt": "2026-10-13T06:57:25.436Z",
+    "updatedAt": "2026-10-13T06:57:25.436Z"
+  }
+]
