@@ -9,7 +9,7 @@ export default function CoursesPage() {
   const courses = getCourses(true);
 
   return (
-    <div className="section-page-courses max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10 space-y-8">
+    <div className="section-page-courses max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 space-y-10">
       {/* Header Banner */}
       <Reveal className="space-y-3 border-b border-white/10 pb-6">
         <div className="text-xs font-mono text-[#A8A8A8] uppercase tracking-widest flex items-center gap-2">
@@ -24,12 +24,12 @@ export default function CoursesPage() {
         </p>
       </Reveal>
 
-      {/* Grid Layout (Desktop 3, Tablet 2, Mobile 3-compact) */}
+      {/* Grid Layout (Desktop 3, Tablet 2, Mobile 1) */}
       {courses.length > 0 ? (
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {courses.map((course, i) => (
-            <Reveal key={course.id} delay={Math.min(i * 0.05, 0.3)} distance={16}>
-              <CourseCard course={course} compact />
+            <Reveal key={course.id} className="h-full" delay={Math.min(i * 0.05, 0.3)} distance={16}>
+              <CourseCard course={course} />
             </Reveal>
           ))}
         </div>

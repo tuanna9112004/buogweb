@@ -32,7 +32,7 @@ export default function MusicItemCard({
 
   return (
     <div
-      className={`rounded-[20px] border bg-[#0D0D0D] p-4 sm:p-5 transition-all duration-300 ease-out group ${
+      className={`artist-track-card studio-card rounded-[20px] border bg-[#0D0D0D] p-4 sm:p-5 transition-all duration-300 ease-out group ${
         isActive
           ? 'border-white/[0.18] bg-[#111111]'
           : 'border-white/[0.06] hover:border-white/[0.12] hover:bg-[#101010]'
@@ -42,7 +42,7 @@ export default function MusicItemCard({
         {/* Cover — brand-consistent disc treatment; falls back to the BUOGS mark, never a raw placeholder */}
         <Link
           href={`/music/${track.id}`}
-          className="relative w-[68px] h-[68px] sm:w-20 sm:h-20 rounded-full overflow-hidden flex-shrink-0 bg-[#0A0A0A] border border-white/[0.08] transition-colors duration-300 group-hover:border-white/20"
+          className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden flex-shrink-0 bg-[#0A0A0A] border border-white/[0.08] transition-colors duration-300 group-hover:border-white/20"
         >
           {hasCover ? (
             <>
@@ -51,8 +51,8 @@ export default function MusicItemCard({
                 alt={track.title}
                 fill
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                sizes="80px"
-                unoptimized
+                sizes="64px"
+                unoptimized={!track.cover?.startsWith('/')}
               />
               <span className="absolute top-1/2 left-1/2 w-2 h-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#050505] border border-white/40" />
             </>
@@ -64,7 +64,7 @@ export default function MusicItemCard({
                 width={64}
                 height={64}
                 className="w-7 h-7 sm:w-8 sm:h-8 opacity-75"
-                unoptimized
+                unoptimized={!track.cover?.startsWith('/')}
               />
             </div>
           )}
@@ -78,12 +78,12 @@ export default function MusicItemCard({
                 {track.title}
               </h3>
             </Link>
-            <span className="flex-shrink-0 hidden sm:block text-[10px] font-mono text-[#5c5c5c] mt-1.5 whitespace-nowrap tracking-wide">
+            <span className="flex-shrink-0 hidden sm:block text-[10px] font-mono text-[#969590] mt-1.5 whitespace-nowrap tracking-wide">
               {formatDate(track.publishDate)}
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <div className="artist-track-meta flex flex-wrap items-center gap-x-2 gap-y-1">
             <span className="text-xs text-[#9a9a9a] truncate max-w-full">{track.artists}</span>
             {track.tags && track.tags.length > 0 && (
               <>
@@ -100,7 +100,7 @@ export default function MusicItemCard({
                         className={`text-[9.5px] px-2 py-0.5 rounded-md font-mono uppercase tracking-wide transition-colors duration-200 ${
                           isSelected
                             ? 'bg-[#EDEAE2] text-[#121212] font-semibold'
-                            : 'bg-white/[0.03] text-[#737373] hover:text-[#dcdcdc] border border-white/[0.08] hover:border-white/20'
+                            : 'bg-white/[0.03] text-[#aaa9a5] hover:text-[#dcdcdc] border border-white/[0.08] hover:border-white/20'
                         }`}
                       >
                         #{tagName}
@@ -112,7 +112,10 @@ export default function MusicItemCard({
             )}
           </div>
 
-          <div className="pt-1 flex items-center gap-3">
+        </div>
+      </div>
+
+      <div className="mt-3 border-t border-white/[0.07] pt-3 flex items-center gap-3">
             <div className="flex-1 min-w-0">
               <TrackPlayerRow track={track} />
             </div>
@@ -123,14 +126,12 @@ export default function MusicItemCard({
                 download={`${track.title.replace(/[\\/:*?"<>|]/g, '').trim()} - buogsdj.mp3`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#111] hover:bg-[#b6ff2e] text-white hover:text-black border border-white/10 hover:border-[#b6ff2e] transition-all"
+                className="flex-shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-full bg-[#111] hover:bg-white text-white hover:text-black border border-white/10 hover:border-white transition-all"
                 title="Tải bài nhạc này"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               </a>
             )}
-          </div>
-        </div>
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ export default function PublicLayout({
   return (
     <AudioProvider>
       <ContactModalProvider settings={settings}>
-        <div className="min-h-screen flex flex-col">
+        <div className="public-site min-h-screen flex flex-col">
           <Header settings={settings} />
           <main className="flex-grow">
             <PageTransition>{children}</PageTransition>

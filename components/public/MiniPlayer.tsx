@@ -58,7 +58,7 @@ export default function MiniPlayer() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 14 }}
           transition={{ duration: reduceMotion ? 0.01 : 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60] flex items-center gap-3 pl-2.5 pr-4 py-2.5 rounded-full bg-[#0c0c0c]/95 border border-white/15 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.55)] max-w-[calc(100vw-2rem)]"
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60] flex items-center gap-2 sm:gap-3 pl-2.5 pr-4 py-2.5 rounded-full bg-[#0c0c0c]/95 border border-white/15 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.55)] max-w-[calc(100vw-2rem)]"
         >
           {/* Outer node: audio-reactive "boom" scale (JS/rAF, transform only) */}
           <div
@@ -78,18 +78,19 @@ export default function MiniPlayer() {
                 alt={activeTrack.title}
                 fill
                 className="object-cover"
-                unoptimized
+                unoptimized={!activeTrack.cover?.startsWith('/')}
+                sizes="44px"
               />
               {/* Vinyl center hole for the disc read */}
               <span className="absolute top-1/2 left-1/2 w-2 h-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0c0c0c] border border-white/40" />
             </div>
           </div>
 
-          <div className="min-w-0 text-left">
-            <p className="text-sm font-semibold text-white truncate max-w-[9rem] sm:max-w-[12rem] leading-snug">
+          <div className="min-w-0 flex-1 text-left">
+            <p className="text-sm font-semibold text-white truncate max-w-[7rem] sm:max-w-[12rem] leading-snug">
               {activeTrack.title}
             </p>
-            <p className="text-[11px] font-mono text-[#8A8A8A] truncate max-w-[9rem] sm:max-w-[12rem]">
+            <p className="text-[11px] font-mono text-[#8A8A8A] truncate max-w-[7rem] sm:max-w-[12rem]">
               {activeTrack.artists}
             </p>
           </div>
@@ -100,7 +101,7 @@ export default function MiniPlayer() {
             disabled={isBuffering}
             aria-label={isPlaying ? 'Tạm dừng' : 'Phát tiếp'}
             title={isPlaying ? 'Tạm dừng' : 'Phát tiếp'}
-            className="flex-shrink-0 w-7 h-7 rounded-full bg-white/[0.06] border border-white/15 flex items-center justify-center hover:bg-white/15 hover:border-white/30 transition-colors duration-200 active:scale-90 disabled:cursor-not-allowed"
+            className="flex-shrink-0 w-11 h-11 rounded-full bg-white/[0.06] border border-white/15 flex items-center justify-center hover:bg-white/15 hover:border-white/30 transition-colors duration-200 active:scale-90 disabled:cursor-not-allowed"
           >
             {isBuffering ? (
               <span className="w-2.5 h-2.5 rounded-full border-[1.5px] border-white/30 border-t-white animate-spin" />
@@ -117,7 +118,7 @@ export default function MiniPlayer() {
             onClick={closePlayer}
             aria-label="Đóng và dừng phát nhạc"
             title="Dừng phát nhạc"
-            className="flex-shrink-0 w-5 h-5 rounded-full bg-white/[0.06] border border-white/15 flex items-center justify-center text-[#8A8A8A] hover:bg-white hover:text-black hover:border-white transition-colors duration-200 active:scale-90"
+            className="flex-shrink-0 w-11 h-11 rounded-full bg-white/[0.06] border border-white/15 flex items-center justify-center text-[#8A8A8A] hover:bg-white hover:text-black hover:border-white transition-colors duration-200 active:scale-90"
           >
             <X className="w-3 h-3" strokeWidth={2.5} />
           </button>

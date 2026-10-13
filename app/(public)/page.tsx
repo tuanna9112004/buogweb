@@ -1,5 +1,6 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import StudioHero from '@/components/public/StudioHero';
+import StudentShowcase from '@/components/public/StudentShowcase';
+import { getStudents } from '@/lib/storage/students';
 import {
   getMusicList,
   getMusicTags,
@@ -13,8 +14,7 @@ import FLPProjectCard from '@/components/public/FLPProjectCard';
 import CourseCard from '@/components/public/CourseCard';
 import Reveal from '@/components/public/Reveal';
 import SectionHeading from '@/components/public/SectionHeading';
-import HeroContactButton from '@/components/public/HeroContactButton';
-import { ArrowRight, Music, Headphones, Award, Play, Sparkles } from 'lucide-react';
+import { Music, Headphones, Award } from 'lucide-react';
 
 export const revalidate = 0; // Dynamic server rendering for live JSON edits
 
@@ -34,152 +34,16 @@ export default function HomePage() {
   const featuredCourses = allCourses.filter((c) => c.featured).slice(0, settings.featuredCoursesCount);
 
   return (
-    <div className="space-y-20 sm:space-y-28 lg:space-y-36 pb-24">
+    <div className="home-studio space-y-20 sm:space-y-28 lg:space-y-32 pb-12 sm:pb-16">
 
-      {/* HERO SECTION — dark premium editorial hero: css-composed depth layers + a fluid 40/12/48 content grid so text and portrait never collide */}
-      <section className="relative w-full overflow-hidden min-h-screen bg-[#080808]">
-        {/* Layer 1 — base + portrait photo (subject nudged left/up via object-position since it's a flat photo, not an isolated cutout) */}
-        <Image
-          src="/anh2-169.png"
-          alt="BUOGS hero background"
-          fill
-          className="object-cover object-[68%_30%] lg:object-[70%_22%]"
-          priority
-          unoptimized
-        />
-
-        {/* Layer 2 — soft radial light behind head/shoulders */}
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(ellipse at 72% 44%, rgba(160,160,160,0.32) 0%, rgba(90,90,90,0.18) 28%, rgba(20,20,20,0.05) 60%, transparent 74%)',
-          }}
-        />
-
-        {/* Layer 3 — left dark gradient so text stays legible */}
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(90deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.78) 28%, rgba(0,0,0,0.30) 53%, transparent 75%)',
-          }}
-        />
-
-        {/* Layer 4 — vignette */}
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.42) 100%)',
-          }}
-        />
-
-        {/* Layer 5 — cinematic grain */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.035] mix-blend-soft-light"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-          }}
-        />
-
-        {/* Bottom fade into the next section */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 lg:h-32 bg-gradient-to-b from-transparent to-[#080808]" />
-
-        <div className="relative z-10 min-h-screen w-[calc(100%-40px)] sm:w-[calc(100%-64px)] max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-[40%_12%_48%] items-center pt-28 lg:pt-0">
-          <div className="max-w-[520px] text-center lg:text-left mx-auto lg:mx-0">
-
-            {/* Eyebrow */}
-            <Reveal delay={0} duration={0.42} distance={14}>
-              <div className="inline-flex h-[26px] items-center gap-1.5 px-[14px] rounded-full bg-white/[0.02] border border-white/[0.14] backdrop-blur-md text-[9px] font-mono font-medium tracking-[2.1px] text-white/65 uppercase">
-                <Sparkles className="w-3 h-3 text-white/50" />
-                <span>OFFICIAL DJ / PRODUCER PORTFOLIO</span>
-              </div>
-            </Reveal>
-
-            {/* Title */}
-            <Reveal delay={0.08} duration={0.42} distance={14} className="mt-[32px]">
-              <h1 className="lg:max-w-[360px]">
-                <Image
-                  src="/buogs-logo-mark-v2.png"
-                  alt={settings.brandName || 'BUOGS'}
-                  width={744}
-                  height={130}
-                  className="h-12 sm:h-14 lg:h-16 w-auto invert mx-auto lg:mx-0"
-                  unoptimized
-                  priority
-                />
-              </h1>
-            </Reveal>
-
-            {/* Subtitle & genre line */}
-            <Reveal delay={0.14} duration={0.42} distance={14} className="mt-3">
-              <p className="font-heading italic font-normal text-xl lg:text-2xl text-white/92 tracking-normal">
-                {settings.tagline || 'DJ / Producer'}
-              </p>
-              <p className="mt-[14px] text-[10px] font-mono font-medium text-white/55 uppercase tracking-[3.2px]">
-                {settings.genresText || 'VINAHOUSE · HOUSE LAK · VINATRANCE'}
-              </p>
-            </Reveal>
-
-            {/* Description */}
-            <Reveal delay={0.22} duration={0.42} distance={14} className="hidden sm:block mt-[32px]">
-              <p className="text-[15px] text-white/72 max-w-[500px] mx-auto lg:mx-0 leading-[1.65]">
-                {settings.about || 'BUOGS là DJ / Producer chuyên nghiệp trong lĩnh vực âm nhạc điện tử, cung cấp các sản phẩm FL Studio chất lượng cao và đào tạo DJ/Producer chuyên sâu.'}
-              </p>
-            </Reveal>
-
-            {/* CTAs */}
-            <Reveal delay={0.28} duration={0.42} distance={14} className="mt-7">
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
-                <Link
-                  href="/music"
-                  className="inline-flex h-12 items-center gap-2.5 pl-2 pr-5 rounded-full bg-[#F1EFEA] text-[#111111] text-xs font-bold uppercase tracking-[0.2px] transition-all duration-200 hover:bg-white hover:-translate-y-0.5 active:scale-[0.97]"
-                >
-                  <span className="flex items-center justify-center w-[30px] h-[30px] rounded-full bg-[#111111] text-[#F1EFEA]">
-                    <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
-                  </span>
-                  <span>Nghe Nhạc</span>
-                </Link>
-
-                <HeroContactButton />
-              </div>
-            </Reveal>
-          </div>
-
-          {/* Empty breathing-space column — keeps text clear of the portrait; desktop-only so it doesn't add phantom stacked rows on mobile's single-column grid */}
-          <div className="hidden lg:block" />
-          <div className="hidden lg:block" />
-        </div>
-      </section>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="divider-fade" />
-      </div>
+      <StudioHero settings={settings} />
 
       {/* FEATURED MUSIC SECTION */}
-      <section className="section-music max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
-        <Reveal className="flex flex-col items-center text-center gap-3">
-          <div className="kicker flex items-center justify-center gap-2 text-[#A8A8A8]">
-            <Music className="w-3.5 h-3.5 text-white" />
-            <span>Music Showcase</span>
-          </div>
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white">
-            BÀI NHẠC NỔI BẬT
-          </h2>
-
-          <Link
-            href="/music"
-            className="group mt-1 inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-white hover:text-[#A8A8A8] transition-colors duration-300"
-          >
-            <span>Xem Tất Cả Bài Nhạc</span>
-            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-          </Link>
-        </Reveal>
+      <section id="featured-music" className="section-music max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
+        <Reveal><SectionHeading number="01" icon={Music} eyebrow="Selected sounds" title="Âm nhạc nổi bật" ctaLabel="Tất cả bài nhạc" ctaHref="/music" /></Reveal>
 
         {featuredMusic.length > 0 ? (
-          <Reveal delay={0.1} className="grid grid-cols-3 gap-5 sm:gap-10 items-center py-6 sm:py-10">
+          <Reveal delay={0.1} className="music-showcase-grid">
             {featuredMusic.map((track, i) => (
               <MusicShowcaseCard
                 key={track.id}
@@ -203,14 +67,14 @@ export default function HomePage() {
             number="02"
             icon={Headphones}
             eyebrow="FL Studio Projects"
-            title="PROJECT NỔI BẬT"
+            title="Projects dành cho bạn"
             ctaLabel="Xem Tất Cả Project"
             ctaHref="/projects"
           />
         </Reveal>
 
         {featuredProjects.length > 0 ? (
-          <Reveal delay={0.1} className="grid grid-cols-3 gap-3 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <Reveal delay={0.1} className="grid grid-cols-3 gap-3 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
             {featuredProjects.map((project) => (
               <FLPProjectCard key={project.id} project={project} allTags={projectTags} compact />
             ))}
@@ -229,14 +93,14 @@ export default function HomePage() {
             number="03"
             icon={Award}
             eyebrow="Academy & Training"
-            title="DẠY DJ / PRODUCER"
+            title="Tạo nên âm thanh của bạn"
             ctaLabel="Xem Tất Cả Khóa Học"
             ctaHref="/courses"
           />
         </Reveal>
 
         {featuredCourses.length > 0 ? (
-          <Reveal delay={0.1} className="grid grid-cols-3 gap-3 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <Reveal delay={0.1} className="grid grid-cols-3 gap-3 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
             {featuredCourses.map((course) => (
               <CourseCard key={course.id} course={course} compact />
             ))}
@@ -247,9 +111,7 @@ export default function HomePage() {
           </p>
         )}
       </section>
-
-
-
+      <StudentShowcase students={getStudents(true)} />
     </div>
   );
 }

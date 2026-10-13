@@ -12,6 +12,7 @@ interface ImageCropperModalProps {
   onCancel: () => void;
   aspectRatio?: number; // Default 1 for 1:1 square
   shape?: 'square' | 'circle'; // Default 'square'; 'circle' clips output to a disc (requires aspectRatio 1)
+  coverOnly?: boolean;
 }
 
 export default function ImageCropperModal({
@@ -22,6 +23,7 @@ export default function ImageCropperModal({
   onCancel,
   aspectRatio = 1,
   shape = 'square',
+  coverOnly = false,
 }: ImageCropperModalProps) {
   const isCircle = shape === 'circle';
   const isRect = !isCircle && aspectRatio !== 1;
@@ -46,17 +48,27 @@ export default function ImageCropperModal({
   // 1 down to the "contain" scale — the frame then shows the whole image
   // with transparent padding on the long axis instead of forcing a crop.
   const minZoom = useMemo(() => {
-    if (!imageObj) return 1;
+    if (!imageObj || coverOnly) return 1;
     const rotated = rotation % 180 !== 0;
     const imgAspect = rotated ? imageObj.height / imageObj.width : imageObj.width / imageObj.height;
     const ratio = aspectRatio / imgAspect;
     return Math.min(ratio, 1 / ratio);
-  }, [imageObj, aspectRatio, rotation]);
+  }, [imageObj, aspectRatio, rotation, coverOnly]);
 
   // Clamp for display/drawing whenever the floor moves (new image, rotate),
   // without writing back into zoom state — keeps the slider's raw value and
   // avoids a setState-in-effect render round-trip.
   const clampedZoom = Math.min(Math.max(zoom, minZoom), 3);
+  const boundedOffset = useMemo(() => {
+    if (!imageObj || !coverOnly) return offset;
+    const rotated = rotation % 180 !== 0;
+    const width = rotated ? imageObj.height : imageObj.width;
+    const height = rotated ? imageObj.width : imageObj.height;
+    const scale = Math.max(400 / width, (400 / aspectRatio) / height) * clampedZoom;
+    const maxX = Math.max(0, (width * scale - 400) / 2);
+    const maxY = Math.max(0, (height * scale - 400 / aspectRatio) / 2);
+    return { x: Math.max(-maxX, Math.min(maxX, offset.x)), y: Math.max(-maxY, Math.min(maxY, offset.y)) };
+  }, [imageObj, coverOnly, offset, rotation, aspectRatio, clampedZoom]);
 
   // Load Image Object when imageSrc changes
   useEffect(() => {
@@ -95,18 +107,19 @@ export default function ImageCropperModal({
     }
 
     // Center origin for rotation and translation
-    ctx.translate(canvas.width / 2 + offset.x, canvas.height / 2 + offset.y);
+    ctx.translate(canvas.width / 2 + boundedOffset.x, canvas.height / 2 + boundedOffset.y);
     ctx.rotate((rotation * Math.PI) / 180);
     ctx.scale(clampedZoom, clampedZoom);
 
     // Calculate base draw size fitting container
-    const scale = Math.max(canvas.width / imageObj.width, canvas.height / imageObj.height);
+    const rotated = rotation % 180 !== 0;
+    const scale = Math.max(canvas.width / (rotated ? imageObj.height : imageObj.width), canvas.height / (rotated ? imageObj.width : imageObj.height));
     const drawWidth = imageObj.width * scale;
     const drawHeight = imageObj.height * scale;
 
     ctx.drawImage(imageObj, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
     ctx.restore();
-  }, [imageObj, clampedZoom, rotation, offset, aspectRatio, isCircle]);
+  }, [imageObj, clampedZoom, rotation, boundedOffset, aspectRatio, isCircle]);
 
   useEffect(() => {
     if (isOpen && imageObj) {
@@ -115,16 +128,19 @@ export default function ImageCropperModal({
   }, [isOpen, imageObj, drawCanvas]);
 
   // Drag pan handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handleMouseDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const scale = 400 / e.currentTarget.getBoundingClientRect().width;
     setIsDragging(true);
-    setDragStart({ x: e.clientX - offset.x, y: e.clientY - offset.y });
+    setDragStart({ x: e.clientX * scale - boundedOffset.x, y: e.clientY * scale - boundedOffset.y });
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!isDragging) return;
+    const scale = 400 / e.currentTarget.getBoundingClientRect().width;
     setOffset({
-      x: e.clientX - dragStart.x,
-      y: e.clientY - dragStart.y,
+      x: e.clientX * scale - dragStart.x,
+      y: e.clientY * scale - dragStart.y,
     });
   };
 
@@ -155,15 +171,15 @@ export default function ImageCropperModal({
     }
 
     ctx.translate(
-      exportCanvas.width / 2 + offset.x * scaleFactor,
-      exportCanvas.height / 2 + offset.y * scaleFactor
+      exportCanvas.width / 2 + boundedOffset.x * scaleFactor,
+      exportCanvas.height / 2 + boundedOffset.y * scaleFactor
     );
     ctx.rotate((rotation * Math.PI) / 180);
     ctx.scale(clampedZoom, clampedZoom);
 
     const baseScale = Math.max(
-      exportCanvas.width / imageObj.width,
-      exportCanvas.height / imageObj.height
+      exportCanvas.width / (rotation % 180 !== 0 ? imageObj.height : imageObj.width),
+      exportCanvas.height / (rotation % 180 !== 0 ? imageObj.width : imageObj.height)
     );
     const drawWidth = imageObj.width * baseScale;
     const drawHeight = imageObj.height * baseScale;
@@ -195,7 +211,8 @@ export default function ImageCropperModal({
           transition={{ duration: 0.18 }}
         >
           <motion.div
-            className="bg-[#111111] border border-white/10 rounded-3xl max-w-lg w-full p-6 space-y-6 shadow-2xl relative overflow-hidden"
+            role="dialog" aria-modal="true" aria-label="Cắt ảnh"
+            className="bg-[#111111] border border-white/10 rounded-3xl max-w-lg w-full p-4 sm:p-6 space-y-4 shadow-2xl relative max-h-[90dvh] overflow-y-auto"
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 6 }}
@@ -213,6 +230,7 @@ export default function ImageCropperModal({
           <button
             type="button"
             onClick={onCancel}
+            aria-label="Đóng công cụ cắt ảnh"
             className="text-[#a3a3a3] hover:text-white transition-colors"
           >
             <X className="w-5 h-5" />
@@ -225,11 +243,11 @@ export default function ImageCropperModal({
             className={`relative cursor-move overflow-hidden border-2 border-[#b6ff2e] shadow-2xl shadow-[#b6ff2e]/20 ${
               isCircle ? 'rounded-full' : 'rounded-xl'
             }`}
-            style={{ width: '320px', height: `${320 / aspectRatio}px` }}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
+            style={{ width: 'min(100%, 280px)', aspectRatio, touchAction: 'none' }}
+            onPointerDown={handleMouseDown}
+            onPointerMove={handleMouseMove}
+            onPointerUp={handleMouseUp}
+            onPointerCancel={handleMouseUp}
           >
             <canvas ref={canvasRef} className="w-full h-full pointer-events-none" />
 
@@ -264,6 +282,7 @@ export default function ImageCropperModal({
             <ZoomOut className="w-4 h-4 text-[#a3a3a3]" />
             <input
               type="range"
+              aria-label="Phóng to ảnh"
               min={minZoom}
               max="3"
               step="0.01"

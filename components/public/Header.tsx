@@ -23,9 +23,16 @@ export default function Header({ settings }: HeaderProps) {
       setScrolled(window.scrollY > 32);
     };
     handleScroll(); // Check scroll position immediately on mount
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setMobileOpen(false); };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [mobileOpen]);
 
   const navLinks = [
     { href: '/', label: 'HOME' },
@@ -52,7 +59,7 @@ export default function Header({ settings }: HeaderProps) {
         }`}
       >
         <div className="w-full h-full flex items-center justify-between">
-          
+
           {/* 1. Left (Brand / Logo) */}
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
             <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#101010] border border-white/15 overflow-hidden group-hover:border-white/40 transition-colors duration-200 flex-shrink-0">
@@ -60,8 +67,9 @@ export default function Header({ settings }: HeaderProps) {
                 src="/fav-logo.png"
                 alt={brand}
                 fill
+                sizes="36px"
                 className="object-cover"
-                unoptimized
+
               />
             </div>
             <div>
@@ -71,8 +79,9 @@ export default function Header({ settings }: HeaderProps) {
                 alt=""
                 width={744}
                 height={130}
+                sizes="105px"
                 className="h-4 sm:h-[18px] w-auto invert block"
-                unoptimized
+
               />
               <span
                 className={`block text-[8.5px] tracking-widest text-[#737373] uppercase font-mono font-medium transition-all duration-300 overflow-hidden ${
@@ -85,7 +94,7 @@ export default function Header({ settings }: HeaderProps) {
           </Link>
 
           {/* 2. Center (Navigation Links with generous 28px-36px spacing) */}
-          <nav className="hidden md:flex items-center gap-[38px]">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
             {navLinks.map((link) => {
               const isActive =
                 link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
@@ -122,8 +131,10 @@ export default function Header({ settings }: HeaderProps) {
             <button
               type="button"
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 rounded-xl text-white hover:bg-white/10 transition-colors"
-              aria-label="Toggle Navigation Menu"
+              className="lg:hidden min-h-11 min-w-11 flex items-center justify-center rounded-xl text-white hover:bg-white/10 transition-colors"
+              aria-label={mobileOpen ? "Đóng menu" : "Mở menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -133,7 +144,9 @@ export default function Header({ settings }: HeaderProps) {
 
         {/* 4. Mobile Navigation Drawer (Floating Dark Glass Dropdown Card) */}
         <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          id="mobile-navigation"
+          inert={!mobileOpen}
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
             mobileOpen
               ? 'max-h-96 opacity-100 pointer-events-auto mt-3'
               : 'max-h-0 opacity-0 pointer-events-none'
@@ -148,7 +161,7 @@ export default function Header({ settings }: HeaderProps) {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className={`block px-4 py-2.5 rounded-xl text-[11px] font-mono tracking-wider uppercase transition-colors duration-200 ${
+                  className={`block px-4 py-2.5 rounded-xl text-[13px] font-mono tracking-wide uppercase transition-colors duration-200 ${
                     isActive
                       ? 'bg-white/10 text-white font-bold'
                       : 'text-white/60 hover:text-white hover:bg-white/5'

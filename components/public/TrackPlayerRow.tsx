@@ -37,7 +37,7 @@ function formatTime(seconds: number) {
   return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
-export default function TrackPlayerRow({ track, barCount = 400 }: TrackPlayerRowProps) {
+export default function TrackPlayerRow({ track, barCount = 96 }: TrackPlayerRowProps) {
   const { currentTrackId, isPlaying, isBuffering, hasError, durations, toggleTrack, seek } = useAudio();
   const waveformRef = useRef<HTMLDivElement>(null);
 
@@ -71,14 +71,14 @@ export default function TrackPlayerRow({ track, barCount = 400 }: TrackPlayerRow
   };
 
   return (
-    <div className="flex items-center gap-3 w-full">
+    <div className="grid grid-cols-[44px_minmax(0,1fr)] items-center gap-x-3 gap-y-1 sm:flex sm:gap-3 w-full">
       <button
         onClick={handlePlayToggle}
         disabled={showError}
         aria-label={isActive && isPlaying ? 'Pause' : showError ? 'Audio chưa sẵn sàng' : 'Play'}
-        className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 ${
+        className={`row-span-2 w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 ${
           showError
-            ? 'bg-transparent text-[#5c5c5c] border border-white/10 cursor-not-allowed'
+            ? 'bg-transparent text-[#969590] border border-white/10 cursor-not-allowed'
             : isActive && isPlaying
             ? 'bg-[#EDEAE2] text-[#121212]'
             : 'bg-white/[0.05] text-white/90 border border-white/[0.12] group-hover:border-white/30 hover:border-white/40'
@@ -121,7 +121,7 @@ export default function TrackPlayerRow({ track, barCount = 400 }: TrackPlayerRow
       </div>
 
       {!showError && (
-        <span className="flex-shrink-0 text-[10px] font-mono text-[#5c5c5c] tabular-nums tracking-wide">
+        <span className="col-start-2 text-right flex-shrink-0 text-[10px] font-mono text-[#5c5c5c] tabular-nums tracking-wide">
           {isActive ? formatTime(currentTime) : '0:00'} / {duration > 0 ? formatTime(duration) : '--:--'}
         </span>
       )}

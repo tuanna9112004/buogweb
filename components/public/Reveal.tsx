@@ -47,7 +47,7 @@ export default function Reveal({
   return (
     <MotionTag
       className={className}
-      initial="hidden"
+      initial={shouldReduceMotion ? false : 'hidden'}
       whileInView="visible"
       viewport={{ once: true, margin: '-80px' }}
       variants={variants}

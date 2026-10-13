@@ -37,6 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable} dark scroll-smooth`}
     >
       <body className="text-white antialiased selection:bg-white selection:text-black">

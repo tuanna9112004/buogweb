@@ -41,17 +41,17 @@ export default function DemoMusicCard({
 
   return (
     <div
-      className={`rounded-[20px] border bg-[#0D0D0D] p-4 sm:p-5 transition-all duration-300 ease-out group flex flex-col h-full ${
+      className={`artist-track-card studio-card rounded-[20px] border bg-[#0D0D0D] p-4 sm:p-5 transition-all duration-300 ease-out group flex flex-col h-full ${
         isActive
           ? 'border-white/[0.18] bg-[#111111]'
           : 'border-white/[0.06] hover:border-white/[0.12] hover:bg-[#101010]'
       }`}
     >
-      <div className="flex items-center gap-4 sm:gap-5 mb-4">
+      <div className="flex items-center gap-3 sm:gap-4 mb-2">
         {/* Cover */}
         <Link
           href={`/demos/${track.id}`}
-          className="relative w-[68px] h-[68px] sm:w-20 sm:h-20 rounded-full overflow-hidden flex-shrink-0 bg-[#0A0A0A] border border-white/[0.08] transition-colors duration-300 group-hover:border-white/20"
+          className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden flex-shrink-0 bg-[#0A0A0A] border border-white/[0.08] transition-colors duration-300 group-hover:border-white/20"
         >
           {hasCover ? (
             <>
@@ -60,8 +60,8 @@ export default function DemoMusicCard({
                 alt={track.title}
                 fill
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                sizes="80px"
-                unoptimized
+                sizes="64px"
+                unoptimized={!track.cover?.startsWith('/')}
               />
               <span className="absolute top-1/2 left-1/2 w-2 h-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#050505] border border-white/40" />
             </>
@@ -73,7 +73,7 @@ export default function DemoMusicCard({
                 width={64}
                 height={64}
                 className="w-7 h-7 sm:w-8 sm:h-8 opacity-75"
-                unoptimized
+                unoptimized={!track.cover?.startsWith('/')}
               />
             </div>
           )}
@@ -87,12 +87,12 @@ export default function DemoMusicCard({
                 {track.title}
               </h3>
             </Link>
-            <span className="flex-shrink-0 hidden sm:block text-[10px] font-mono text-[#5c5c5c] mt-1.5 whitespace-nowrap tracking-wide">
+            <span className="flex-shrink-0 hidden sm:block text-[10px] font-mono text-[#969590] mt-1.5 whitespace-nowrap tracking-wide">
               {formatDate(track.publishDate)}
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <div className="artist-track-meta flex flex-wrap items-center gap-x-2 gap-y-1">
             <span className="text-xs text-[#9a9a9a] truncate max-w-full">{track.artists}</span>
             {track.tags && track.tags.length > 0 && (
               <>
@@ -104,7 +104,7 @@ export default function DemoMusicCard({
                     return (
                       <span
                         key={tagId}
-                        className="text-[9.5px] px-2 py-0.5 rounded-md font-mono uppercase tracking-wide transition-colors duration-200 bg-white/[0.03] text-[#737373] border border-white/[0.08]"
+                        className="text-[9.5px] px-2 py-0.5 rounded-md font-mono uppercase tracking-wide transition-colors duration-200 bg-white/[0.03] text-[#aaa9a5] border border-white/[0.08]"
                       >
                         #{tagName}
                       </span>
@@ -117,13 +117,13 @@ export default function DemoMusicCard({
         </div>
       </div>
 
-      <div className="pt-2 mb-4">
+      <div className="pt-1 mb-3">
         <TrackPlayerRow track={playableTrack} />
       </div>
 
       <div className="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-3 border-t border-white/[0.07] pt-4">
         <div className="min-w-0 flex-1">
-          <span className="block font-mono text-[10px] uppercase tracking-wide text-[#6B6B6B]">
+          <span className="block font-mono text-[10px] uppercase tracking-wide text-[#969590]">
             Giá Mua File
           </span>
           <span className="block font-mono text-base font-bold text-white">

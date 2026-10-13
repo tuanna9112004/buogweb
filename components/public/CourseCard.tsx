@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import DepthSurface from './DepthSurface';
 import { Course } from '@/types';
 import { ArrowRight } from 'lucide-react';
 
@@ -13,16 +14,16 @@ export default function CourseCard({ course, compact = false }: CourseCardProps)
   const thumbnail = course.thumbnail || '/media/courses/images/dj-full-cover.webp';
 
   return (
-    <Link
+    <DepthSurface className="h-full"><Link
       href={`/courses/${course.slug}`}
       className={
         compact
-          ? 'group flex flex-col gap-1.5 sm:h-full sm:gap-0 sm:overflow-hidden sm:rounded-[20px] sm:border sm:border-white/[0.07] sm:bg-[#101010] sm:transition-all sm:duration-300 sm:ease-out sm:hover:-translate-y-1 sm:hover:border-white/20 sm:hover:bg-[#131313]'
-          : 'group flex h-full flex-col overflow-hidden rounded-[20px] border border-white/[0.07] bg-[#101010] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-white/20 hover:bg-[#131313]'
+          ? 'studio-compact-card group flex h-full flex-col gap-2 overflow-hidden rounded-xl border border-white/[0.1] bg-[#101112] md:gap-0 md:rounded-[20px] md:transition-all md:duration-300 md:hover:-translate-y-1 md:hover:border-white/20'
+          : 'studio-card group flex h-full flex-col overflow-hidden rounded-[20px] border border-white/[0.07] bg-[#101010] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-white/20 hover:bg-[#131313]'
       }
     >
       {compact && (
-        <div className="sm:hidden">
+        <div className="md:hidden">
           <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/[0.07] bg-[#050505]">
             <Image
               src={thumbnail}
@@ -30,11 +31,11 @@ export default function CourseCard({ course, compact = false }: CourseCardProps)
               fill
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
               sizes="33vw"
-              unoptimized
+              unoptimized={!thumbnail.startsWith('/')}
             />
           </div>
-          <div className="mt-1.5 px-0.5">
-            <h3 className="text-[11px] font-semibold leading-tight text-white line-clamp-2">
+          <div className="p-2">
+            <h3 className="text-[11px] font-semibold leading-snug text-white line-clamp-2">
               {course.title}
             </h3>
             <span className="mt-0.5 block font-mono text-[10px] font-bold text-white/70">
@@ -44,7 +45,7 @@ export default function CourseCard({ course, compact = false }: CourseCardProps)
         </div>
       )}
 
-      <div className={compact ? 'hidden sm:contents' : 'contents'}>
+      <div className={compact ? 'hidden md:contents' : 'contents'}>
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#050505]">
           <Image
             src={thumbnail}
@@ -52,7 +53,7 @@ export default function CourseCard({ course, compact = false }: CourseCardProps)
             fill
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            unoptimized
+            unoptimized={!thumbnail.startsWith('/')}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         </div>
@@ -61,13 +62,13 @@ export default function CourseCard({ course, compact = false }: CourseCardProps)
           <h3 className="font-heading text-lg sm:text-xl font-semibold text-white leading-snug line-clamp-2">
             {course.title}
           </h3>
-          <p className="text-sm text-[#8A8A8A] leading-relaxed line-clamp-2">
+          <p className="text-sm text-[#aaa9a5] leading-relaxed line-clamp-2">
             {course.shortDescription}
           </p>
 
           <div className="mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-3 border-t border-white/[0.07] pt-4">
             <div className="min-w-0 flex-1">
-              <span className="block font-mono text-[10px] uppercase tracking-wide text-[#6B6B6B]">
+              <span className="block font-mono text-[10px] uppercase tracking-wide text-[#969590]">
                 Học Phí
               </span>
               <span className="block font-mono text-base font-bold text-white">
@@ -82,6 +83,6 @@ export default function CourseCard({ course, compact = false }: CourseCardProps)
           </div>
         </div>
       </div>
-    </Link>
+    </Link></DepthSurface>
   );
 }

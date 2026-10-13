@@ -124,3 +124,12 @@ export interface SiteSettings {
   featuredCoursesCount: number;
   featuredEquipmentCount: number;
 }
+export interface Student {
+  id: string;
+  name: string;
+  photo: string;
+  published: boolean;
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+}

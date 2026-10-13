@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import DepthSurface from './DepthSurface';
 import { Play, Pause } from 'lucide-react';
 import { Music, MusicTag } from '@/types';
 import { useAudio } from './AudioPlayerContext';
@@ -23,12 +24,13 @@ export default function MusicShowcaseCard({ track, allTags = [], highlight = fal
     : null;
 
   return (
-    <button
+    <DepthSurface className="music-depth"><button
       type="button"
       onClick={() => toggleTrack(track)}
       aria-pressed={isActivePlaying}
-      className={`group relative flex w-full flex-col overflow-hidden rounded-[20px] border bg-[#101010] text-left shadow-[0_20px_45px_rgba(0,0,0,0.45)] transition-all duration-300 ${
-        highlight ? 'z-10 sm:scale-[1.1]' : ''
+      aria-label={`${isActivePlaying ? 'Tạm dừng' : 'Phát'} ${track.title} — ${track.artists}`}
+      className={`studio-card music-showcase-card group relative flex w-full flex-col overflow-hidden rounded-[20px] border bg-[#101010] text-left shadow-[0_20px_45px_rgba(0,0,0,0.45)] transition-all duration-300 ${
+        highlight ? 'music-highlight' : ''
       } ${isActive ? 'border-white/25' : 'border-white/[0.07] hover:border-white/20'}`}
     >
       {/* Cover — inset within the card, not stretched to the card's full width */}
@@ -39,8 +41,8 @@ export default function MusicShowcaseCard({ track, allTags = [], highlight = fal
             alt={track.title}
             fill
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-            sizes="(max-width: 640px) 33vw, 280px"
-            unoptimized
+            sizes="(max-width: 767px) 33vw, (max-width: 1024px) 30vw, 380px"
+            unoptimized={!coverUrl.startsWith('/')}
           />
 
           <span
@@ -66,7 +68,7 @@ export default function MusicShowcaseCard({ track, allTags = [], highlight = fal
             {track.title}
           </h3>
           <div className="mt-0.5 flex items-center gap-1.5">
-            <p className="truncate text-xs text-[#8A8A8A]">{track.artists}</p>
+            <p className="truncate text-xs text-[#aaa9a5]">{track.artists}</p>
             {isActivePlaying && (
               <span className="flex items-end gap-[2px] h-2.5 flex-shrink-0" aria-hidden="true">
                 <span className="eq-bar w-[2px] bg-white" style={{ animationDelay: '0ms' }} />
@@ -77,11 +79,11 @@ export default function MusicShowcaseCard({ track, allTags = [], highlight = fal
           </div>
         </div>
         {primaryTag && (
-          <span className="mt-0.5 flex-shrink-0 whitespace-nowrap font-mono text-[10px] text-[#6B6B6B]">
+          <span className="mt-0.5 flex-shrink-0 whitespace-nowrap font-mono text-[10px] text-[#aaa9a5]">
             #{primaryTag}
           </span>
         )}
       </div>
-    </button>
+    </button></DepthSurface>
   );
 }

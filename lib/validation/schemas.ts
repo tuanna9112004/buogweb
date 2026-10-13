@@ -1,5 +1,12 @@
 import { z } from 'zod';
 
+export const StudentSchema = z.object({
+  name: z.string().trim().min(1, 'Nhập tên học viên').max(100),
+  photo: z.string().regex(/^\/media\/students\/images\/[a-zA-Z0-9-]+\.webp$/, 'Chọn và cắt ảnh học viên trước khi lưu'),
+  published: z.boolean().default(true),
+  sortOrder: z.number().int().min(0).default(0),
+});
+
 export const MusicSchema = z.object({
   title: z.string().min(1, 'Tiêu đề không được để trống'),
   artists: z.string().min(1, 'Tên nghệ sĩ không được để trống'),

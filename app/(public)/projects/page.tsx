@@ -10,7 +10,7 @@ export default function ProjectsPage() {
   const tags = getProjectTags(true);
 
   return (
-    <div className="section-page-projects max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10 space-y-8">
+    <div className="section-page-projects max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 space-y-10">
       {/* Header Banner */}
       <Reveal className="space-y-3 border-b border-white/10 pb-6">
         <div className="text-xs font-mono text-[#A8A8A8] uppercase tracking-widest flex items-center gap-2">
@@ -25,11 +25,11 @@ export default function ProjectsPage() {
         </p>
       </Reveal>
 
-      {/* Grid Layout (Desktop 3, Tablet 2, Mobile 3-compact) */}
+      {/* Grid Layout (Desktop 3, Tablet 2, Mobile 1) */}
       {projects.length > 0 ? (
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-3 gap-3 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, i) => (
-            <Reveal key={project.id} delay={Math.min(i * 0.05, 0.3)} distance={16}>
+            <Reveal key={project.id} className="h-full" delay={Math.min(i * 0.05, 0.3)} distance={16}>
               <FLPProjectCard project={project} allTags={tags} compact />
             </Reveal>
           ))}

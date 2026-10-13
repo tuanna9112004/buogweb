@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { X, Phone, MessageCircle } from 'lucide-react';
 import { SiteSettings } from '@/types';
@@ -30,16 +30,29 @@ function MessengerLogo({ className }: { className?: string }) {
 }
 
 export default function ContactModal({ open, onClose, settings }: ContactModalProps) {
+  const panelRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!open) return;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    panelRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
+      if (e.key === 'Tab') {
+        const controls = panelRef.current?.querySelectorAll<HTMLElement>('button, a[href]');
+        if (!controls?.length) return;
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     };
     document.addEventListener('keydown', onKeyDown);
     document.body.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus();
     };
   }, [open, onClose]);
 
@@ -59,14 +72,14 @@ export default function ContactModal({ open, onClose, settings }: ContactModalPr
       />
 
       {/* Panel */}
-      <div className="relative w-full max-w-xl overflow-hidden rounded-3xl border border-white/[0.1] bg-[#0A0A0A] p-8 sm:p-12 text-center shadow-2xl animate-[modalIn_250ms_cubic-bezier(0.16,1,0.3,1)]">
+      <div ref={panelRef} className="public-site relative w-full max-w-xl max-h-[calc(100dvh-32px)] overflow-y-auto rounded-3xl border border-white/[0.1] bg-[#101112] p-6 sm:p-12 text-center shadow-2xl animate-[modalIn_250ms_cubic-bezier(0.16,1,0.3,1)]">
         <div className="pointer-events-none absolute left-1/2 top-0 h-[320px] w-[560px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-white/[0.06] blur-[120px]" />
 
         <button
           type="button"
           onClick={onClose}
           aria-label="Đóng"
-          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors duration-200 hover:border-white/30 hover:text-white"
+          className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors duration-200 hover:border-white/30 hover:text-white"
         >
           <X className="h-4 w-4" />
         </button>
@@ -77,6 +90,7 @@ export default function ContactModal({ open, onClose, settings }: ContactModalPr
               src="/fav-logo.png"
               alt={settings?.brandName || 'BUOGS'}
               fill
+              sizes="64px"
               className="object-cover"
               unoptimized
             />

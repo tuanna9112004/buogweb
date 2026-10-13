@@ -1,6 +1,6 @@
 import { readJSON, writeJSONAtomic } from './json-db';
 import {
-  Music, MusicTag, DemoMusic, Project, ProjectTag, Course, Equipment, EquipmentCategory, SiteSettings
+  Music, MusicTag, DemoMusic, Project, ProjectTag, Course, Equipment, EquipmentCategory, SiteSettings, Student
 } from '@/types';
 import fs from 'fs';
 import path from 'path';
@@ -16,6 +16,7 @@ const FILES = {
   EQUIPMENT: 'equipment.json',
   EQUIPMENT_CATEGORIES: 'equipment-categories.json',
   SETTINGS: 'settings.json',
+  STUDENTS: 'students.json',
 };
 
 // Media Orphan Cleanup Helper
@@ -44,7 +45,8 @@ export function cleanupOrphanMediaFile(mediaUrl: string) {
     e => e.thumbnail === mediaUrl || (e.images && e.images.includes(mediaUrl))
   );
 
-  if (!isReferencedInMusic && !isReferencedInDemoMusic && !isReferencedInProjects && !isReferencedInCourses && !isReferencedInEquipment) {
+  const isReferencedInStudents = readJSON<Student[]>(FILES.STUDENTS, []).some(s => s.photo === mediaUrl);
+  if (!isReferencedInMusic && !isReferencedInDemoMusic && !isReferencedInProjects && !isReferencedInCourses && !isReferencedInEquipment && !isReferencedInStudents) {
     try {
       fs.unlinkSync(physicalPath);
       console.log(`Cleaned up orphaned media file: ${physicalPath}`);
