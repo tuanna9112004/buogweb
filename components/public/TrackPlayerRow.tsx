@@ -38,7 +38,7 @@ function formatTime(seconds: number) {
 }
 
 export default function TrackPlayerRow({ track, barCount = 96 }: TrackPlayerRowProps) {
-  const { currentTrackId, isPlaying, isBuffering, hasError, durations, toggleTrack, seek } = useAudio();
+  const { currentTrackId, isPlaying, isBuffering, hasError, durations, toggleTrack, prepareTrack, seek } = useAudio();
   const waveformRef = useRef<HTMLDivElement>(null);
 
   const isActive = currentTrackId === track.id;
@@ -54,7 +54,6 @@ export default function TrackPlayerRow({ track, barCount = 96 }: TrackPlayerRowP
   const showLoading = isActive && isBuffering && !hasError;
 
   const handlePlayToggle = () => {
-    if (showError) return;
     toggleTrack(track);
   };
 
@@ -74,8 +73,10 @@ export default function TrackPlayerRow({ track, barCount = 96 }: TrackPlayerRowP
     <div className="grid grid-cols-[44px_minmax(0,1fr)] items-center gap-x-3 gap-y-1 sm:flex sm:gap-3 w-full">
       <button
         onClick={handlePlayToggle}
-        disabled={showError}
-        aria-label={isActive && isPlaying ? 'Pause' : showError ? 'Audio chưa sẵn sàng' : 'Play'}
+        onPointerEnter={() => prepareTrack(track)}
+        onFocus={() => prepareTrack(track)}
+        onPointerDown={() => prepareTrack(track)}
+        aria-label={isActive && isPlaying ? 'Pause' : showError ? 'Thử phát lại' : 'Play'}
         className={`row-span-2 w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 ${
           showError
             ? 'bg-transparent text-[#969590] border border-white/10 cursor-not-allowed'

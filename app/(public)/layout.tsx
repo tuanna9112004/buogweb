@@ -5,6 +5,8 @@ import PageTransition from '@/components/public/PageTransition';
 import { AudioProvider } from '@/components/public/AudioPlayerContext';
 import { ContactModalProvider } from '@/components/public/ContactModalContext';
 import { getSettings } from '@/lib/storage/repository';
+import { getCommunity } from '@/lib/community';
+import CommunityPopup from '@/components/public/CommunityPopup';
 
 export default function PublicLayout({
   children,
@@ -26,6 +28,7 @@ export default function PublicLayout({
           </div>
           <Footer settings={settings} />
           <MiniPlayer />
+          <CommunityPopup initial={getCommunity()} />
         </div>
       </ContactModalProvider>
     </AudioProvider>

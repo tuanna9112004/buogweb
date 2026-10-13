@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { Readable } from 'stream';
+import { parseMediaRange } from '@/lib/media-range';
 
 const MEDIA_ROOT = path.join(process.cwd(), 'storage', 'media');
 
@@ -13,10 +15,9 @@ export async function GET(
   const relativePath = pathSegments.join('/');
 
   // Security check: prevent path traversal
-  const safePath = path.normalize(relativePath).replace(/^(\.\.[\/\\])+/, '');
-  const filePath = path.join(MEDIA_ROOT, safePath);
+  const filePath = path.resolve(MEDIA_ROOT, relativePath);
 
-  if (!filePath.startsWith(MEDIA_ROOT) || !fs.existsSync(filePath)) {
+  if (!filePath.startsWith(MEDIA_ROOT + path.sep) || !fs.existsSync(filePath)) {
     return new NextResponse('File not found', { status: 404 });
   }
 
@@ -38,28 +39,20 @@ export async function GET(
 
   // Handle HTTP Range Requests for MP3 seeking
   if (range) {
-    const parts = range.replace(/bytes=/, '').split('-');
-    const start = parseInt(parts[0], 10);
-    const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
-
-    if (isNaN(start) || isNaN(end) || start >= fileSize || end >= fileSize) {
+    const parsedRange = parseMediaRange(range, fileSize);
+    if (!parsedRange) {
       return new NextResponse('Requested range not satisfiable', {
         status: 416,
         headers: { 'Content-Range': `bytes */${fileSize}` },
       });
     }
+    const { start, end } = parsedRange;
 
     const chunksize = end - start + 1;
     const fileStream = fs.createReadStream(filePath, { start, end });
 
     // Convert Node readable stream to Web ReadableStream
-    const readableStream = new ReadableStream({
-      start(controller) {
-        fileStream.on('data', (chunk) => controller.enqueue(chunk));
-        fileStream.on('end', () => controller.close());
-        fileStream.on('error', (err) => controller.error(err));
-      },
-    });
+    const readableStream = Readable.toWeb(fileStream) as ReadableStream<Uint8Array>;
 
     return new NextResponse(readableStream, {
       status: 206, // Partial Content
@@ -75,13 +68,9 @@ export async function GET(
 
   // Full content response
   const fileStream = fs.createReadStream(filePath);
-  const readableStream = new ReadableStream({
-    start(controller) {
-      fileStream.on('data', (chunk) => controller.enqueue(chunk));
-      fileStream.on('end', () => controller.close());
-      fileStream.on('error', (err) => controller.error(err));
-    },
-  });
+  // Node's adapter applies backpressure and destroys the file stream when
+  // the browser cancels a request (for example when changing tracks).
+  const readableStream = Readable.toWeb(fileStream) as ReadableStream<Uint8Array>;
 
   return new NextResponse(readableStream, {
     status: 200,

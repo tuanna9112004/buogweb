@@ -13,7 +13,7 @@ interface MusicShowcaseCardProps {
 }
 
 export default function MusicShowcaseCard({ track, allTags = [], highlight = false }: MusicShowcaseCardProps) {
-  const { currentTrackId, isPlaying, toggleTrack } = useAudio();
+  const { currentTrackId, isPlaying, toggleTrack, prepareTrack } = useAudio();
   const isActive = currentTrackId === track.id;
   const isActivePlaying = isActive && isPlaying;
 
@@ -27,6 +27,9 @@ export default function MusicShowcaseCard({ track, allTags = [], highlight = fal
     <DepthSurface className="music-depth"><button
       type="button"
       onClick={() => toggleTrack(track)}
+      onPointerEnter={() => prepareTrack(track)}
+      onFocus={() => prepareTrack(track)}
+      onPointerDown={() => prepareTrack(track)}
       aria-pressed={isActivePlaying}
       aria-label={`${isActivePlaying ? 'Tạm dừng' : 'Phát'} ${track.title} — ${track.artists}`}
       className={`studio-card music-showcase-card group relative flex w-full flex-col overflow-hidden rounded-[20px] border bg-[#101010] text-left shadow-[0_20px_45px_rgba(0,0,0,0.45)] transition-all duration-300 ${

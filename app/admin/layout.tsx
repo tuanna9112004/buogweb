@@ -52,6 +52,7 @@ export default function AdminLayout({
     { href: '/admin/project-tags', label: 'Project Tags', icon: Tag },
     { href: '/admin/courses', label: 'Courses', icon: GraduationCap },
     { href: '/admin/students', label: 'Học viên', icon: Users },
+    { href: '/admin/community', label: 'Popup nhóm Zalo', icon: Users },
     { href: '/admin/equipment', label: 'Equipment', icon: Sliders },
     { href: '/admin/equipment-categories', label: 'Eq Categories', icon: Tag },
     { href: '/admin/settings', label: 'Site Settings', icon: Settings },

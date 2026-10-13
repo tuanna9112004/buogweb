@@ -20,6 +20,7 @@ interface AudioContextType {
   hasError: boolean;
   durations: Record<string, number>;
   playTrack: (track: Music) => void;
+  prepareTrack: (track: Music) => void;
   pauseTrack: () => void;
   toggleTrack: (track: Music) => void;
   closePlayer: () => void;
@@ -68,6 +69,8 @@ export function useAudioTime() {
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const preparedAudioRef = useRef<string | null>(null);
+  const playRequestRef = useRef(0);
   // useState (not useRef) so the stable instance can be read during render
   // (as TimeStoreContext's value) without tripping the no-refs-in-render rule.
   const [timeStore] = useState(() => new TimeStore());
@@ -118,9 +121,24 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   const getAnalyser = useCallback(() => analyserRef.current, []);
 
+  const prepareTrack = useCallback((track: Music) => {
+    const audio = audioRef.current;
+    // Never replace a track the listener has already opened. Warm only the
+    // intended track, using the same element so play() reuses its buffer.
+    if (!audio || activeTrackRef.current || preparedAudioRef.current === track.audio) return;
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    if (connection?.saveData || connection?.effectiveType?.includes('2g')) return;
+    preparedAudioRef.current = track.audio;
+    audio.preload = 'metadata';
+    audio.src = track.audio;
+    audio.load();
+  }, []);
+
   const playTrack = useCallback((track: Music) => {
     const audio = audioRef.current;
     if (!audio) return;
+    const requestId = ++playRequestRef.current;
+    setHasError(false);
 
     ensureAudioGraph();
     if (audioCtxRef.current?.state === 'suspended') {
@@ -131,21 +149,33 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     // be invoked more than once (e.g. React Strict Mode), which would fire
     // a second `audio.src` assignment and abort the first play() request.
     if (activeTrackRef.current?.id !== track.id) {
-      setHasError(false);
       setIsBuffering(true);
       timeStore.set(0);
-      audio.src = track.audio;
-      audio.currentTime = 0;
+      if (preparedAudioRef.current !== track.audio) {
+        audio.src = track.audio;
+        preparedAudioRef.current = track.audio;
+      }
     }
+    activeTrackRef.current = track;
+    setIsBuffering(audio.readyState < HTMLMediaElement.HAVE_FUTURE_DATA);
+    audio.preload = 'auto';
+    if (audio.error) audio.load();
+    if (Number.isFinite(audio.duration)) setDurations(prev => ({ ...prev, [track.id]: audio.duration }));
     setActiveTrack(track);
 
     audio.play().catch((err) => {
+      if (requestId !== playRequestRef.current || err.name === 'AbortError') return;
+      setIsBuffering(false);
+      setIsPlaying(false);
+      setHasError(true);
       console.warn('Playback failed:', err);
     });
   }, [ensureAudioGraph, timeStore]);
 
   const pauseTrack = useCallback(() => {
+    ++playRequestRef.current;
     audioRef.current?.pause();
+    setIsBuffering(false);
   }, []);
 
   const toggleTrack = useCallback((track: Music) => {
@@ -163,6 +193,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   }, [activeTrack, isPlaying, pauseTrack, playTrack]);
 
   const closePlayer = useCallback(() => {
+    ++playRequestRef.current;
+    activeTrackRef.current = null;
+    preparedAudioRef.current = null;
     const audio = audioRef.current;
     if (audio) {
       audio.pause();
@@ -205,6 +238,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       timeStore.set(0);
     };
     const onError = () => {
+      if (!activeTrackRef.current) return;
       console.warn('Audio playback error for track:', activeTrackRef.current?.id);
       setHasError(true);
       setIsBuffering(false);
@@ -239,20 +273,21 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     hasError,
     durations,
     playTrack,
+    prepareTrack,
     pauseTrack,
     toggleTrack,
     closePlayer,
     seek,
     getAnalyser,
-  }), [activeTrack, isPlaying, isBuffering, hasError, durations, playTrack, pauseTrack, toggleTrack, closePlayer, seek, getAnalyser]);
+  }), [activeTrack, isPlaying, isBuffering, hasError, durations, playTrack, prepareTrack, pauseTrack, toggleTrack, closePlayer, seek, getAnalyser]);
 
   return (
     <AudioPlayerContext.Provider value={value}>
       <TimeStoreContext.Provider value={timeStore}>
         {children}
         {/* Single global audio element — persists across route changes within
-            this layout, so playback survives navigation. preload="none" means
-            nothing is fetched until the user actually presses play. */}
+            this layout, so playback survives navigation. Nothing is fetched
+            until interaction with a play control; prepareTrack then warms metadata. */}
         <audio ref={audioRef} preload="none" className="hidden" />
       </TimeStoreContext.Provider>
     </AudioPlayerContext.Provider>

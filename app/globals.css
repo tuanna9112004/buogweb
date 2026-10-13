@@ -611,3 +611,63 @@
 .student-card h3 { margin-top: 12px; font-size: 15px; font-weight: 600; overflow-wrap: anywhere; }
 @media (max-width: 1023px) { .student-card { flex-basis: 30%; } }
 @media (max-width: 639px) { .student-card { flex-basis: 65%; } .student-heading { margin-bottom: 20px; } .student-card h3 { font-size: 14px; } }
+.community-floating { position: fixed; right: 24px; bottom: 24px; z-index: 35; width: 300px; }
+.community-teaser, .community-dialog { position: relative; background: #111214; border: 1px solid #ffffff26; color: #eee; box-shadow: 0 16px 70px #0009; border-radius: 18px; }
+.community-teaser { padding: 22px 18px 18px; }
+.community-close { position: absolute; right: 8px; top: 8px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; color: #aaa; background: #ffffff05; }
+.community-close:hover { background: #ffffff15; color: white; }
+.community-kicker { font-size: 9px; letter-spacing: .14em; color: #a8a8a0; margin-bottom: 10px; padding-right: 22px; }
+.community-teaser h2 { font-size: 17px; font-weight: 700; padding-right: 16px; }
+.community-summary { font-size: 12px; line-height: 1.6; color: #b1b3b4; margin-top: 10px; }
+.community-price { display: flex; align-items: baseline; gap: 8px; margin: 14px 0; }
+.community-price strong { font-size: 17px; color: #eee8d7; }
+.community-price span { font-size: 11px; color: #aaa; }
+.community-cta { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 44px; padding: 10px 14px; border-radius: 10px; background: #edeae2; color: #111; font-size: 12px; font-weight: 700; }
+.community-cta:hover { background: white; }
+.community-reopen { display: flex; gap: 8px; align-items: center; margin-left: auto; border: 1px solid #ffffff26; border-radius: 30px; padding: 12px 16px; background: #151617; color: #eee; font-size: 12px; box-shadow: 0 8px 28px #0008; }
+.community-backdrop { position: fixed; inset: 0; z-index: 65; background: #000b; backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 20px; }
+.community-dialog { max-width: 800px; width: 100%; max-height: calc(100dvh - 40px); overflow-y: auto; padding: 36px; }
+.community-dialog h2 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; margin-bottom: 14px; }
+.community-description { font-size: 14px; line-height: 1.7; color: #aaaeb0; white-space: pre-line; }
+.community-detail-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; margin-top: 28px; }
+.community-detail-grid h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #d3cebf; margin-bottom: 18px; }
+.community-detail-grid ul { display: grid; gap: 16px; }
+.community-detail-grid li { display: flex; gap: 10px; font-size: 14px; line-height: 1.6; }
+.community-detail-grid li svg { flex-shrink: 0; margin-top: 3px; color: #d3cebf; }
+.community-join { padding: 22px; border: 1px solid #ffffff12; border-radius: 14px; text-align: center; background: #ffffff03; }
+.community-join > strong { font-size: 26px; color: #eee8d7; }
+.community-join > p { font-size: 12px; color: #aaa; margin: 6px 0 20px; }
+.community-qr { margin-bottom: 18px; }
+.community-qr img { width: 100%; height: auto; max-height: 240px; object-fit: contain; background: white; padding: 10px; border-radius: 10px; }
+.community-qr span { display: block; margin-top: 8px; font-size: 10px; color: #aaa; }
+.community-later { min-height: 44px; font-size: 12px; color: #aaa; margin-top: 4px; }
+@media (max-width: 767px) {
+  .community-floating { right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); width: min(290px, calc(100vw - 24px)); }
+  .community-floating.has-player { bottom: calc(92px + env(safe-area-inset-bottom)); }
+  .community-teaser { padding: 16px; }
+  .community-dialog { padding: 28px 20px 20px; }
+  .community-detail-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 22px; }
+  .community-dialog h2 { padding-right: 16px; }
+  .community-qr img { max-width: 200px; margin: auto; }
+}
+.community-preview { display: block; width: 100%; text-align: left; cursor: pointer; padding-right: 12px; border-radius: 8px; }
+.community-preview > span { display: block; }
+.community-preview-title { font-size: 17px; font-weight: 700; color: #eee; }
+.community-preview .community-price { display: flex; }
+.community-preview .community-expand-hint { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #999; margin: -4px 0 12px; }
+.community-preview:focus-visible, .community-cta:focus-visible, .community-reopen:focus-visible { outline: 2px solid #edeae2; outline-offset: 4px; }
+.community-preview:hover .community-preview-title { color: white; }
+@media (max-width: 767px) {
+  .community-floating { width: min(220px, calc(100vw - 24px)); right: 10px; }
+  .community-teaser { padding: 14px 12px 12px; border-radius: 14px; }
+  .community-teaser .community-close { width: 32px; height: 32px; top: 3px; right: 3px; }
+  .community-preview { padding-right: 0; }
+  .community-preview .community-kicker { font-size: 8px; letter-spacing: .1em; margin-bottom: 7px; }
+  .community-preview-title { font-size: 14px; padding-right: 10px; }
+  .community-preview .community-summary { display: none; }
+  .community-preview .community-price { gap: 6px; flex-wrap: wrap; margin: 9px 0 10px; }
+  .community-preview .community-price strong { font-size: 14px; }
+  .community-preview .community-price span { font-size: 10px; }
+  .community-preview .community-expand-hint { font-size: 9px; margin-bottom: 10px; }
+  .community-teaser .community-cta { font-size: 11px; min-height: 44px; padding: 8px 10px; }
+}
