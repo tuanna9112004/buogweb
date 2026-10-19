@@ -138,7 +138,7 @@ export default async function MusicDetailPage({ params }: MusicDetailPageProps) 
           <CopyLinkButton />
           {track.isDownloadable && (
             <a
-              href={track.audio}
+              href={track.audio.startsWith('/media/') ? `/api/download/${track.id}` : track.audio}
               download={`${track.title.replace(/[\\/:*?"<>|]/g, '').trim()} - buogsdj.mp3`}
               target="_blank"
               rel="noopener noreferrer"

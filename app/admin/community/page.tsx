@@ -20,7 +20,7 @@ export default function CommunityAdmin() {
       setForm(data);
     }).catch(err => setError(err.message));
   }, []);
-  const change = (key: keyof CommunitySettings, value: string | boolean | string[]) => { setForm(current => current ? { ...current, [key]: value } : current); setSaved(false); };
+  const change = (key: keyof CommunitySettings, value: string | boolean | string[] | number) => { setForm(current => current ? { ...current, [key]: value } : current); setSaved(false); };
   const upload = async (file?: File) => {
     if (!file) return;
     if (!['image/png','image/jpeg','image/webp'].includes(file.type) || file.size > 8 * 1024 * 1024) { setError('Chọn ảnh JPG, PNG hoặc WebP tối đa 8MB'); return; }
@@ -44,6 +44,11 @@ export default function CommunityAdmin() {
     {saved && <p role="status" className="text-[#b6ff2e]">Đã lưu. Trang đang mở tự cập nhật trong tối đa 60 giây hoặc khi tải lại.</p>}
     {!form ? <Loader2 className="animate-spin" /> : <form onSubmit={save} className="rounded-2xl bg-[#111] border border-white/10 p-5 space-y-5">
       <label className="flex items-center gap-3"><input type="checkbox" checked={form.enabled} onChange={e=>change('enabled',e.target.checked)} />Bật popup trên website</label>
+      <div className="grid sm:grid-cols-2 gap-4">
+        <label className="block space-y-2"><span>Hiện sau (giây)</span><input type="number" min={0} max={120} required className={fieldClass} value={form.delaySeconds} onChange={e=>change('delaySeconds', Number(e.target.value))} /></label>
+        <label className="block space-y-2"><span>Ghi nhớ thu gọn (giờ)</span><input type="number" min={1} max={720} required className={fieldClass} value={form.rememberHours} onChange={e=>change('rememberHours', Number(e.target.value))} /></label>
+      </div>
+      <fieldset className="space-y-3"><legend>Hiển thị tại trang — không chọn = tất cả</legend><div className="flex flex-wrap gap-4">{[['/', 'Trang chủ'], ['/music', 'Âm nhạc'], ['/demos', 'Demo'], ['/projects', 'FLP'], ['/courses', 'Khóa học'], ['/equipment', 'Thiết bị']].map(([path, label])=><label key={path} className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.displayPages.includes(path as typeof form.displayPages[number])} onChange={e=>change('displayPages', e.target.checked ? [...form.displayPages, path] : form.displayPages.filter(p=>p!==path))} />{label}</label>)}</div></fieldset>
       <label className="block space-y-2"><span>Tên nhóm</span><input required maxLength={100} className={fieldClass} value={form.title} onChange={e=>change('title',e.target.value)} /></label>
       <label className="block space-y-2"><span>Mô tả ngắn trên thẻ</span><textarea maxLength={250} rows={2} className={fieldClass} value={form.summary} onChange={e=>change('summary',e.target.value)} /></label>
       <label className="block space-y-2"><span>Giới thiệu trong popup lớn</span><textarea maxLength={1000} rows={3} className={fieldClass} value={form.description} onChange={e=>change('description',e.target.value)} /></label>

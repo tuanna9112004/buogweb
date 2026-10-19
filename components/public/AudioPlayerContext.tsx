@@ -11,6 +11,8 @@ import React, {
   useSyncExternalStore,
 } from 'react';
 import { Music } from '@/types';
+import { trackEvent } from '@/lib/analytics/client';
+import { accumulateListen } from '@/lib/analytics/playback';
 
 interface AudioContextType {
   currentTrackId: string | null;
@@ -69,6 +71,7 @@ export function useAudioTime() {
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const listeningRef = useRef({ id: '', seconds: 0, sent: false, time: 0, wall: 0 });
   const preparedAudioRef = useRef<string | null>(null);
   const playRequestRef = useRef(0);
   // useState (not useRef) so the stable instance can be read during render
@@ -149,6 +152,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     // be invoked more than once (e.g. React Strict Mode), which would fire
     // a second `audio.src` assignment and abort the first play() request.
     if (activeTrackRef.current?.id !== track.id) {
+      listeningRef.current = { id: track.id, seconds: 0, sent: false, time: 0, wall: 0 };
       setIsBuffering(true);
       timeStore.set(0);
       if (preparedAudioRef.current !== track.audio) {
@@ -221,7 +225,16 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const onTimeUpdate = () => timeStore.set(audio.currentTime);
+    const onTimeUpdate = () => {
+      timeStore.set(audio.currentTime);
+      const sample = listeningRef.current;
+      const now = performance.now();
+      if (accumulateListen(sample, audio.currentTime, now, audio.playbackRate, !audio.paused && !audio.seeking && audio.readyState >= 3) && activeTrackRef.current?.id === sample.id) {
+        sample.sent = true;
+        trackEvent('listen', { item: sample.id });
+      }
+    };
+    const resetSample = () => { listeningRef.current.time = audio.currentTime; listeningRef.current.wall = performance.now(); };
     const onLoadedMetadata = () => {
       const track = activeTrackRef.current;
       if (track && Number.isFinite(audio.duration)) {
@@ -244,6 +257,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       setIsBuffering(false);
     };
 
+    audio.addEventListener('seeking', resetSample);
+    audio.addEventListener('playing', resetSample);
+    audio.addEventListener('pause', resetSample);
     audio.addEventListener('timeupdate', onTimeUpdate);
     audio.addEventListener('loadedmetadata', onLoadedMetadata);
     audio.addEventListener('play', onPlay);
@@ -254,6 +270,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     audio.addEventListener('error', onError);
 
     return () => {
+      audio.removeEventListener('seeking', resetSample);
+      audio.removeEventListener('playing', resetSample);
+      audio.removeEventListener('pause', resetSample);
       audio.removeEventListener('timeupdate', onTimeUpdate);
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
       audio.removeEventListener('play', onPlay);

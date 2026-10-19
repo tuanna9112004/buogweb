@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Runtime analytics: back up separately, never deploy through Git
+/storage/analytics/

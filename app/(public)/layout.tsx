@@ -1,3 +1,4 @@
+import AnalyticsTracker from '@/components/public/AnalyticsTracker';
 import Header from '@/components/public/Header';
 import Footer from '@/components/public/Footer';
 import MiniPlayer from '@/components/public/MiniPlayer';
@@ -17,6 +18,7 @@ export default function PublicLayout({
 
   return (
     <AudioProvider>
+      <AnalyticsTracker />
       <ContactModalProvider settings={settings}>
         <div className="public-site min-h-screen flex flex-col">
           <Header settings={settings} />

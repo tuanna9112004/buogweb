@@ -39,8 +39,12 @@ export default function RootLayout({
       lang="vi"
       data-scroll-behavior="smooth"
       className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable} dark scroll-smooth`}
+      suppressHydrationWarning
     >
-      <body className="text-white antialiased selection:bg-white selection:text-black">
+      <body
+        className="text-white antialiased selection:bg-white selection:text-black"
+        suppressHydrationWarning
+      >
         {children}
       </body>
     </html>

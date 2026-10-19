@@ -3,6 +3,9 @@ import { readJSON, writeJSONAtomic } from './storage/json-db';
 
 export const CommunitySchema = z.object({
   enabled: z.boolean(),
+  delaySeconds: z.number().int().min(0).max(120).default(4),
+  displayPages: z.array(z.enum(['/', '/music', '/demos', '/projects', '/courses', '/equipment'])).default([]),
+  rememberHours: z.number().int().min(1).max(720).default(24),
   title: z.string().trim().min(1).max(100),
   summary: z.string().trim().max(250),
   description: z.string().trim().max(1000),
@@ -14,6 +17,7 @@ export const CommunitySchema = z.object({
 }).refine(value => !value.enabled || !!value.groupUrl, { message: 'Nhập link nhóm trước khi bật popup', path: ['groupUrl'] });
 export type CommunitySettings = z.infer<typeof CommunitySchema>;
 export const defaultCommunity: CommunitySettings = {
+  delaySeconds: 4, displayPages: [], rememberHours: 24,
   enabled: false, title: 'GROUP FLP – SAMPLE',
   summary: 'Kho Sample Pack, FLP Full, cộng đồng hỏi đáp và giao lưu làm nhạc.',
   description: 'Kết nối cùng cộng đồng producer, chia sẻ tài nguyên và kinh nghiệm sản xuất âm nhạc.',

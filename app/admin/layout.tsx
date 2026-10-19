@@ -1,225 +1,55 @@
 'use client';
-
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { AnimatePresence, motion } from 'framer-motion';
-import {
-  LayoutDashboard,
-  Music2,
-  Tag,
-  Headphones,
-  GraduationCap,
-  Users,
-  Sliders,
-  Settings,
-  LogOut,
-  Menu,
-  X,
-} from 'lucide-react';
-
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-
-  // Do not render admin sidebar/layout on login page
-  if (pathname === '/admin/login') {
-    return <>{children}</>;
-  }
-
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      router.push('/admin/login');
-      router.refresh();
-    } catch (e) {
-      console.error('Logout error:', e);
-    }
-  };
-
-  const navItems = [
-    { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/admin/music', label: 'Music Tracks', icon: Music2 },
-    { href: '/admin/demos', label: 'Demo Music', icon: Headphones },
-    { href: '/admin/music-tags', label: 'Music Tags', icon: Tag },
-    { href: '/admin/projects', label: 'FLP Projects', icon: Headphones },
-    { href: '/admin/project-tags', label: 'Project Tags', icon: Tag },
-    { href: '/admin/courses', label: 'Courses', icon: GraduationCap },
-    { href: '/admin/students', label: 'Học viên', icon: Users },
-    { href: '/admin/community', label: 'Popup nhóm Zalo', icon: Users },
-    { href: '/admin/equipment', label: 'Equipment', icon: Sliders },
-    { href: '/admin/equipment-categories', label: 'Eq Categories', icon: Tag },
-    { href: '/admin/settings', label: 'Site Settings', icon: Settings },
-  ];
-
-  return (
-    <div className="min-h-screen bg-[#080808] flex text-white font-sans">
-      
-      {/* Sidebar Desktop */}
-      <aside className="hidden lg:flex w-64 bg-[#111111] border-r border-white/10 flex-col justify-between flex-shrink-0 fixed inset-y-0 left-0 z-40">
-        <div>
-          {/* Brand Logo Header */}
-          <div className="p-6 border-b border-white/10 flex items-center gap-3">
-            <div className="relative w-10 h-10 rounded-full bg-[#161616] border border-[#b6ff2e]/40 overflow-hidden flex-shrink-0">
-              <Image
-                src="/fav-logo.png"
-                alt="BUOGS Admin"
-                fill
-                className="object-cover"
-                unoptimized
-              />
-            </div>
-            <div>
-              <span className="font-heading text-xl font-bold tracking-wider text-white">
-                BUOGS
-              </span>
-              <span className="block text-[10px] font-mono text-[#a3a3a3]">
-                ADMIN CMS V1
-              </span>
-            </div>
-          </div>
-
-          {/* Navigation Links */}
-          <nav className="p-4 space-y-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive =
-                item.href === '/admin'
-                  ? pathname === '/admin'
-                  : pathname === item.href || pathname.startsWith(item.href + '/');
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`relative flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-200 ${
-                    isActive
-                      ? 'text-black font-bold'
-                      : 'text-[#a3a3a3] hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="admin-sidebar-active"
-                      className="absolute inset-0 bg-[#b6ff2e] rounded-xl shadow-md shadow-[#b6ff2e]/20"
-                      transition={{ type: 'spring', stiffness: 420, damping: 34 }}
-                    />
-                  )}
-                  <Icon className="w-4 h-4 relative z-10" />
-                  <span className="relative z-10">{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
-
-        {/* Logout Button Footer */}
-        <div className="p-4 border-t border-white/10 space-y-3">
-          <Link
-            href="/"
-            target="_blank"
-            className="block text-center text-xs font-mono text-[#a3a3a3] hover:text-[#b6ff2e] py-1 transition-colors"
-          >
-            ← Xem Public Website
-          </Link>
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-950/30 border border-red-500/20 text-red-400 font-semibold text-xs uppercase tracking-wider hover:bg-red-900/40 active:scale-[0.98] transition-all duration-150"
-          >
-            <LogOut className="w-4 h-4" />
-            <span>Đăng Xuất</span>
-          </button>
-        </div>
-      </aside>
-
-      {/* Main Content Area */}
-      <div className="flex-1 lg:pl-64 flex flex-col min-w-0">
-        
-        {/* Top Header Mobile */}
-        <header className="lg:hidden bg-[#111111] border-b border-white/10 p-4 flex items-center justify-between sticky top-0 z-30">
-          <div className="flex items-center gap-3">
-            <div className="relative w-8 h-8 rounded-full bg-[#161616] border border-[#b6ff2e]/40 overflow-hidden flex-shrink-0">
-              <Image
-                src="/fav-logo.png"
-                alt="BUOGS Admin"
-                fill
-                className="object-cover"
-                unoptimized
-              />
-            </div>
-            <span className="font-heading text-lg font-bold">BUOGS CMS</span>
-          </div>
-          <button
-            onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-            className="p-2 rounded-lg text-white hover:bg-white/10"
-          >
-            {mobileSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </header>
-
-        {/* Mobile Drawer */}
-        <AnimatePresence>
-          {mobileSidebarOpen && (
-            <motion.div
-              className="lg:hidden bg-[#111111] border-b border-white/10 overflow-hidden"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="p-4 space-y-2">
-                {navItems.map((item) => {
-                  const Icon = item.icon;
-                  const isActive =
-                    item.href === '/admin'
-                      ? pathname === '/admin'
-                      : pathname === item.href || pathname.startsWith(item.href + '/');
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileSidebarOpen(false)}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150 active:scale-[0.98] ${
-                        isActive
-                          ? 'bg-[#b6ff2e] text-black font-bold'
-                          : 'text-[#a3a3a3] hover:text-white hover:bg-white/5'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
-                      <span>{item.label}</span>
-                    </Link>
-                  );
-                })}
-                <button
-                  onClick={handleLogout}
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-950/30 text-red-400 font-semibold text-xs uppercase mt-4 active:scale-[0.98] transition-transform duration-150"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span>Đăng Xuất</span>
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Admin Content Container */}
-        <main className="p-4 sm:p-8 flex-1">
-          <motion.div
-            key={pathname}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {children}
-          </motion.div>
-        </main>
-      </div>
-
-    </div>
-  );
+import { Activity, Music2, Tag, Headphones, GraduationCap, Users, Sliders, Settings, LogOut, Menu, X, ArrowUpRight, MessageSquare } from 'lucide-react';
+import './admin.css';
+const groups = [
+  { label: 'Theo dõi', links: [{ href: '/admin', label: 'Tổng quan & hiệu suất', icon: Activity }] },
+  { label: 'Nội dung', links: [
+    { href: '/admin/music', label: 'Bài nhạc', icon: Music2 }, { href: '/admin/demos', label: 'Demo âm nhạc', icon: Headphones },
+    { href: '/admin/projects', label: 'FLP Projects', icon: Headphones }, { href: '/admin/courses', label: 'Khóa học', icon: GraduationCap },
+    { href: '/admin/students', label: 'Học viên', icon: Users }, { href: '/admin/equipment', label: 'Thiết bị', icon: Sliders },
+  ] },
+  { label: 'Website', links: [{ href: '/admin/community', label: 'Popup cộng đồng', icon: MessageSquare }, { href: '/admin/settings', label: 'Thông tin website', icon: Settings }] },
+  { label: 'Phân loại', links: [{ href: '/admin/music-tags', label: 'Thể loại nhạc', icon: Tag }, { href: '/admin/project-tags', label: 'Thể loại project', icon: Tag }, { href: '/admin/equipment-categories', label: 'Danh mục thiết bị', icon: Tag }] },
+];
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname(), router = useRouter();
+  const [drawer, setDrawer] = useState(false);
+  const sidebar = useRef<HTMLElement>(null), menu = useRef<HTMLButtonElement>(null);
+  const active = (href: string) => href === '/admin' ? pathname === href || pathname === '/admin/analytics' : pathname === href || pathname.startsWith(href + '/');
+  const current = groups.flatMap(g => g.links).find(l => active(l.href));
+  useEffect(() => {
+    if (!drawer) return;
+    const old = document.body.style.overflow;
+    const menuButton = menu.current;
+    document.body.style.overflow = 'hidden';
+    sidebar.current?.querySelector<HTMLButtonElement>('button')?.focus();
+    const key = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setDrawer(false);
+      if (event.key !== 'Tab') return;
+      const list = sidebar.current?.querySelectorAll<HTMLElement>('a, button');
+      if (!list?.length) return;
+      const first = list[0], last = list[list.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    };
+    const resize = () => { if (window.innerWidth >= 1024) setDrawer(false); };
+    document.addEventListener('keydown', key); window.addEventListener('resize', resize);
+    return () => { document.body.style.overflow = old; document.removeEventListener('keydown', key); window.removeEventListener('resize', resize); menuButton?.focus(); };
+  }, [drawer]);
+  if (pathname === '/admin/login') return <>{children}</>;
+  const logout = async () => { const response = await fetch('/api/auth/logout', { method: 'POST' }); if (response.ok) { router.push('/admin/login'); router.refresh(); } };
+  return <div className="admin-shell min-h-screen bg-[#0b0e0c] flex text-white font-sans">
+    {drawer && <div className="admin-drawer-backdrop" onClick={() => setDrawer(false)} />}
+    <aside ref={sidebar} className={`admin-sidebar ${drawer ? 'is-open' : ''}`} role={drawer ? 'dialog' : undefined} aria-modal={drawer || undefined} aria-label="Menu quản trị">
+      <button className="admin-drawer-close" aria-label="Đóng menu" onClick={() => setDrawer(false)}><X size={20} /></button>
+      <div className="admin-brand"><Image src="/fav-logo.png" width={38} height={38} alt="" /><div><strong>BUOGS</strong><small>STUDIO MANAGEMENT</small></div></div>
+      <nav className="admin-nav">{groups.map(group => <div key={group.label}><p className="admin-nav-group">{group.label}</p>{group.links.map(({ href, label, icon: Icon }) => <Link key={href} href={href} aria-current={active(href) ? 'page' : undefined} onClick={() => setDrawer(false)}><Icon size={17} /><span>{label}</span></Link>)}</div>)}</nav>
+      <div className="admin-sidebar-footer"><button onClick={logout}><LogOut size={16} /> Đăng xuất</button></div>
+    </aside>
+    <div className="admin-main"><header className="admin-topbar"><div><button ref={menu} className="admin-mobile-menu" aria-label="Mở menu quản trị" aria-expanded={drawer} onClick={() => setDrawer(true)}><Menu size={21} /></button><span>{current?.label || 'Quản trị website'}</span></div><Link href="/" target="_blank" rel="noopener noreferrer">Xem website <ArrowUpRight size={15} /></Link></header><main className="admin-content">{children}</main></div>
+  </div>;
 }
