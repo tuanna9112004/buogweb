@@ -1,5 +1,62 @@
 [
   {
+    "id": "music-mvdkgsbu-h1s6",
+    "title": "KẺ SAY TÌNH 2",
+    "artists": "BUOGS X REVIX",
+    "audio": "/media/music/audio/f48f12b7-5cb9-4481-8015-8247bf4acc11.mp3",
+    "cover": "/media/music/covers/5538f539-3a53-46af-a5e2-5179313eeea8.webp",
+    "tags": [
+      "vinahouse",
+      "vietmix",
+      "remix"
+    ],
+    "publishDate": "2026-10-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "isDownloadable": true,
+    "createdAt": "2026-10-18T08:31:38.346Z",
+    "updatedAt": "2026-10-18T08:31:38.346Z"
+  },
+  {
+    "id": "music-mvdkefum-u08g",
+    "title": "HÔN LỄ CỦA EM",
+    "artists": "BUOGS X REVIX",
+    "audio": "/media/music/audio/4a8b69b7-04b2-4d4f-b2ec-c971e20d9585.mp3",
+    "cover": "/media/music/covers/f23e50cd-26db-4b3a-8e33-c2753c519c5b.webp",
+    "tags": [
+      "vinahouse",
+      "vietmix",
+      "remix"
+    ],
+    "publishDate": "2026-10-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "isDownloadable": true,
+    "createdAt": "2026-10-18T08:29:48.862Z",
+    "updatedAt": "2026-10-18T08:30:17.721Z"
+  },
+  {
+    "id": "music-mvddd6rl-46vf",
+    "title": "NGÀY CÒN ĐÔI MƯƠI",
+    "artists": "BUOGS X REVIX",
+    "audio": "/media/music/audio/4f78a810-ce6e-409e-b706-b7d6798c7717.mp3",
+    "cover": "/media/music/covers/c6505834-6e10-46de-84ec-d1c3750e2511.webp",
+    "tags": [
+      "vinahouse",
+      "vietmix",
+      "remix"
+    ],
+    "publishDate": "2026-10-18",
+    "featured": false,
+    "published": true,
+    "sortOrder": 0,
+    "isDownloadable": true,
+    "createdAt": "2026-10-18T05:12:52.934Z",
+    "updatedAt": "2026-10-18T05:13:06.215Z"
+  },
+  {
     "id": "music-mv4z1ikx-ym25",
     "title": "GIÁ NHƯ ANH LÀ EM",
     "artists": "BUOGS x REVIX",
