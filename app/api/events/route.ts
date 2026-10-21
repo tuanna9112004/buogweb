@@ -4,7 +4,7 @@ import { excluded, identity, identifyResponse, limited, device, requestLimitKey,
 import { recordEvent, touchVisitor } from '@/lib/analytics/store';
 import { getMusicById, getDemoMusicById, getProjectById } from '@/lib/storage/repository';
 export const runtime = 'nodejs';
-const schema = z.object({ id: z.uuid(), kind: z.enum(['pageview', 'listen', 'heartbeat', 'popup_view', 'popup_open', 'popup_join']), path: z.string().max(250).regex(/^\/(?!admin|api)[^?#]*$/), item: z.string().max(100).optional(), referrer: z.string().max(2000).optional(), placement: z.enum(['teaser', 'dialog', 'badge']).optional() });
+const schema = z.object({ id: z.uuid(), kind: z.enum(['pageview', 'listen', 'heartbeat', 'popup_view', 'popup_open', 'popup_join']), path: z.string().max(250).regex(/^\/(?!admin|api)[^?#]*$/), item: z.string().max(100).optional(), referrer: z.string().max(2000).optional(), placement: z.enum(['teaser', 'dialog', 'badge', 'monthly', 'lifetime']).optional() });
 export async function POST(request: NextRequest) {
   // Next's internal URL may be localhost behind a reverse proxy; compare the browser's host.
   try { if (new URL(request.headers.get('origin') || '').host !== publicHost(request)) return new NextResponse(null, { status: 403 }); }

@@ -15,5 +15,22 @@
   "priceText": "399.999 VNĐ",
   "membershipText": "Vĩnh viễn",
   "groupUrl": "https://zalo.me/g/kitdaynar2ahzaipvrlz",
-  "qrImage": "/media/community/images/3a14a862-0561-4018-afbe-3627b3a7ea6f.jpg"
+  "qrImage": "/media/community/images/3a14a862-0561-4018-afbe-3627b3a7ea6f.jpg",
+  "monthlyPlan": {
+    "title": "THAM GIA GROUP NHẠC",
+    "priceText": "Liên hệ",
+    "membershipText": "Theo tháng",
+    "description": "Nhận 3 bài nhạc ỉm mỗi ngày, 3–4 bài do BUOGS tự làm mỗi tháng và bonus thêm các pack nhạc khác.",
+    "benefits": [
+      "Mỗi ngày nhận 3 bài nhạc ỉm.",
+      "Mỗi tháng nhận 3–4 bài do BUOGS tự làm.",
+      "Bonus thêm các pack nhạc khác.",
+      "Tổng kho dự kiến 150–180 bài/tháng.",
+      "Gói nhận nhạc ngay 999K: 25 bài nhạc ỉm, bonus 1 bài do BUOGS làm.",
+      "Gói nhận nhạc ngay 1.999K: 40 bài nhạc ỉm, bonus 3 bài do BUOGS làm.",
+      "Gói nhận nhạc ngay 2.999K: 50 bài, bonus 4 bài do BUOGS làm."
+    ],
+    "groupUrl": "",
+    "qrImage": "/media/community/images/501baf5c-2662-4fb5-862f-96dbae29a6ee.png"
+  }
 }

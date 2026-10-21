@@ -21,18 +21,22 @@ export default function CommunityAdmin() {
     }).catch(err => setError(err.message));
   }, []);
   const change = (key: keyof CommunitySettings, value: string | boolean | string[] | number) => { setForm(current => current ? { ...current, [key]: value } : current); setSaved(false); };
-  const upload = async (file?: File) => {
+  const changeMonthly = (key: keyof CommunitySettings['monthlyPlan'], value: string | string[]) => { setForm(current => current ? { ...current, monthlyPlan: { ...current.monthlyPlan, [key]: value } } : current); setSaved(false); };
+  const upload = async (file?: File, monthly = false) => {
     if (!file) return;
     if (!['image/png','image/jpeg','image/webp'].includes(file.type) || file.size > 8 * 1024 * 1024) { setError('Chọn ảnh JPG, PNG hoặc WebP tối đa 8MB'); return; }
     setUploading(true); setError(''); setProgress(0);
-    try { const result = await uploadFile(file, 'community', 'images', setProgress); change('qrImage', result.url); }
+    try {
+      const result = await uploadFile(file, 'community', 'images', setProgress);
+      if (monthly) changeMonthly('qrImage', result.url); else change('qrImage', result.url);
+    }
     catch(err) { setError(err instanceof Error ? err.message : 'Không tải được QR'); }
     finally { setUploading(false); }
   };
   const save = async (event: React.FormEvent) => {
     event.preventDefault(); setBusy(true); setError(''); setSaved(false);
     try {
-      const response = await fetch('/api/admin/community',{ method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({ ...form, benefits: form?.benefits.map(item => item.trim()).filter(Boolean) }) });
+      const response = await fetch('/api/admin/community',{ method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({ ...form, benefits: form?.benefits.map(item => item.trim()).filter(Boolean), monthlyPlan: { ...form?.monthlyPlan, benefits: form?.monthlyPlan.benefits.map(item => item.trim()).filter(Boolean) } }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Không thể lưu');
       setForm(data); setSaved(true);
@@ -55,6 +59,18 @@ export default function CommunityAdmin() {
       <label className="block space-y-2"><span>Quyền lợi thành viên — mỗi dòng một mục</span><textarea rows={6} className={fieldClass} value={form.benefits.join('\n')} onChange={e=>change('benefits',e.target.value.split('\n'))} /></label>
       <div className="grid sm:grid-cols-2 gap-4"><label className="block space-y-2"><span>Giá hiển thị</span><input maxLength={60} className={fieldClass} value={form.priceText} onChange={e=>change('priceText',e.target.value)} /></label><label className="block space-y-2"><span>Thời hạn thành viên</span><input maxLength={80} className={fieldClass} value={form.membershipText} onChange={e=>change('membershipText',e.target.value)} /></label></div>
       <label className="block space-y-2"><span>Link tham gia nhóm</span><input type="url" required={form.enabled} className={fieldClass} value={form.groupUrl} onChange={e=>change('groupUrl',e.target.value)} /></label>
+      <fieldset className="space-y-4 rounded-xl border border-white/10 p-4"><legend className="px-2 font-semibold">Nhóm thành viên 1 tháng</legend>
+        <p className="text-xs text-[#a3a3a3]">Đây là nhóm Zalo riêng. Có thể bổ sung link mời và QR sau; nhóm tháng sẽ không dùng link của nhóm trọn đời.</p>
+        <label className="block space-y-2"><span>Tên nhóm Zalo tháng</span><input required maxLength={100} className={fieldClass} value={form.monthlyPlan.title} onChange={e=>changeMonthly('title',e.target.value)} /></label>
+        <div className="grid sm:grid-cols-2 gap-4"><label className="block space-y-2"><span>Mức phí tham gia nhóm tháng</span><input maxLength={60} className={fieldClass} value={form.monthlyPlan.priceText} onChange={e=>changeMonthly('priceText',e.target.value)} /></label><label className="block space-y-2"><span>Thời hạn thành viên</span><input maxLength={80} className={fieldClass} value={form.monthlyPlan.membershipText} onChange={e=>changeMonthly('membershipText',e.target.value)} /></label></div>
+        <label className="block space-y-2"><span>Mô tả nhóm tháng</span><textarea maxLength={1000} rows={3} className={fieldClass} value={form.monthlyPlan.description} onChange={e=>changeMonthly('description',e.target.value)} /></label>
+        <label className="block space-y-2"><span>Quyền lợi thành viên nhóm tháng — mỗi dòng một mục</span><textarea rows={4} className={fieldClass} value={form.monthlyPlan.benefits.join('\n')} onChange={e=>changeMonthly('benefits',e.target.value.split('\n'))} /></label>
+        <label className="block space-y-2"><span>Link mời vào nhóm Zalo tháng</span><input type="url" className={fieldClass} value={form.monthlyPlan.groupUrl} onChange={e=>changeMonthly('groupUrl',e.target.value)} /><small className="text-xs text-[#a3a3a3]">Để trống đến khi có link; nút tham gia sẽ không dẫn sang nhóm khác.</small></label>
+        <div className="space-y-3"><label className="block space-y-2"><span>Ảnh QR riêng của nhóm tháng</span><input type="file" accept="image/png,image/jpeg,image/webp" disabled={uploading || busy} className={fieldClass} onChange={e=>{void upload(e.target.files?.[0],true);e.target.value='';}} /></label>
+          {uploading && <p>Đang tải {progress}%</p>}
+          {form.monthlyPlan.qrImage && <><Image src={form.monthlyPlan.qrImage} alt="QR nhóm tháng xem trước" width={180} height={180} unoptimized className="max-h-60 object-contain bg-white rounded-xl" /><button type="button" onClick={()=>changeMonthly('qrImage','')} className="text-sm text-red-400">Bỏ ảnh QR gói tháng</button></>}
+        </div>
+      </fieldset>
       <div className="space-y-3"><label className="block space-y-2"><span>Ảnh QR Zalo</span><input type="file" accept="image/png,image/jpeg,image/webp" disabled={uploading || busy} className={fieldClass} onChange={e=>{void upload(e.target.files?.[0]);e.target.value='';}} /></label><p className="text-xs text-[#a3a3a3]">Giữ nguyên ảnh QR để quét chính xác, không cắt ảnh.</p>
         {uploading && <p>Đang tải {progress}%</p>}
         {form.qrImage && <><Image src={form.qrImage} alt="QR nhóm xem trước" width={180} height={180} unoptimized className="max-h-60 object-contain bg-white rounded-xl" /><button type="button" onClick={()=>change('qrImage','')} className="text-sm text-red-400">Bỏ ảnh QR</button></>}
