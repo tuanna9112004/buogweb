@@ -30,7 +30,7 @@ export default function PublicLayout({
           </div>
           <Footer settings={settings} />
           <MiniPlayer />
-          <CommunityPopup initial={getCommunity()} />
+          <CommunityPopup initial={getCommunity()} contactUrl={settings.zaloUrl} />
         </div>
       </ContactModalProvider>
     </AudioProvider>

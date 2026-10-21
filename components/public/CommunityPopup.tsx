@@ -20,7 +20,7 @@ type MembershipGroup = {
 };
 type GroupId = MembershipGroup['id'];
 
-export default function CommunityPopup({ initial }: { initial: CommunitySettings }) {
+export default function CommunityPopup({ initial, contactUrl }: { initial: CommunitySettings; contactUrl: string }) {
   const pathname = usePathname();
   const [ready, setReady] = useState(false);
   const aside = useRef<HTMLElement>(null);
@@ -100,7 +100,7 @@ export default function CommunityPopup({ initial }: { initial: CommunitySettings
               <span className="community-price"><strong>{group.priceText || 'Liên hệ'}</strong><span>{group.membershipText}</span></span>
               <span className="community-expand-hint">Bấm xem quyền lợi nhóm <Maximize2 size={12} aria-hidden="true" /></span>
             </button>
-            {group.groupUrl ? <a onClick={() => trackEvent('popup_join', { placement: group.id })} href={group.groupUrl} target="_blank" rel="noopener noreferrer" className="community-cta">Tham gia ngay <ArrowUpRight size={14} /></a> : <p className="community-missing-link">Link mời nhóm tháng chưa được cập nhật.</p>}
+            {group.groupUrl ? <a onClick={() => trackEvent('popup_join', { placement: group.id })} href={group.groupUrl} target="_blank" rel="noopener noreferrer" className="community-cta">Tham gia ngay <ArrowUpRight size={14} /></a> : group.id === 'monthly' && contactUrl ? <a href={contactUrl} target="_blank" rel="noopener noreferrer" className="community-cta">Liên hệ Zalo <ArrowUpRight size={14} /></a> : null}
           </>}
         </motion.div>)}
       </motion.div>
@@ -116,7 +116,7 @@ export default function CommunityPopup({ initial }: { initial: CommunitySettings
           <div className="community-detail-grid"><div><h3>Quyền lợi thành viên</h3><ul>{(selectedGroup.benefits.length ? selectedGroup.benefits : [selectedGroup.id === 'monthly' ? 'Tham gia cộng đồng thành viên theo tháng.' : 'Tham gia cộng đồng producer và nhận các tài nguyên FL Studio.']).map((benefit, index) => <li key={index}><Check size={17} /><span>{benefit}</span></li>)}</ul></div>
             <div className="community-join"><strong>{selectedGroup.priceText}</strong><p>{selectedGroup.membershipText}</p>
               {selectedGroup.qrImage && <div className="community-qr"><Image src={selectedGroup.qrImage} alt={`Mã QR tham gia nhóm ${selectedGroup.title}`} width={220} height={220} unoptimized className="object-contain" /><span>Quét QR để mở nhóm Zalo</span></div>}
-              {selectedGroup.groupUrl ? <a onClick={() => trackEvent('popup_join', { placement: selectedGroup.id })} href={selectedGroup.groupUrl} target="_blank" rel="noopener noreferrer" className="community-cta">Tham gia nhóm Zalo <ArrowUpRight size={17} /></a> : <p className="community-missing-link">Link mời nhóm này chưa được cập nhật.</p>}
+              {selectedGroup.groupUrl ? <a onClick={() => trackEvent('popup_join', { placement: selectedGroup.id })} href={selectedGroup.groupUrl} target="_blank" rel="noopener noreferrer" className="community-cta">Tham gia nhóm Zalo <ArrowUpRight size={17} /></a> : selectedGroup.id === 'monthly' && contactUrl ? <a href={contactUrl} target="_blank" rel="noopener noreferrer" className="community-cta">Liên hệ Zalo để tham gia nhóm <ArrowUpRight size={17} /></a> : null}
               <button className="community-later" onClick={() => setOpen(null)}>Để sau</button>
             </div>
           </div>
