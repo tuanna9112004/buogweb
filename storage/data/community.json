@@ -1,5 +1,8 @@
 {
   "enabled": true,
+  "delaySeconds": 2,
+  "displayPages": [],
+  "rememberHours": 24,
   "title": "GROUP FLP – SAMPLE",
   "summary": "Kho Sample Pack, FLP Full, cộng đồng hỏi đáp và giao lưu làm nhạc.",
   "description": "Kết nối cùng cộng đồng producer, chia sẻ tài nguyên và kinh nghiệm sản xuất âm nhạc.",
