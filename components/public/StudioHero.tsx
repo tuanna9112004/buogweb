@@ -4,7 +4,6 @@ import { ArrowUpRight, Play } from 'lucide-react';
 import type { SiteSettings } from '@/types';
 import HeroContactButton from './HeroContactButton';
 import DepthSurface from './DepthSurface';
-import StudioVinyl from './StudioVinyl';
 
 export default function StudioHero({ settings }: { settings: SiteSettings }) {
   return (
@@ -27,8 +26,6 @@ export default function StudioHero({ settings }: { settings: SiteSettings }) {
           <div className="hero-genres"><span>THE SOUND</span><p>{settings.genresText || 'VINAHOUSE · HOUSE LAK · VINATRANCE'}</p></div>
         </div>
         <DepthSurface className="hero-art" strength={3}>
-          <div className="hero-orbit" aria-hidden="true" />
-          <StudioVinyl />
           <div className="hero-art-label" aria-hidden="true"><span>BUOGS / STUDIO</span><span>01 — SOUND & VISION</span></div>
           <div className="hero-art-caption"><span className="hero-caption-line" /> Music. Made personal.</div>
         </DepthSurface>
