@@ -9,6 +9,9 @@ import StudioVinyl from './StudioVinyl';
 export default function StudioHero({ settings }: { settings: SiteSettings }) {
   return (
     <section className="studio-hero">
+      <div className="hero-background" aria-hidden="true">
+        <Image src="/bgr.jpg" alt="" fill sizes="(max-width: 767px) 100vw, 65vw" preload className="hero-background-photo" />
+      </div>
       <div className="studio-hero-grid studio-container">
         <div className="hero-copy">
           <p className="studio-eyebrow"><span className="studio-status" /> Independent artist · Official portfolio</p>
@@ -25,9 +28,6 @@ export default function StudioHero({ settings }: { settings: SiteSettings }) {
         </div>
         <DepthSurface className="hero-art" strength={3}>
           <div className="hero-orbit" aria-hidden="true" />
-          <div className="hero-portrait">
-            <Image src="/anh2-169.png" alt={`${settings.brandName || 'BUOGS'} — DJ / Producer`} fill sizes="(max-width: 767px) 100vw, 60vw" preload className="hero-photo" />
-          </div>
           <StudioVinyl />
           <div className="hero-art-label" aria-hidden="true"><span>BUOGS / STUDIO</span><span>01 — SOUND & VISION</span></div>
           <div className="hero-art-caption"><span className="hero-caption-line" /> Music. Made personal.</div>

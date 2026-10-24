@@ -410,7 +410,10 @@
 /* BUOGS studio — shared public presentation system */
 .studio-container { width: min(1280px, calc(100% - 64px)); margin-inline: auto; }
 .studio-hero { position: relative; padding-top: 140px; background: linear-gradient(to top, #080808, transparent 35%), radial-gradient(ellipse at 75% 40%, #1d1e20 0, #0b0c0d 45%, #080808 75%); overflow: hidden; }
-.studio-hero-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; align-items: center; min-height: 660px; gap: 32px; }
+.hero-background { position: absolute; inset: 0 0 0 35%; pointer-events: none; }
+.hero-background-photo { object-fit: cover; object-position: center 24%; }
+.hero-background::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #080808 0%, #080808b3 15%, transparent 48%), linear-gradient(0deg, #080808 0%, transparent 35%, #08080845 100%); }
+.studio-hero-grid { position: relative; display: grid; grid-template-columns: 0.9fr 1.1fr; align-items: center; min-height: 660px; gap: 32px; }
 .hero-copy { position: relative; z-index: 2; padding-bottom: 40px; }
 .studio-eyebrow { display: flex; align-items: center; gap: 10px; font-size: 10px; font-family: var(--font-jetbrains-mono), monospace; letter-spacing: .15em; text-transform: uppercase; color: #b7b7b2; }
 .studio-status { width: 6px; height: 6px; border-radius: 50%; background: #e8e5dc; box-shadow: 0 0 12px #e8e5dc55; flex-shrink: 0; }
@@ -428,9 +431,6 @@
 .hero-art { position: relative; height: 620px; }
 .hero-orbit { position: absolute; width: 90%; aspect-ratio: 1; top: 2%; left: 4%; border: 1px solid #ffffff30; border-radius: 50%; transform: rotate(-24deg) scaleX(.88); background: radial-gradient(circle, transparent 63%, #ffffff0b 64%, transparent 65%); box-shadow: inset 2px 0 20px #ffffff09, 0 0 55px #ffffff04; }
 .hero-orbit::after { content: ''; position: absolute; inset: 14px; border: 1px solid #ffffff0d; border-radius: 50%; }
-.hero-portrait { position: absolute; inset: 25px -36px 0 -36px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent, black 12%, black 77%, transparent); }
-.hero-photo { object-fit: cover; object-position: 72% 28%; }
-.hero-portrait::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #0b0c0d 0%, transparent 22%, transparent 80%, #0b0c0d 100%); }
 .hero-art-label { position: absolute; inset: 0 0 auto 0; display: flex; justify-content: space-between; font: 9px var(--font-jetbrains-mono), monospace; letter-spacing: .13em; color: #999a95; }
 .hero-art-caption { position: absolute; bottom: 18px; right: 12px; display: flex; gap: 14px; align-items: center; font: italic 19px var(--font-playfair), serif; color: #d8d5cc; }
 .hero-caption-line { width: 32px; height: 1px; background: #d8d5cc60; }
@@ -460,8 +460,9 @@
   .studio-hero { padding-top: 105px; }
   .studio-hero-grid { display: flex; flex-direction: column; gap: 0; min-height: auto; }
   .hero-art { order: -1; height: clamp(280px, 80vw, 430px); width: 100%; }
-  .hero-portrait { inset: 12px -20px -16px; }
-  .hero-photo { object-position: 73% 25%; }
+  .hero-background { inset: 0 0 auto; height: calc(105px + clamp(260px, 72vw, 380px) + 50px); }
+  .hero-background-photo { object-position: center 20%; }
+  .hero-background::after { background: linear-gradient(0deg, #080808 0%, #080808e6 8%, transparent 40%, #08080855 100%), linear-gradient(90deg, #08080855, transparent 30%, transparent 75%, #08080855); }
   .hero-orbit { width: 85%; top: 0; left: 9%; }
   .hero-art-label { font-size: 8px; }
   .hero-art-caption { display: none; }
@@ -491,10 +492,8 @@
 .vinyl-label span { font-size: 3px; letter-spacing: .08em; margin-top: 3px; }
 .vinyl-label::after { content: ''; width: 4px; height: 4px; background: #111; border-radius: 50%; margin-top: 4px; }
 .vinyl-caption { display: block; font: 7px var(--font-jetbrains-mono), monospace; color: #b9b7af; text-align: center; letter-spacing: .1em; margin-top: 14px; }
-.hero-photo { object-position: 100% 28%; }
 @media(max-width: 767px) {
   .hero-art { height: clamp(260px, 72vw, 380px); }
-  .hero-photo { object-position: 100% 25%; }
   .hero-description { line-height: 1.7; }
   .hero-actions > a, .hero-actions > button { flex: 1; padding-inline: 12px; font-size: 11px; min-height: 50px; gap: 8px; justify-content: center; }
   .studio-vinyl-frame { width: 90px; left: 14px; bottom: 22px; }
